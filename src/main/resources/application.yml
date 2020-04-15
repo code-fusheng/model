@@ -1,12 +1,14 @@
 spring:
   datasource:
     druid:
+      # 腾讯云 mysql 数据库连接
       url: jdbc:mysql://cdb-csnz8qhs.cd.tencentcdb.com:10087/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
       username: root
       password: code-fusheng
-#      url: jdbc:mysql://175.24.45.179/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-#      username: root
-#      password: sa123
+      # linux服务器 mysql 数据库连接
+      # url: jdbc:mysql://175.24.45.179/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+      # username: root
+      # password: sa123
       driver-class-name: com.mysql.cj.jdbc.Driver
       initialSize: 5
       minIdle: 5
@@ -16,6 +18,8 @@ spring:
       testOnReturn: false
       timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
+  jackson:
+    default-property-inclusion: non_null    # 实体类与json互转的时候 属性值为null的不参与序列化
 server:
   port: 8080
 mybatis:
