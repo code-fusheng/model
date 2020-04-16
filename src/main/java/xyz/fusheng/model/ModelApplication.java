@@ -1,16 +1,4 @@
-package xyz.fusheng.model;
-
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 /**
- * @author code-fusheng
- * @Data: 2020/4/14 20:43 --- 2020/4/14 23:23 code-fusheng 后端模版 --- 创建了项目，并配置了相关的依赖文件
- * @Data: 2020/4/15 12:25 --- 2020/4/15 15:22 code-fusheng 后端模版 --- 添加了启动类实现的相关说明，规范了项目的结构层
- *
- *
  * 一、[@SpringBootApplication] : 是一个复合注解，包括 @ComponentScan、@SpringBootConfiguration、@EnableAutoConfiguration
  * 1. @Target(ElementType.TYPE): 这个枚举类型常量提供了一个简单的分类 注释可能出现在Java程序中的语法位置
  *                             （这些常量与元注释类型(@Target)一起指定在何处写入注释的合法位置）
@@ -38,6 +26,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * 简而言之: 1.@Mapper --> 把 mapper 接口类注册成 spring 的 bean
  *          2.@MapperScan --> 扫描包下的接口，批量注册成 bean
  *          作用一致，写一个就行
+ */
+package xyz.fusheng.model;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+/**
+ * @author code-fusheng
+ * @Data: 2020/4/14 20:43 --- 2020/4/14 23:23 code-fusheng 后端模版 --- 创建了项目，并配置了相关的依赖文件
+ * @Data: 2020/4/15 12:25 --- 2020/4/15 15:22 code-fusheng 后端模版 --- 添加了启动类实现的相关说明，规范了项目的结构层
+ * @Data: 2020/4/16 10:21 --- 2020/4/16 13:02 code-fusheng 后端模版 --- 添加了日志的相关内容，分页，以及统一返回结果
  */
 @SpringBootApplication
 @EnableTransactionManagement

@@ -41,12 +41,12 @@ public class Model implements Serializable {
     /**
      * 模版创建时间
      */
-    private Date createTime;
+    private String createdTime;
 
     /**
      * 模版修改时间
      */
-    private Date updateTime;
+    private String updateTime;
 
     /**
      * 乐观锁

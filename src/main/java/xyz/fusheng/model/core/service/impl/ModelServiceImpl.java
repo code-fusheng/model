@@ -7,10 +7,14 @@
 package xyz.fusheng.model.core.service.impl;
 
 import org.springframework.stereotype.Service;
+import xyz.fusheng.model.common.enums.StateEnums;
+import xyz.fusheng.model.common.utils.Page;
+import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.mapper.ModelMapper;
 import xyz.fusheng.model.core.service.ModelService;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author code-fusheng
@@ -31,12 +35,64 @@ import javax.annotation.Resource;
  * [@Autowried]: (这个注解属于Spring)，默认情况下要求依赖对象必须存在,按照类型(byType)自动注入
  *
  */
-
-
 @Service
 public class ModelServiceImpl implements ModelService {
 
     @Resource
     private ModelMapper modelMapper;
 
+    @Override
+    public void save(Model model) {
+        modelMapper.save(model);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        modelMapper.deleteById(id);
+    }
+
+    @Override
+    public void deleteByIds(List<Integer> ids) {
+        modelMapper.deleteByIds(ids);
+    }
+
+    @Override
+    public void update(Model model) {
+        modelMapper.update(model);
+    }
+
+    @Override
+    public Model getById(Integer id) {
+        return modelMapper.getById(id);
+    }
+
+    @Override
+    public List<Model> getAll() {
+        return modelMapper.getAll();
+    }
+
+    @Override
+    public Page<Model> getByPage(Page<Model> page) {
+        // 查询数据
+        List<Model> modelList = modelMapper.getByPage(page);
+        page.setList(modelList);
+        // 查询总数
+        int totalCount = modelMapper.getCountByPage(page);
+        page.setTotalCount(totalCount);
+        return page;
+    }
+
+    @Override
+    public void enableById(Integer id) {
+        Model model = modelMapper.getById(id);
+        model.setIsEnabled(StateEnums.ENABLED.getCode());
+        modelMapper.updateEnable(model);
+    }
+
+    @Override
+    public void disableById(Integer id) {
+        Model model = modelMapper.getById(id);
+        model.setIsEnabled(StateEnums.NOT_ENABLE.getCode());
+        modelMapper.updateEnable(model);
+    }
 }
