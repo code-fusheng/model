@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.fusheng.model.core.mapper.UserMapper">
+
+    <!-- 查询用户的所有角色 -->
+    <select id="selectRoleByUserId" resultType="xyz.fusheng.model.core.entity.Role" parameterType="long">
+        select r.* from sys_role r
+            left join sys_user_role ur
+            on ur.role_id = r.role_id
+        where ur.user_id = #{userId}
+    </select>
+
+    <!-- 查询用户所有权限 -->
+    <select id="selectMenuByUserId" resultType="xyz.fusheng.model.core.entity.Menu" parameterType="long">
+        select distinct m.* from sys_user_role ur
+            left join sys_role_menu rm
+            on ur.role_id = rm.role.id
+            left join sys_menu m
+            on rm.menu_id = m.menu_id
+        where ur.user_id = #{userId}
+    </select>
+
+
+</mapper>

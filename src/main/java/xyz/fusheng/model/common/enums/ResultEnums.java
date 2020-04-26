@@ -22,8 +22,10 @@ public enum ResultEnums {
 
     SUCCESS(200, "操作成功！"),
     ERROR(400, "请求错误！"),
-    NOT_FOUND(404,"访问连接不存在"),
-    INTERNAL_SERVER_ERROR(500,"服务器故障")
+    NOT_LOGIN(401, "未登录！"),
+    NOT_AUTHORIZED(403, "未授权！"),
+    NOT_FOUND(404,"访问连接不存在！"),
+    INTERNAL_SERVER_ERROR(500,"服务器故障！")
     ;
 
     /**

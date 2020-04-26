@@ -21,7 +21,6 @@ import java.util.Date;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Model implements Serializable {
-
     /**
      * 1. File -> setting -> plugins  安装 GenerateSerialVersionUID 插件
      * 2. 光标 Serializable Ait+Insert 生成序列化唯一标识

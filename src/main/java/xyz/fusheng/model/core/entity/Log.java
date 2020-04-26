@@ -8,8 +8,13 @@ package xyz.fusheng.model.core.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Log {
+public class Log implements Serializable {
+
+    private static final long serialVersionUID = 2274297318723352868L;
+
     /**
      * 日志id
      */

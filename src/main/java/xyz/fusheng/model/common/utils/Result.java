@@ -9,6 +9,7 @@ package xyz.fusheng.model.common.utils;
 import lombok.Data;
 import xyz.fusheng.model.common.enums.ResultEnums;
 
+import javax.servlet.ServletResponse;
 import java.io.Serializable;
 
 @Data
@@ -71,6 +72,10 @@ public class Result<T> implements Serializable {
         this.code = code;
         this.msg = msg;
         this.data = data;
+    }
+
+    public static void responseJson(ServletResponse response){
+
     }
 
 }

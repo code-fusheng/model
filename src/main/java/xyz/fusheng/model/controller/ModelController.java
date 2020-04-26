@@ -105,7 +105,6 @@ public class ModelController {
         String sortColumn = page.getSortColumn();
         // 驼峰转下划线
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
-        // 下划线的 排序列
         page.setSortColumn(newSortColumn);
         // 判断排序列不为空
         if(StringUtils.isNotBlank(sortColumn)){
