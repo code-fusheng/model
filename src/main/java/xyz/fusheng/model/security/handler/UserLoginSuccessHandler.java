@@ -6,21 +6,20 @@
  */
 package xyz.fusheng.model.security.handler;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import xyz.fusheng.model.common.config.JwtConfig;
 import xyz.fusheng.model.common.utils.JwtTokenUtil;
-import xyz.fusheng.model.common.utils.ResultUtil;
+import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.security.entity.SelfUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Component
@@ -34,12 +33,9 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         // 组装 Jwt
         SelfUser selfUser = (SelfUser) authentication.getPrincipal();
         String token = JwtTokenUtil.createAccessToken(selfUser);
-        token = JwtConfig.tokenHeader + token;
+        token = JwtConfig.tokenPrefix + token;
         // 封装返回参数
-        Map<String,Object> resultData = new HashMap<>();
-        resultData.put("code","200");
-        resultData.put("msg", "登录成功");
-        resultData.put("token",token);
-        ResultUtil.responseJson(response,resultData);
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(JSON.toJSONString(new Result<>("登陆成功！", token)));
     }
 }

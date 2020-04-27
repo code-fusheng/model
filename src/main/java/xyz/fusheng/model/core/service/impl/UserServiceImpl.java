@@ -17,7 +17,7 @@ import xyz.fusheng.model.core.service.UserService;
 
 import java.util.List;
 
-@Service
+@Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     /**

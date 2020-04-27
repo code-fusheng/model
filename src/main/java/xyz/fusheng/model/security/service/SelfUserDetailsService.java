@@ -8,7 +8,6 @@ package xyz.fusheng.model.security.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,7 @@ public class SelfUserDetailsService implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public SelfUser loadUserByUsername(String username) throws UsernameNotFoundException {
         // 查询用户信息
         User user = userService.selectUserByName(username);
         if (user!=null) {

@@ -39,6 +39,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/4/14 20:43 --- 2020/4/14 23:23 code-fusheng 后端模版 --- 创建了项目，并配置了相关的依赖文件
  * @Data: 2020/4/15 12:25 --- 2020/4/15 15:22 code-fusheng 后端模版 --- 添加了启动类实现的相关说明，规范了项目的结构层
  * @Data: 2020/4/16 10:21 --- 2020/4/16 11:58 code-fusheng 后端模版 --- 添加了日志的相关内容，分页，以及统一返回结果
+ * @Data: 2020/4/26 10:34 --- 2020/4/27 01:17 code-fusheng 后端模版 --- 添加了用户-角色-权限关系（待完善）
+ * @Data: 2020/4/27 15:34 --- 2020/4/27 16:32 code-fusheng 后端模版 --- 完善了权限设计，基本实现了权限控制
  */
 @SpringBootApplication
 @EnableTransactionManagement

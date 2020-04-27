@@ -12,6 +12,6 @@ import xyz.fusheng.model.core.entity.UserRole;
 import xyz.fusheng.model.core.mapper.UserRoleMapper;
 import xyz.fusheng.model.core.service.UserRoleService;
 
-@Service
+@Service("userRoleService")
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService{
 }

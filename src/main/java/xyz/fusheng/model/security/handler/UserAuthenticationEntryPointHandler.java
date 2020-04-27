@@ -6,12 +6,12 @@
  */
 package xyz.fusheng.model.security.handler;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import xyz.fusheng.model.common.utils.ResultUtil;
+import xyz.fusheng.model.common.utils.Result;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,7 +22,8 @@ public class UserAuthenticationEntryPointHandler implements AuthenticationEntryP
      * 用户未登录返回结果
      */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
-        ResultUtil.responseJson(response,ResultUtil.resultCode(401,"未登录"));
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(JSON.toJSONString(new Result<>(401,"请求失败: 未登录！")));
     }
 }

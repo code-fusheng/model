@@ -5,13 +5,13 @@ spring:
   datasource:
     # 基础属性
     # 腾讯云 mysql 数据库连接
-    url: jdbc:mysql://cdb-csnz8qhs.cd.tencentcdb.com:10087/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-    username: root
-    password: code-fusheng
+#    url: jdbc:mysql://cdb-csnz8qhs.cd.tencentcdb.com:10087/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+#    username: root
+#    password: code-fusheng
     # linux服务器 mysql 数据库连接
-    # url: jdbc:mysql://175.24.45.179/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-    # username: root
-    # password: sa123
+    url: jdbc:mysql://175.24.45.179/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: sa123
     # 可以不配置，根据url自动识别，建议配置
     driver-class-name: com.mysql.cj.jdbc.Driver
     ###################以下为druid增加的配置###########################
@@ -71,3 +71,15 @@ mybatis-plus:
     # 返回map时true:当查询数据为空时字段返回为null,false:不加这个查询数据为空时，字段将被隐藏
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+# JWT配置
+jwt:
+  # 密匙KEY
+  secret: JWTSecret
+  # HeaderKEY
+  tokenHeader: Authorization
+  # Token前缀字符
+  tokenPrefix: Zh-
+  # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
+  expiration: 86400
+  # 配置不需要认证的接口
+  antMatchers: /index/**,/login/**,/favicon.ico

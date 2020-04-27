@@ -38,7 +38,7 @@ public class JwtTokenUtil {
                 // 签发时间
                 .setIssuedAt(new Date())
                 // 签发者
-                .setIssuer("fusheng")
+                .setIssuer("zh")
                 // 自定义属性，放入用户拥有的权限
                 .claim("authorities", JSON.toJSONString(selfUser.getAuthorities()))
                 // 失效时间

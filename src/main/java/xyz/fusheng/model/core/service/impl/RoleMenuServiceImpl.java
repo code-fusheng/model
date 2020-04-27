@@ -12,6 +12,6 @@ import xyz.fusheng.model.core.entity.RoleMenu;
 import xyz.fusheng.model.core.mapper.RoleMenuMapper;
 import xyz.fusheng.model.core.service.RoleMenuService;
 
-@Service
+@Service("roleMenuService")
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
 }
