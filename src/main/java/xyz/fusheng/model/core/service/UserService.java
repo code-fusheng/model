@@ -17,6 +17,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 根据用户名查询实体
+     *
      * @param username 用户名
      * @return User 用户实体
      */
@@ -24,6 +25,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 根据用户id查询用户角色集合
+     *
      * @param userId 用户id
      * @return List<Role> 角色名集合
      */
@@ -31,10 +33,11 @@ public interface UserService extends IService<User> {
 
     /**
      * 根据用户id查询权限集合
+     *
      * @param userId 用户id
      * @return List<Menu> 权限集合
      */
     List<Menu> selectMenuByUserId(Long userId);
 
-
 }
+

@@ -13,7 +13,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("sys_user_menu")
+@TableName("sys_user_role")
 public class UserRole implements Serializable {
     private static final long serialVersionUID = 2667274665940198129L;
     /**

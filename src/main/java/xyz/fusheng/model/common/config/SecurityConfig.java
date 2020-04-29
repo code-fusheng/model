@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import xyz.fusheng.model.security.core.UserAuthenticationProvider;
 import xyz.fusheng.model.security.core.UserPermissionEvaluator;
 import xyz.fusheng.model.security.handler.*;
@@ -59,8 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 加密方式
-     * @Author Sans
-     * @CreateTime 2019/10/1 14:00
      */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -74,6 +74,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
         handler.setPermissionEvaluator(new UserPermissionEvaluator());
         return handler;
+    }
+
+    /**
+     * 配置Nginx部署代理是请求参数特殊字符问题
+     * @return
+     */
+    @Bean
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
     }
 
     /**
@@ -94,7 +105,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 不进行权限验证的请求或资源(从配置文件中读取)
-                .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()
+                // .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()
+                .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
+                        "/swagger-resources", "/swagger-resources/configuration/security",
+                        "/swagger-ui.html", "/webjars/**", "/user/register").permitAll()
                 // 其他的需要登陆后才能访问
                 .anyRequest().authenticated()
                 .and()
