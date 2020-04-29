@@ -70,15 +70,16 @@ public class UserController {
         // 加密
         String encryptPass = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encryptPass);
-        user.setStatus("NORMAL");
+        // 设置为启用状态
+        user.setIsDeleted(1);
         boolean ret = userService.save(user);
         if(!ret){
             return new Result<>("注册失败！");
         }
-        // 默认角色
+        // 默认角色 User 普通用户
         UserRole userRole = new UserRole();
         userRole.setUserId(userService.selectUserByName(user.getUsername()).getUserId());
-        userRole.setRoleId(1L);
+        userRole.setRoleId(2L);
         userRoleService.save(userRole);
         return new Result<>("注册成功！");
     }

@@ -35,7 +35,7 @@ public class ModelController {
      * @return
      */
     @PostMapping("/save")
-    public Result<Model> save(@RequestBody Model model){
+    public Result<Object> save(@RequestBody Model model){
         modelService.save(model);
         return new Result<>("保存成功！");
     }

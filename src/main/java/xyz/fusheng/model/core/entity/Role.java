@@ -27,4 +27,29 @@ public class Role implements Serializable {
      * 角色名称
      */
     private String roleName;
+
+    /**
+     * 创建时间
+     */
+    private String createdTime;
+
+    /**
+     * 更新时间
+     */
+    private String updateTime;
+
+    /**
+     * 乐观锁
+     */
+    private Integer version;
+
+    /**
+     * 是否启用，0否1是 默认1
+     */
+    private Integer isEnabled;
+
+    /**
+     * 是否删除，0否1是 默认0
+     */
+    private Integer isDeleted;
 }

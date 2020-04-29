@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.fusheng.model.core.mapper.ModelPlusMapper">
+
+    <select id="getByPage" resultType="xyz.fusheng.model.core.entity.ModelPlus">
+        select model_plus_id, model_plus_name, created_time, update_time, is_enabled from sys_model_plus
+        where is_deleted = 0
+        <if test="params.modelPlusName!=null and params.modelPlusName!=''">
+            and model_plus_name like concat('%', #{params.modelPlusName}, '%')
+        </if>
+        <if test="params.modelPlusTime!=null">
+            and created_time between #{params.modelPlusTime[0],jdbcType=TIMESTAMP} and #{params.modelPlusTime[1],jdbcType=TIMESTAMP}
+        </if>
+        <if test="sortColumn!=null and sortColumn!=''">
+            order by ${sortColumn} ${sortMethod}
+        </if>
+        limit #{index}, #{pageSize}
+    </select>
+</mapper>

@@ -1,10 +1,11 @@
 /**
- * @FileName: Menu
+ * @FileName: ModelPlus
  * @Author: code-fusheng
- * @Date: 2020/4/26 16:26
- * Description: 权限实体类’
+ * @Date: 2020/4/29 16:05
+ * Description: 增强型模版实体
  */
 package xyz.fusheng.model.core.entity;
+
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -13,43 +14,28 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("sys_menu")
-public class Menu implements Serializable {
-    private static final long serialVersionUID = 7788989908404691301L;
+@TableName("sys_model_plus")
+public class ModelPlus implements Serializable {
+    private static final long serialVersionUID = -961610786115619340L;
 
     /**
-     * 权限ID
+     * 增强模版id
      */
     @TableId
-    private Long menuId;
+    private Long modelPlusId;
 
     /**
-     * 权限名称
+     * 模版名称
      */
-    private String name;
+    private String modelPlusName;
 
     /**
-     * 权限标识
-     */
-    private String permission;
-
-    /**
-     * 权限级别
-     */
-    private Integer level;
-
-    /**
-     * 权限父级id
-     */
-    private Integer pid;
-
-    /**
-     * 创建时间
+     * 模版创建时间
      */
     private String createdTime;
 
     /**
-     * 更新时间
+     * 模版修改时间
      */
     private String updateTime;
 

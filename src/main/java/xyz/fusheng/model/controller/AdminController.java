@@ -75,7 +75,7 @@ public class AdminController {
      * hasPermission 第一个参数是请求路径 第二个参数是权限表达式
      * @Return Result<List<User>> 用户列表
      */
-    @PreAuthorize("hasPermission('/admin/userList','sys:user:info')")
+    @PreAuthorize("hasPermission('/admin/userList','user:info')")
     @GetMapping("/userList")
     public Result<List<User>> userList(){
         List<User> userList = userService.list();
@@ -87,7 +87,7 @@ public class AdminController {
      * 拥有ADMIN角色和sys:role:info权限可以访问
      * @Return Result<List<Role>> 角色列表
      */
-    @PreAuthorize("hasRole('ADMIN') and hasPermission('/admin/adminRoleList','sys:role:info')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/adminRoleList")
     public Result<List<Role>> adminRoleList(){
         List<Role> roleList = roleService.list();

@@ -34,11 +34,6 @@ public class User implements Serializable {
     private String password;
 
     /**
-     * 状态:NORMAL正常  PROHIBIT禁用
-     */
-    private String status;
-
-    /**
      * 创建时间
      */
     private String createdTime;
@@ -47,4 +42,19 @@ public class User implements Serializable {
      * 更新时间
      */
     private String updateTime;
+
+    /**
+     * 乐观锁
+     */
+    private Integer version;
+
+    /**
+     * 是否启用，0否1是 默认1
+     */
+    private Integer isEnabled;
+
+    /**
+     * 是否删除，0否1是 默认0
+     */
+    private Integer isDeleted;
 }

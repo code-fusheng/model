@@ -31,11 +31,6 @@ public class SelfUser implements Serializable, UserDetails {
      */
     private String password;
     /**
-     * 状态:NORMAL正常  PROHIBIT禁用
-     */
-    private String status;
-
-    /**
      * 用户角色
      */
     private Collection<GrantedAuthority> authorities;

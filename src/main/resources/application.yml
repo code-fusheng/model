@@ -43,9 +43,9 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     # 通过别名的方式配置扩展插件，多个英文逗号分隔，常用的插件有：
     # 监控统计用的filter:stat
-    # 日志用的filter:logback
+    # 日志用的filter:slf4j
     # 防御sql注入的filter:wall
-    filters: stat,wall,logback
+    filters: stat,wall,slf4j
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     # 合并多个DruidDataSource的监控数据
