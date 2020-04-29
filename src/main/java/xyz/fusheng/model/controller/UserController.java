@@ -71,7 +71,7 @@ public class UserController {
         String encryptPass = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encryptPass);
         user.setStatus("NORMAL");
-        Boolean ret = userService.save(user);
+        boolean ret = userService.save(user);
         if(!ret){
             return new Result<>("注册失败！");
         }

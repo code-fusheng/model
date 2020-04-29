@@ -37,4 +37,14 @@ public class User implements Serializable {
      * 状态:NORMAL正常  PROHIBIT禁用
      */
     private String status;
+
+    /**
+     * 创建时间
+     */
+    private String createdTime;
+
+    /**
+     * 更新时间
+     */
+    private String updateTime;
 }
