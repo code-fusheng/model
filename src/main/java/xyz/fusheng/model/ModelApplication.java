@@ -42,6 +42,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/4/26 10:34 --- 2020/4/27 01:17 code-fusheng 后端模版 --- 添加了用户-角色-权限关系（待完善）
  * @Data: 2020/4/27 15:34 --- 2020/4/27 16:32 code-fusheng 后端模版 --- 完善了权限设计，基本实现了权限控制
  * @Data: 2020/4/29 10:21 --- 2020/4/29 22:10 code-fusheng 后端模版 --- 添加了swagger接口文档配置，完善了modelPlus，重构了表结构
+ * @Data: 2020/5/04 10:13 --- 2020/5/04 21:28 code-fusheng 后端模版 --- 添加了fastdfs分布式文件服务的相关配置以及项目多环境配置
  */
 @SpringBootApplication
 @EnableTransactionManagement

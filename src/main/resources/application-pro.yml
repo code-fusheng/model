@@ -1,0 +1,82 @@
+# 生产环境
+# 配置端口
+server:
+  port: 9999
+spring:
+  datasource:
+    # 基础属性
+    # 腾讯云 mysql 数据库连接
+    url: jdbc:mysql://cdb-csnz8qhs.cd.tencentcdb.com:10087/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: code-fusheng
+    # 可以不配置，根据url自动识别，建议配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    ###################以下为druid增加的配置###########################
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 初始化连接池个数
+    initialSize: 5
+    # 最小连接池个数——》已经不再使用，配置了也没效果
+    minIdle: 2
+    # 最大连接池个数
+    maxActive: 20
+    # 配置获取连接等待超时的时间，单位毫秒，缺省启用公平锁，并发效率会有所下降
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    # 用来检测连接是否有效的sql，要求是一个查询语句。
+    # 如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用
+    validationQuery: SELECT 1 FROM DUAL
+    # 建议配置为true，不影响性能，并且保证安全性。
+    # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+    testWhileIdle: true
+    # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+    testOnBorrow: false
+    # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 通过别名的方式配置扩展插件，多个英文逗号分隔，常用的插件有：
+    # 监控统计用的filter:stat
+    # 日志用的filter:slf4j
+    # 防御sql注入的filter:wall
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    useGlobalDataSourceStat: true
+  jackson:
+    default-property-inclusion: non_null    # 实体类与json互转的时候 属性值为null的不参与序列化
+# Mybatis-plus相关配置
+mybatis-plus:
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+  mapper-locations: classpath:mapper/*.xml
+  # 以下配置均有默认值,可以不设置
+  global-config:
+    db-config:
+      #主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      #字段策略 IGNORED:"忽略判断"  NOT_NULL:"非 NULL 判断")  NOT_EMPTY:"非空判断"
+      field-strategy: NOT_EMPTY
+      #数据库类型
+      db-type: MYSQL
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    # 返回map时true:当查询数据为空时字段返回为null,false:不加这个查询数据为空时，字段将被隐藏
+    call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+# JWT配置
+jwt:
+  # 密匙KEY
+  secret: JWTSecret
+  # HeaderKEY
+  tokenHeader: Authorization
+  # Token前缀字符
+  tokenPrefix: Zh-
+  # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
+  expiration: 86400
+  # 配置不需要认证的接口
+  antMatchers: /index/**,/login/**,/favicon.ico
