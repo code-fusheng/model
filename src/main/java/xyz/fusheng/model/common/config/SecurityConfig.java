@@ -117,7 +117,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 配置登录地址
                 .formLogin()
-                .loginProcessingUrl("/login/userLogin")
+                .loginProcessingUrl("/login")
                 // 配置登录成功自定义处理类
                 .successHandler(userLoginSuccessHandler)
                 // 配置登录失败自定义处理类
@@ -125,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 配置登出地址
                 .logout()
-                .logoutUrl("/login/userLogout")
+                .logoutUrl("/logout")
                 // 配置用户登出自定义处理类
                 .logoutSuccessHandler(userLogoutSuccessHandler)
                 .and()

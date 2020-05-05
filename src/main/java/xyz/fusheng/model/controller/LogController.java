@@ -48,7 +48,7 @@ public class LogController {
             // 3. 不支持add和remove方法
             List<String> sortList = Arrays.asList(sortColumns);
             if(!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(),"参数错误！");
+                return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
             }
         }
         page = logService.getByPage(page);
@@ -63,7 +63,7 @@ public class LogController {
     @DeleteMapping("/delete/{id}")
     public Result<Object> delete(@PathVariable("id") Integer id){
         logService.deleteById(id);
-        return new Result<>("删除成功!");
+        return new Result<>("删除成功: 删除日志！");
     }
 
     /**
@@ -74,7 +74,7 @@ public class LogController {
     @PutMapping("/deleteByIds")
     public Result<Object> deleteByIds(@RequestBody List<Integer> ids) {
         logService.deleteByIds(ids);
-        return new Result<>("删除成功！");
+        return new Result<>("操作成功: 批量删除日志！");
     }
 
 }

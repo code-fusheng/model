@@ -27,7 +27,9 @@ public class ModelPlusServiceImpl extends ServiceImpl<ModelPlusMapper, ModelPlus
         // 查询数据
         List<ModelPlus> modelPlusList = modelPlusMapper.getByPage(page);
         page.setList(modelPlusList);
-        page.setTotalCount(modelPlusList.size());
+        // 统计总数
+        int totalCount = modelPlusMapper.getCountByPage(page);
+        page.setTotalCount(totalCount);
         return page;
     }
 }

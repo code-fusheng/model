@@ -21,4 +21,11 @@ public interface ModelPlusMapper extends BaseMapper<ModelPlus> {
      * @return
      */
     List<ModelPlus> getByPage(Page<ModelPlus> page);
+
+    /**
+     * 分页查询统计总数
+     * @param page
+     * @return
+     */
+    int getCountByPage(Page<ModelPlus> page);
 }

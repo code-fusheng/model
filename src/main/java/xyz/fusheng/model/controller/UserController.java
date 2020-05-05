@@ -6,8 +6,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Menu;
+import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.entity.UserRole;
 import xyz.fusheng.model.core.service.MenuService;
@@ -19,7 +21,7 @@ import xyz.fusheng.model.security.entity.SelfUser;
 import java.util.List;
 
 /**
- * 普通用户
+ * 用户
  * @author code-fusheng
  */
 @RestController
@@ -34,24 +36,50 @@ public class UserController {
     private UserRoleService userRoleService;
 
     /**
-     * 用户端信息
-     * @Return Result<Object> 用户端信息
+     * 获取当前用户信息 - 查
+     * @Return Result<Object> 用户信息
      */
     @GetMapping("/info")
-    public Result<Object> userLogin(){
+    public Result<Object> info(){
         SelfUser userDetails = (SelfUser) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
         return new Result<>("操作成功: 用户端信息！", userDetails);
     }
 
     /**
+     * 获取用户列表 - 查
+     * @Return Result<List<User>> 用户列表
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/list")
+    public Result<List<User>> list(){
+        List<User> userList = userService.list();
+        return new Result<>("操作成功: 用户列表！", userList);
+    }
+
+    /**
+     * 查询当前用户权限列表 - 查
      * 拥有USER角色和sys:user:info权限可以访问
      * @Return Result<List<Menu>> 权限列表
      */
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @GetMapping("/menuList")
-    public Result<List<Menu>> menu(){
-        List<Menu> menuList = menuService.list();
-        return new Result<>("操作成功: 权限列表！",menuList);
+    @GetMapping("/userMenuList")
+    public Result<List<Menu>> userMenuList(){
+        Long userId = SecurityUtil.getUserId();
+        List<Menu> menuList = userService.selectMenuByUserId(userId);
+        return new Result<>("操作成功: 用户权限列表！",menuList);
+    }
+
+    /**
+     * 查询当前用户角色列表 - 查
+     * 拥有USER角色和sys:user:info权限可以访问
+     * @Return Result<List<Role>> 角色列表
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping("/userRoleList")
+    public Result<List<Role>> userRoleList(){
+        Long userId = SecurityUtil.getUserId();
+        List<Role> roleList = userService.selectRoleByUserId(userId);
+        return new Result<>("操作成功: 用户角色列表！",roleList);
     }
 
     /**

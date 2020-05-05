@@ -40,7 +40,7 @@ public class AdminController {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/info")
-    public Result<Object> userLogin(){
+    public Result<Object> info(){
         SelfUser userDetails = SecurityUtil.getUserInfo();
         return new Result<>("操作成功: 管理端信息！", userDetails);
     }
