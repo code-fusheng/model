@@ -40,16 +40,6 @@ public class UploadService {
         if (!uploadConfig.getAllowtypes().contains(contentType)) {
             throw new RuntimeException("文件类型不支持");
         }
-        // 2、校验文件内容
-        try {
-            BufferedImage image = ImageIO.read(file.getInputStream());
-            if (image == null || image.getWidth() == 0 || image.getHeight() == 0) {
-                throw new RuntimeException("上传文件有问题");
-            }
-        } catch (IOException e) {
-            log.error("校验文件内容失败....{}", e);
-            throw new RuntimeException("校验文件内容失败"+e.getMessage());
-        }
         try {
             // 3、上传到FastDFS
             // 3.1、获取扩展名

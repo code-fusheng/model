@@ -45,6 +45,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/04 10:13 --- 2020/5/04 21:28 code-fusheng 后端模版 --- 添加了fastdfs分布式文件服务的相关配置以及项目多环境配置
  * @Data: 2020/5/05 10:41 --- 2020/5/05 16:26 code-fusheng 后端模版 --- 修改了用户的相关接口，提供了用户的信息，权限，角色查询
  * @Data: 2020/5/05 19:13 --- 2020/5/06 00:41 code-fusheng 后台模版 --- 创建了基础项目框架
+ * @Data: 2020/5/06 08:32 --- 2020/5/06 16:12 code-fusheng 后端模版 --- 增强模版添加了图片属性
+ * @Data: 2020/5/06 08:32 --- 2020/5/06 16:12 code-fusheng 后台开发 --- 添加了模版模块，实现了基本的相关照做，新增图片上传
  *
  */
 @SpringBootApplication

@@ -28,4 +28,5 @@ public interface ModelPlusMapper extends BaseMapper<ModelPlus> {
      * @return
      */
     int getCountByPage(Page<ModelPlus> page);
+
 }

@@ -13,6 +13,7 @@ import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
+import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.service.ModelPlusService;
 
@@ -51,15 +52,14 @@ public class ModelPlusController {
     }
 
     /**
-     * 根据id更新模版
+     * 修改
      * @param modelPlus
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update")
-    public Result<ModelPlus> update(@RequestBody ModelPlus modelPlus){
+    public Result<Object> update(@RequestBody ModelPlus modelPlus){
         modelPlusService.updateById(modelPlus);
-        return new Result<>("操作成功: 更新模型！");
+        return new Result<>("操作成功: 修改模版!");
     }
 
     /**
@@ -70,8 +70,8 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("getById/{id}")
     public Result<ModelPlus> getById(@PathVariable("id") Long id){
-        modelPlusService.getById(id);
-        return new Result<>("操作成功: 查询模型！");
+        ModelPlus modelPlus = modelPlusService.getById(id);
+        return new Result<>("操作成功: 查询模型！", modelPlus);
     }
 
     /**
@@ -85,6 +85,12 @@ public class ModelPlusController {
         return new Result<>("操作成功: 模型列表！", modelPluses);
     }
 
+    /**
+     * 多条件分页查询
+     * @param page
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/getByPage")
     public Result<Page<ModelPlus>> getByPage(@RequestBody Page<ModelPlus> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
@@ -98,14 +104,11 @@ public class ModelPlusController {
             String[] sortColumns = {"model_plus_name", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if(!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(),"参数错误！");
+                return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
             }
         }
         page = modelPlusService.getByPage(page);
-        return new Result<>(page);
+        return new Result<>("操作成功: 分页查询模型！", page);
     }
-
-
-
 
 }

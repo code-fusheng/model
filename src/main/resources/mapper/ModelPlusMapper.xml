@@ -3,7 +3,7 @@
 <mapper namespace="xyz.fusheng.model.core.mapper.ModelPlusMapper">
 
     <select id="getByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="xyz.fusheng.model.core.entity.ModelPlus">
-        select model_plus_id, model_plus_name, created_time, update_time, is_enabled from sys_model_plus
+        select model_plus_id, model_plus_name, model_plus_image, created_time, update_time, is_enabled from sys_model_plus
         where is_deleted = 0
         <if test="params.modelPlusName!=null and params.modelPlusName!=''">
             and model_plus_name like concat('%', #{params.modelPlusName}, '%')

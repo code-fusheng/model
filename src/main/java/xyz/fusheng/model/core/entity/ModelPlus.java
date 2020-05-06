@@ -7,6 +7,8 @@
 package xyz.fusheng.model.core.entity;
 
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -28,6 +30,11 @@ public class ModelPlus implements Serializable {
      * 模版名称
      */
     private String modelPlusName;
+
+    /**
+     * 模版图片
+     */
+    private  String modelPlusImage;
 
     /**
      * 模版创建时间

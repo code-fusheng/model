@@ -37,7 +37,7 @@ public class ModelController {
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Model model){
         modelService.save(model);
-        return new Result<>("保存成功！");
+        return new Result<>("操作成功: 添加模版！");
     }
 
     /**
@@ -48,7 +48,7 @@ public class ModelController {
     @DeleteMapping("/delete/{id}")
     public Result<Object> delete(@PathVariable("id") Integer id){
         modelService.deleteById(id);
-        return new Result<>("删除成功!");
+        return new Result<>("操作成功: 删除模版!");
     }
 
     /**
@@ -59,7 +59,7 @@ public class ModelController {
     @PutMapping("/deleteByIds")
     public Result<Object> deleteByIds(@RequestBody List<Integer> ids){
         modelService.deleteByIds(ids);
-        return new Result<>("删除成功！");
+        return new Result<>("操作成功: 批量删除模版！");
     }
 
     /**
@@ -70,7 +70,7 @@ public class ModelController {
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Model model){
         modelService.update(model);
-        return new Result<>("修改成功!");
+        return new Result<>("操作成功: 修改模版!");
     }
 
     /**
@@ -81,7 +81,7 @@ public class ModelController {
     @GetMapping("/get/{id}")
     public Result<Model> get(@PathVariable("id") Integer id){
         Model model = modelService.getById(id);
-        return new Result<>(model);
+        return new Result<>("操作成功: 查询模版！",model);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ModelController {
     @GetMapping("/list")
     public Result<List<Model>> list(){
         List<Model> modelList = modelService.getAll();
-        return new Result<>(modelList);
+        return new Result<>("操作成功: 查询模版列表！", modelList);
     }
 
     /**
@@ -120,7 +120,7 @@ public class ModelController {
             }
         }
         page = modelService.getByPage(page);
-        return new Result<>(page);
+        return new Result<>("操作成功: 分页查询模版！", page);
     }
 
     /**
@@ -131,7 +131,7 @@ public class ModelController {
     @PutMapping("/enable/{id}")
     public Result<Object> enable(@PathVariable("id") Integer id) {
         modelService.enableById(id);
-        return new Result<>("启用成功!");
+        return new Result<>("操作成功: 启用模版！");
     }
 
     /**
@@ -142,7 +142,7 @@ public class ModelController {
     @PutMapping("/disable/{id}")
     public Result<Object> disable(@PathVariable("id") Integer id) {
         modelService.disableById(id);
-        return new Result<>("弃用成功！");
+        return new Result<>("操作成功: 弃用模版！");
     }
 
 
