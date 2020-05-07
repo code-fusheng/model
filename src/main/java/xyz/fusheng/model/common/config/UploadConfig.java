@@ -18,7 +18,7 @@ import java.util.List;
 public class UploadConfig {
 
     private String baseUrl;
-    private List<String> allowtypes;
+    private List<String> allowTypes;
 
 
 }
