@@ -72,7 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new DefaultHttpFirewall();
     }
 
-
     /**
      * 加密方式
      */

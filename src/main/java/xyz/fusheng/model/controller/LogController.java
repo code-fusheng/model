@@ -6,6 +6,7 @@
  */
 package xyz.fusheng.model.controller;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
@@ -15,6 +16,7 @@ import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Log;
 import xyz.fusheng.model.core.service.LogService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,6 +77,20 @@ public class LogController {
     public Result<Object> deleteByIds(@RequestBody List<Integer> ids) {
         logService.deleteByIds(ids);
         return new Result<>("操作成功: 批量删除日志！");
+    }
+
+    /**
+     * 全部导出
+     * @param response
+     * @throws Exception
+     */
+    @PostMapping("/export")
+    public void export(HttpServletResponse response) throws Exception {
+        Workbook workbook = logService.export();
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + "日志");
+        response.flushBuffer();
+        workbook.write(response.getOutputStream());
     }
 
 }

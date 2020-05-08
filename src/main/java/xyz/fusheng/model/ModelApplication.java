@@ -47,6 +47,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/05 19:13 --- 2020/5/06 00:41 code-fusheng 后台模版 --- 创建了基础项目框架
  * @Data: 2020/5/06 08:32 --- 2020/5/06 16:12 code-fusheng 后端模版 --- 增强模版添加了图片属性
  * @Data: 2020/5/06 08:32 --- 2020/5/06 16:12 code-fusheng 后台开发 --- 添加了模版模块，实现了基本的相关照做，新增图片上传
+ * @Data: 2020/5/07 08:12 --- 2020/5/08 00:24 code-fusheng 项目部署 --- 配置了nginx相关部署配置security异常符号请求配置
+ * @Data: 2020/5/07 08:12 --- 2020/5/08 00:24 code-fusheng 后台开发 --- 修改了前台动态代理相关的配置
+ * @Data: 2020/5/08 10:47 --- 2020/5/08 18:54 code-fusheng 后端模版 --- 添加了以POI为基础的excel表格导入导出工具,实现了后台的日志导出
+ *
  *
  */
 @SpringBootApplication

@@ -6,6 +6,7 @@
  */
 package xyz.fusheng.model.core.service;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Log;
 
@@ -38,4 +39,9 @@ public interface LogService {
      */
     void deleteByIds(List<Integer> ids);
 
+    /**
+     * 查询数据，构建成workbook用于导出
+     * @return
+     */
+    Workbook export();
 }

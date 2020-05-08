@@ -6,8 +6,11 @@
  */
 package xyz.fusheng.model.core.service.impl;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.fusheng.model.common.excel.entity.ExportParams;
+import xyz.fusheng.model.common.excel.handler.ExcelExportHandler;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Log;
 import xyz.fusheng.model.core.mapper.LogMapper;
@@ -62,5 +65,15 @@ public class LogServiceImpl implements LogService {
     @Override
     public void deleteByIds(List<Integer> ids) {
         logMapper.deleteByIds(ids);
+    }
+
+    /**
+     * 查询数据，构建成workbook用于导出
+     * @return
+     */
+    @Override
+    public Workbook export() {
+        List<Log> logList = logMapper.getAll();
+        return new ExcelExportHandler().createSheet(new ExportParams("最新日志", "sheet1"), Log.class, logList);
     }
 }

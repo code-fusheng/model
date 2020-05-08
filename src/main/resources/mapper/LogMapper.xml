@@ -87,4 +87,12 @@
             #{id}
         </foreach>
     </delete>
+    <!-- 查询所有 -->
+    <select id="getAll" resultType="xyz.fusheng.model.core.entity.Log">
+        select
+        log_id, log_url, log_params, log_status, log_message,
+        log_method, log_time, log_result, log_ip, created_time
+        from sys_log
+    </select>
+
 </mapper>

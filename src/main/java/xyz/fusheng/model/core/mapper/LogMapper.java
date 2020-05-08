@@ -46,4 +46,10 @@ public interface LogMapper {
      * @param ids
      */
     void deleteByIds(List<Integer> ids);
+
+    /**
+     * 查询全部
+     * @return
+     */
+    List<Log> getAll();
 }
