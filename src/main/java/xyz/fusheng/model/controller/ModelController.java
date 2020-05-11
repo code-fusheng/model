@@ -7,6 +7,9 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
@@ -45,6 +48,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @CacheEvict(cacheNames = "model",key = "#id")
     @DeleteMapping("/delete/{id}")
     public Result<Object> delete(@PathVariable("id") Integer id){
         modelService.deleteById(id);
@@ -67,6 +71,7 @@ public class ModelController {
      * @param model
      * @return
      */
+    @CachePut(cacheNames = "model",key = "#model.modelId")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Model model){
         modelService.update(model);
@@ -78,6 +83,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @Cacheable(cacheNames = "model",key = "#id")
     @GetMapping("/get/{id}")
     public Result<Model> get(@PathVariable("id") Integer id){
         Model model = modelService.getById(id);

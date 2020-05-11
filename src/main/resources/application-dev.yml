@@ -11,7 +11,7 @@ spring:
     password: code-fusheng
     # 可以不配置，根据url自动识别，建议配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    ###################以下为druid的配置###########################
+    #以下为druid的配置
     type: com.alibaba.druid.pool.DruidDataSource
     # 初始化连接池个数
     initialSize: 5
@@ -53,7 +53,20 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 100MB
-###################以下为Mybatis-plus的配置###########################
+  #以下为redis的配置
+  redis:
+    host: 175.24.45.179
+    port: 6390
+    password: 123456
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 8
+        min-idle: 0
+        max-wait: 200
+  cache:
+    type: redis
+#以下为Mybatis-plus的配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
   mapper-locations: classpath:mapper/*.xml
@@ -72,7 +85,7 @@ mybatis-plus:
     # 返回map时true:当查询数据为空时字段返回为null,false:不加这个查询数据为空时，字段将被隐藏
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
-###################以下为JWT的配置###########################
+#以下为JWT的配置
 jwt:
   # 密匙KEY
   secret: JWTSecret
@@ -84,7 +97,7 @@ jwt:
   expiration: 86400
   # 配置不需要认证的接口
   antMatchers: /index/**,/login/**,/favicon.ico
-###################以下为fastdfs的配置###########################
+#以下为fastdfs的配置
 fdfs:
   so-timeout: 2500
   connect-timeout: 600
@@ -101,3 +114,4 @@ upload:
     - image/bmp
     - image/gif
     - audio/mpeg
+

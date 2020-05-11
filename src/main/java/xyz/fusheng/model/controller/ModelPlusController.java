@@ -7,6 +7,9 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
@@ -44,6 +47,7 @@ public class ModelPlusController {
      * @param id
      * @return
      */
+    @CacheEvict(cacheNames = "modelPlus",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
@@ -56,6 +60,8 @@ public class ModelPlusController {
      * @param modelPlus
      * @return
      */
+    @CachePut(cacheNames = "modelPlus",key = "#modelPlus.modelPlusId")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody ModelPlus modelPlus){
         modelPlusService.updateById(modelPlus);
@@ -67,6 +73,7 @@ public class ModelPlusController {
      * @param id
      * @return
      */
+    @Cacheable(cacheNames = "modelPlus",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("getById/{id}")
     public Result<ModelPlus> getById(@PathVariable("id") Long id){

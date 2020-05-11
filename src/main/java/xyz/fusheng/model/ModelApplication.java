@@ -32,6 +32,7 @@ package xyz.fusheng.model;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -50,12 +51,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/07 08:12 --- 2020/5/08 00:24 code-fusheng 项目部署 --- 配置了nginx相关部署配置security异常符号请求配置
  * @Data: 2020/5/07 08:12 --- 2020/5/08 00:24 code-fusheng 后台开发 --- 修改了前台动态代理相关的配置
  * @Data: 2020/5/08 10:47 --- 2020/5/08 18:54 code-fusheng 后端模版 --- 添加了以POI为基础的excel表格导入导出工具,实现了后台的日志导出
+ * @Data: 2020/5/11 15:57 --- 2020/5/11 17:33 code-fusheng 后端模版 --- 添加了Redis缓存的配置，实现了模版的二级缓存
  *
  *
  */
 @SpringBootApplication
 @EnableTransactionManagement
 @MapperScan("xyz.fusheng.model.core.mapper")
+@EnableCaching
 public class ModelApplication {
 
     public static void main(String[] args) {

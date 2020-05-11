@@ -36,6 +36,36 @@ public class UserController {
     private UserRoleService userRoleService;
 
     /**
+     * 注册用户 Security 开放接口 - 增
+     * @param user
+     * @return
+     */
+    @PostMapping("/register")
+    public Result<Object> register(@RequestBody User user){
+        if(StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())){
+            return new Result<>(400, "操作错误: 缺少必须表单字段！");
+        }
+        if(userService.selectUserByName(user.getUsername())!=null){
+            return new Result<>(400, "操作错误: 该用户名已被注册！");
+        }
+        // 加密
+        String encryptPass = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(encryptPass);
+        // 设置为启用状态
+        user.setIsDeleted(1);
+        boolean ret = userService.save(user);
+        if(!ret){
+            return new Result<>("注册失败！");
+        }
+        // 默认角色 User 普通用户
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userService.selectUserByName(user.getUsername()).getUserId());
+        userRole.setRoleId(2L);
+        userRoleService.save(userRole);
+        return new Result<>("注册成功！");
+    }
+
+    /**
      * 获取当前用户信息 - 查
      * @Return Result<Object> 用户信息
      */
@@ -82,34 +112,5 @@ public class UserController {
         return new Result<>("操作成功: 用户角色列表！",roleList);
     }
 
-    /**
-     * 注册用户 Security 开放接口
-     * @param user
-     * @return
-     */
-    @PostMapping("/register")
-    public Result<Object> register(@RequestBody User user){
-        if(StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())){
-            return new Result<>(400, "操作错误: 缺少必须表单字段！");
-        }
-        if(userService.selectUserByName(user.getUsername())!=null){
-            return new Result<>(400, "操作错误: 该用户名已被注册！");
-        }
-        // 加密
-        String encryptPass = new BCryptPasswordEncoder().encode(user.getPassword());
-        user.setPassword(encryptPass);
-        // 设置为启用状态
-        user.setIsDeleted(1);
-        boolean ret = userService.save(user);
-        if(!ret){
-            return new Result<>("注册失败！");
-        }
-        // 默认角色 User 普通用户
-        UserRole userRole = new UserRole();
-        userRole.setUserId(userService.selectUserByName(user.getUsername()).getUserId());
-        userRole.setRoleId(2L);
-        userRoleService.save(userRole);
-        return new Result<>("注册成功！");
-    }
 
 }
