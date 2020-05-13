@@ -48,7 +48,6 @@ public class ModelController {
      * @param id
      * @return
      */
-    @CacheEvict(cacheNames = "model",key = "#id")
     @DeleteMapping("/delete/{id}")
     public Result<Object> delete(@PathVariable("id") Integer id){
         modelService.deleteById(id);
@@ -71,7 +70,6 @@ public class ModelController {
      * @param model
      * @return
      */
-    @CachePut(cacheNames = "model",key = "#model.modelId")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Model model){
         modelService.update(model);
@@ -83,7 +81,6 @@ public class ModelController {
      * @param id
      * @return
      */
-    @Cacheable(cacheNames = "model",key = "#id")
     @GetMapping("/get/{id}")
     public Result<Model> get(@PathVariable("id") Integer id){
         Model model = modelService.getById(id);

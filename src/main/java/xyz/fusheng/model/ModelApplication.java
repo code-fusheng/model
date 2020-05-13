@@ -39,8 +39,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author code-fusheng
  * @Data: 2020/4/14 20:43 --- 2020/4/14 23:23 code-fusheng 后端模版 --- 创建了项目，并配置了相关的依赖文件
  * @Data: 2020/4/15 12:25 --- 2020/4/15 15:22 code-fusheng 后端模版 --- 添加了启动类实现的相关说明，规范了项目的结构层
- * @Data: 2020/4/16 10:21 --- 2020/4/16 11:58 code-fusheng 后端模版 --- 添加了日志的相关内容，分页，以及统一返回结果
- * @Data: 2020/4/26 10:34 --- 2020/4/27 01:17 code-fusheng 后端模版 --- 添加了用户-角色-权限关系（待完善）
+ * @Data: 2020/4/16 10:21 --- 2020/4/16 11:58 code-fusheng 后端模版 --- 添加了 aop + logback 日志的相关内容，分页，以及统一返回结果
+ * @Data: 2020/4/26 10:34 --- 2020/4/27 01:17 code-fusheng 后端模版 --- 添加了用户-角色-权限关系（待完善）Security + JWT
  * @Data: 2020/4/27 15:34 --- 2020/4/27 16:32 code-fusheng 后端模版 --- 完善了权限设计，基本实现了权限控制
  * @Data: 2020/4/29 10:21 --- 2020/4/29 22:10 code-fusheng 后端模版 --- 添加了swagger接口文档配置，完善了modelPlus，重构了表结构
  * @Data: 2020/5/04 10:13 --- 2020/5/04 21:28 code-fusheng 后端模版 --- 添加了fastdfs分布式文件服务的相关配置以及项目多环境配置
@@ -48,10 +48,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/05 19:13 --- 2020/5/06 00:41 code-fusheng 后台模版 --- 创建了基础项目框架
  * @Data: 2020/5/06 08:32 --- 2020/5/06 16:12 code-fusheng 后端模版 --- 增强模版添加了图片属性
  * @Data: 2020/5/06 08:32 --- 2020/5/06 16:12 code-fusheng 后台开发 --- 添加了模版模块，实现了基本的相关照做，新增图片上传
- * @Data: 2020/5/07 08:12 --- 2020/5/08 00:24 code-fusheng 项目部署 --- 配置了nginx相关部署配置security异常符号请求配置
+ * @Data: 2020/5/07 08:12 --- 2020/5/08 00:24 code-fusheng 项目部署 --- 配置了nginx相关部署更改security异常符号请求配置
  * @Data: 2020/5/07 08:12 --- 2020/5/08 00:24 code-fusheng 后台开发 --- 修改了前台动态代理相关的配置
  * @Data: 2020/5/08 10:47 --- 2020/5/08 18:54 code-fusheng 后端模版 --- 添加了以POI为基础的excel表格导入导出工具,实现了后台的日志导出
- * @Data: 2020/5/11 15:57 --- 2020/5/11 17:33 code-fusheng 后端模版 --- 添加了Redis缓存的配置，实现了模版的二级缓存
+ * @Data: 2020/5/11 15:57 --- 2020/5/11 17:33 code-fusheng 后端模版 --- 添加了Redis缓存的配置，实现了Mybatis-Plus的二级缓存
+ * @Data: 2020/5/13 11:34 --- 2020/5/13 23:39 code-fusheng 后端模版 --- 稍微完善了用户角色权限的相关功能
  *
  *
  */

@@ -3,6 +3,7 @@ package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,14 +36,39 @@ public class AdminController {
     private MenuService menuService;
 
     /**
-     * 管理端信息
-     * @Return Result<Object> 返回数据MAP
+     * 获取当前用户信息 - 查
+     * @Return Result<Object> 用户信息
      */
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/info")
     public Result<Object> info(){
-        SelfUser userDetails = SecurityUtil.getUserInfo();
-        return new Result<>("操作成功: 管理端信息！", userDetails);
+        SelfUser userDetails = (SelfUser) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+        return new Result<>("操作成功: 当前用户信息！", userDetails);
+    }
+
+    /**
+     * 查询当前用户权限列表 - 查
+     * 拥有USER角色和sys:user:info权限可以访问
+     * @Return Result<List<Menu>> 权限列表
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping("/userMenuList")
+    public Result<List<Menu>> userMenuList(){
+        Long userId = SecurityUtil.getUserId();
+        List<Menu> menuList = userService.selectMenuByUserId(userId);
+        return new Result<>("操作成功: 用户权限列表！",menuList);
+    }
+
+    /**
+     * 查询当前用户角色列表 - 查
+     * 拥有USER角色和sys:user:info权限可以访问
+     * @Return Result<List<Role>> 角色列表
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping("/userRoleList")
+    public Result<List<Role>> userRoleList(){
+        Long userId = SecurityUtil.getUserId();
+        List<Role> roleList = userService.selectRoleByUserId(userId);
+        return new Result<>("操作成功: 用户角色列表！",roleList);
     }
 
     /**

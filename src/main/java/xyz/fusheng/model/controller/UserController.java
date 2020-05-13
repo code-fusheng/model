@@ -1,23 +1,23 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.enums.ResultEnums;
+import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
-import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.StringUtils;
-import xyz.fusheng.model.core.entity.Menu;
-import xyz.fusheng.model.core.entity.Role;
+import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.entity.UserRole;
-import xyz.fusheng.model.core.service.MenuService;
-import xyz.fusheng.model.core.service.RoleService;
-import xyz.fusheng.model.core.service.UserRoleService;
 import xyz.fusheng.model.core.service.UserService;
-import xyz.fusheng.model.security.entity.SelfUser;
+import xyz.fusheng.model.core.service.UserRoleService;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private MenuService menuService;
+    private UserService UserService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -52,7 +52,7 @@ public class UserController {
         String encryptPass = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encryptPass);
         // 设置为启用状态
-        user.setIsDeleted(1);
+        user.setIsDeleted(0);
         boolean ret = userService.save(user);
         if(!ret){
             return new Result<>("注册失败！");
@@ -66,20 +66,9 @@ public class UserController {
     }
 
     /**
-     * 获取当前用户信息 - 查
-     * @Return Result<Object> 用户信息
-     */
-    @GetMapping("/info")
-    public Result<Object> info(){
-        SelfUser userDetails = (SelfUser) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
-        return new Result<>("操作成功: 用户端信息！", userDetails);
-    }
-
-    /**
      * 获取用户列表 - 查
      * @Return Result<List<User>> 用户列表
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/list")
     public Result<List<User>> list(){
         List<User> userList = userService.list();
@@ -87,30 +76,101 @@ public class UserController {
     }
 
     /**
-     * 查询当前用户权限列表 - 查
-     * 拥有USER角色和sys:user:info权限可以访问
-     * @Return Result<List<Menu>> 权限列表
+     * 添加用户 管理员
+     * @param user
+     * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @GetMapping("/userMenuList")
-    public Result<List<Menu>> userMenuList(){
-        Long userId = SecurityUtil.getUserId();
-        List<Menu> menuList = userService.selectMenuByUserId(userId);
-        return new Result<>("操作成功: 用户权限列表！",menuList);
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping("/save")
+    public Result<Object> save(@RequestBody User user){
+        if(StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())){
+            return new Result<>(400, "操作错误: 缺少必须表单字段！");
+        }
+        if(userService.selectUserByName(user.getUsername())!=null){
+            return new Result<>(400, "操作错误: 该用户名已被注册！");
+        }
+        // 加密
+        String encryptPass = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(encryptPass);
+        // 设置为启用状态
+        user.setIsDeleted(0);
+        boolean ret = userService.save(user);
+        if(!ret){
+            return new Result<>("添加失败！");
+        }
+        // 默认角色 User 普通用户
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userService.selectUserByName(user.getUsername()).getUserId());
+        userRole.setRoleId(2L);
+        userRoleService.save(userRole);
+        return new Result<>("添加成功！");
     }
 
     /**
-     * 查询当前用户角色列表 - 查
-     * 拥有USER角色和sys:user:info权限可以访问
-     * @Return Result<List<Role>> 角色列表
+     * 根据id删除 物理删除 管理员
+     * @param id
+     * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @GetMapping("/userRoleList")
-    public Result<List<Role>> userRoleList(){
-        Long userId = SecurityUtil.getUserId();
-        List<Role> roleList = userService.selectRoleByUserId(userId);
-        return new Result<>("操作成功: 用户角色列表！",roleList);
+    @CacheEvict(cacheNames = "User",key = "#id")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping("/deleteById/{id}")
+    public Result<Object> deleteById(@PathVariable("id") Long id){
+        userService.removeById(id);
+        return new Result<>("操作成功: 删除用户！");
     }
 
+    /**
+     * 修改
+     * @param user
+     * @return
+     */
+    @CachePut(cacheNames = "user",key = "#user.userId")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/update")
+    public Result<Object> update(@RequestBody User user){
+        userService.updateById(user);
+        return new Result<>("操作成功: 修改用户!");
+    }
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    @Cacheable(cacheNames = "user",key = "#id")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("getById/{id}")
+    public Result<User> getById(@PathVariable("id") Long id){
+        User user = userService.getById(id);
+        return new Result<>("操作成功: 查询用户！", user);
+    }
+
+    /**
+     * 分页查询
+     * @param page
+     * @return
+     */
+    @PostMapping("/getByPage")
+    public Result<Page<User>> getByPage(@RequestBody Page<User> page){
+        // 获取排序方式  page对象中 封装了 sortColumn 排序列
+        String sortColumn = page.getSortColumn();
+        // 驼峰转下划线
+        String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
+        page.setSortColumn(newSortColumn);
+        // 判断排序列不为空
+        if(StringUtils.isNotBlank(sortColumn)){
+            // 用户名称， 创建时间， 更新时间
+            String[] sortColumns = {"username", "created_time", "update_time"};
+            // Arrays.asList() 方法使用
+            // 1. 该方法是将数组转换成list。 Json 数据格式中的 排序列为数组形式，此处需要转换成 List数据形式
+            // 2. 该方法不适用于剧本数据类型（byte,short,int,long,float,double,boolean）
+            // 3. 不支持add和remove方法
+            List<String> sortList = Arrays.asList(sortColumns);
+            if(!sortList.contains(newSortColumn.toLowerCase())) {
+                return new Result<>(ResultEnums.ERROR.getCode(),"参数错误！");
+            }
+        }
+        page =userService.getByPage(page);
+        return new Result<>("操作成功: 分页查询用户！", page);
+    }
 }

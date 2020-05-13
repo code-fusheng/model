@@ -8,17 +8,23 @@ package xyz.fusheng.model.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Menu;
 import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.mapper.UserMapper;
 import xyz.fusheng.model.core.service.UserService;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 根据用户名查询用户实体
@@ -50,5 +56,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public List<Menu> selectMenuByUserId(Long userId) {
         return this.baseMapper.selectMenuByUserId(userId);
+    }
+
+    /**
+     * 多条件分页查询
+     * @param page
+     * @return
+     */
+    @Override
+    public Page<User> getByPage(Page<User> page) {
+        // 查询数据
+        List<User> userList = userMapper.getByPage(page);
+        page.setList(userList);
+        // 查询总数
+        int totalCount = userMapper.getCountByPage(page);
+        page.setTotalCount(totalCount);
+        return page;
     }
 }

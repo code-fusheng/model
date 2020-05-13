@@ -6,6 +6,9 @@
  */
 package xyz.fusheng.model.core.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Model;
 
@@ -23,6 +26,7 @@ public interface ModelService {
      * 根据id删除
      * @param id
      */
+    @CacheEvict(cacheNames = "model",key = "#id")
     void deleteById(Integer id);
 
     /**
@@ -35,6 +39,7 @@ public interface ModelService {
      * 修改
      * @param model
      */
+    @CachePut(cacheNames = "model",key = "#model.modelId")
     void update(Model model);
 
     /**
@@ -42,6 +47,7 @@ public interface ModelService {
      * @param id
      * @return
      */
+    @Cacheable(cacheNames = "model",key = "#id")
     Model getById(Integer id);
 
     /**
