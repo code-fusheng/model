@@ -21,4 +21,22 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Page<ArticleVo> getByPage(Page<ArticleVo> page);
+
+    /**
+     * 根据id逻辑删除
+     * @param id
+     */
+    void deleteById(Integer id);
+
+    /**
+     * 启用
+     * @param id
+     */
+    void enableById(Integer id);
+
+    /**
+     * 弃用
+     * @param id
+     */
+    void disableById(Integer id);
 }
