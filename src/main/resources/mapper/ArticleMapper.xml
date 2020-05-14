@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.fusheng.model.core.mapper.ArticleMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        article_id, article_title, article_author, article_image, article_desc, article_content,
+        edit_model, article_category, good_count, read_count, collection_count, comment_count,
+        article_source, created_time, update_time, is_enabled, version
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="getByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="xyz.fusheng.model.core.vo.ArticleVo">
+        select
+        a.*, c.category_name
+        from m_article as a left join m_category as c on c.category_id = a.article_category
+        where a.is_deleted = 0 and c.is_deleted = 0
+        <if test="params.articleTitle!=null and params.articleTitle!=''">
+            and a.article_title like CONCAT('%', #{params.articleTitle}, '%')
+        </if>
+        <if test="params.articleAuthor!=null and params.articleAuthor!=''">
+            and a.article_author like CONCAT('%', #{params.articleAuthor}, '%')
+        </if>
+        <if test="params.articleCategory!=null and params.articleCategory!=''">
+            and a.article_category = #{params.articleCategory}
+        </if>
+        <if test="params.articleTime!=null">
+            and created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
+        </if>
+        <if test="sortColumn!=null and sortColumn!=''">
+            order by ${sortColumn} ${sortMethod}
+        </if>
+        limit #{index}, #{pageSize}
+    </select>
+    <!-- 统计总数 -->
+    <select id="getCountByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="java.lang.Integer">
+        select
+        count(*)
+        from m_article as a left join m_category as c on c.category_id = a.article_category
+        where a.is_deleted = 0 and c.is_deleted = 0
+        <if test="params.articleTitle!=null and params.articleTitle!=''">
+            and a.article_title like CONCAT('%', #{params.articleTitle}, '%')
+        </if>
+        <if test="params.articleCategory!=null and params.articleCategory!=''">
+            and a.article_category = #{params.articleCategory}
+        </if>
+        <if test="params.articleTime!=null">
+            and created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+
+</mapper>

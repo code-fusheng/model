@@ -111,7 +111,6 @@ public class UserController {
      * @param id
      * @return
      */
-    @CacheEvict(cacheNames = "User",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
@@ -124,7 +123,6 @@ public class UserController {
      * @param user
      * @return
      */
-    @CachePut(cacheNames = "user",key = "#user.userId")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody User user){
@@ -137,7 +135,6 @@ public class UserController {
      * @param id
      * @return
      */
-    @Cacheable(cacheNames = "user",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("getById/{id}")
     public Result<User> getById(@PathVariable("id") Long id){

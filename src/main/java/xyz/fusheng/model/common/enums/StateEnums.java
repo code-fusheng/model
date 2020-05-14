@@ -28,6 +28,7 @@ public enum StateEnums {
      */
     SEX_MAN(1, "男"),
     SEX_WOMAN(2, "女"),
+    SEX_PRIVACY(0,"私密"),
 
     /**
      * 请求访问状态枚举

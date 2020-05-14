@@ -7,11 +7,13 @@
 package xyz.fusheng.model.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.beans.factory.annotation.Autowired;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Menu;
 import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.entity.User;
+import xyz.fusheng.model.core.service.impl.UserServiceImpl;
 
 import java.util.List;
 

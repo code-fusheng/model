@@ -1,38 +1,32 @@
 /**
- * @FileName: MenuMapper
+ * @FileName: ModelPlusMapper
  * @Author: code-fusheng
- * @Date: 2020/4/26 19:22
- * Description: 权限Mapper
+ * @Date: 2020/4/29 16:37
+ * Description:
  */
 package xyz.fusheng.model.core.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.core.entity.Menu;
+import xyz.fusheng.model.core.entity.Category;
 
 import java.util.List;
 
 @Mapper
-public interface MenuMapper extends BaseMapper<Menu> {
+public interface CategoryMapper extends BaseMapper<Category> {
     /**
      * 多条件分页查询
      * @param page
      * @return
      */
-    List<Menu> getByPage(Page<Menu> page);
+    List<Category> getByPage(Page<Category> page);
 
     /**
      * 分页查询统计总数
      * @param page
      * @return
      */
-    int getCountByPage(Page<Menu> page);
+    int getCountByPage(Page<Category> page);
 
-    /**
-     * 根据角色id查询权限列表
-     * @param id
-     * @return
-     */
-    List<Menu> getMenuListByRoleId(Long id);
 }

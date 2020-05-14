@@ -39,6 +39,31 @@ public class User implements Serializable {
     private String header;
 
     /**
+     * 签名
+     */
+    private String signature;
+
+    /**
+     * 介绍 描述
+     */
+    private String description;
+
+    /**
+     * realName 真实名称
+     */
+    private String realname;
+
+    /**
+     * 性别 0:男 1:女
+     */
+    private Integer sex;
+
+    /**
+     * address 地址
+     */
+    private String address;
+
+    /**
      * 创建时间
      */
     private String createdTime;

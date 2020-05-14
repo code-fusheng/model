@@ -53,6 +53,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/08 10:47 --- 2020/5/08 18:54 code-fusheng 后端模版 --- 添加了以POI为基础的excel表格导入导出工具,实现了后台的日志导出
  * @Data: 2020/5/11 15:57 --- 2020/5/11 17:33 code-fusheng 后端模版 --- 添加了Redis缓存的配置，实现了Mybatis-Plus的二级缓存
  * @Data: 2020/5/13 11:34 --- 2020/5/13 23:39 code-fusheng 后端模版 --- 稍微完善了用户角色权限的相关功能
+ * @Data: 2020/5/14 12:31 --- 2020/5/14 11:55 code-fusheng 后端模版 --- 添加了文章和分类的实体以及查询操作，添加了Elasticsearch依赖
  *
  *
  */

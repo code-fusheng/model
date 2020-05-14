@@ -21,7 +21,7 @@
     </select>
 
     <select id="getByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="xyz.fusheng.model.core.entity.User">
-        select user_id, username, header, created_time, update_time, is_enabled from sys_user
+        select user_id, username, header, signature, description, realname, address, created_time, update_time, is_enabled from sys_user
         where is_deleted = 0
         <if test="params.username!=null and params.username!=''">
             and username like concat('%', #{params.username}, '%')

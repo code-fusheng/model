@@ -33,4 +33,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         page.setTotalCount(totalCount);
         return page;
     }
+
+    @Override
+    public List<Menu> getMenuListByRoleId(Long id) {
+        List<Menu> menuList = menuMapper.getMenuListByRoleId(id);
+        return menuList;
+    }
 }

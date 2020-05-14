@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Menu;
 
+import java.util.List;
+
 public interface MenuService extends IService<Menu> {
     /**
      * 多条件分页查询
@@ -17,4 +19,11 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     Page<Menu> getByPage(Page<Menu> page);
+
+    /**
+     * 根据角色id查询权限列表
+     * @param id
+     * @return
+     */
+    List<Menu> getMenuListByRoleId(Long id);
 }
