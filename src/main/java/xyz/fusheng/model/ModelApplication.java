@@ -55,6 +55,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/13 11:34 --- 2020/5/13 23:39 code-fusheng 后端模版 --- 稍微完善了用户角色权限的相关功能
  * @Data: 2020/5/14 12:31 --- 2020/5/14 11:55 code-fusheng 后端模版 --- 添加了文章和分类的实体以及查询操作，添加了Elasticsearch依赖
  * @Data: 2020/5/15 00:12 --- 2020/5/15 01:19 code-fusheng 文章模块 --- 运用MyBatisPlus的条件构造器实现了文章模块的部分功能
+ * @Data: 2020/5/15 10:27 --- 2020/5/15 16:04 code-fusheng 后端模版 --- 编写了 Elasticsearch 相关操作的测试类，实现CRUD以及目标字段高亮显示
  *
  *
  */

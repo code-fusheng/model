@@ -66,10 +66,6 @@ spring:
         max-wait: 200
   cache:
     type: redis
-#  data:
-#    elasticsearch:
-#      cluster-nodes:
-
 #以下为Mybatis-plus的配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
