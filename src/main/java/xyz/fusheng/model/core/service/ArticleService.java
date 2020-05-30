@@ -33,6 +33,12 @@ public interface ArticleService extends IService<Article> {
     List<ArticleVo> getList();
 
     /**
+     * 根据id查询 ArticleVo
+     * @return
+     */
+    ArticleVo getById(Long id);
+
+    /**
      * 根据id逻辑删除
      * @param id
      */

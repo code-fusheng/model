@@ -75,6 +75,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public ArticleVo getById(Long id) {
+        return articleMapper.getById(id);
+    }
+
+    @Override
     public void deleteById(Long id) {
         articleMapper.deleteById(id);
     }

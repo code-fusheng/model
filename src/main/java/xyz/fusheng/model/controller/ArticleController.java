@@ -102,10 +102,21 @@ public class ArticleController {
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @PostMapping("/getList")
+    @GetMapping("/getList")
     public Result<List<ArticleVo>> getList(){
         List<ArticleVo> articleVoList = articleService.getList();
         return new Result<>("操作成功: 分页查询文章！", articleVoList);
+    }
+
+    /**
+     * 根据id查询 - 查
+     * @param id
+     * @return
+     */
+    @GetMapping("/get/{id}")
+    public Result<ArticleVo> getById(@PathVariable("id") Long id){
+        ArticleVo articleVo = articleService.getById(id);
+        return new Result<>("操作成功: 查询文章！", articleVo);
     }
 
 
@@ -143,7 +154,7 @@ public class ArticleController {
     }
 
     /**
-     * 高亮搜索
+     * 高亮搜索 - 查
      * @return
      * @throws IOException
      */

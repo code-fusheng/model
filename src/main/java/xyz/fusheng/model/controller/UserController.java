@@ -1,8 +1,6 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +9,6 @@ import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
-import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.entity.UserRole;
 import xyz.fusheng.model.core.service.UserService;
@@ -63,16 +60,6 @@ public class UserController {
         userRole.setRoleId(2L);
         userRoleService.save(userRole);
         return new Result<>("注册成功！");
-    }
-
-    /**
-     * 获取用户列表 - 查
-     * @Return Result<List<User>> 用户列表
-     */
-    @GetMapping("/list")
-    public Result<List<User>> list(){
-        List<User> userList = userService.list();
-        return new Result<>("操作成功: 用户列表！", userList);
     }
 
     /**
@@ -140,6 +127,16 @@ public class UserController {
     public Result<User> getById(@PathVariable("id") Long id){
         User user = userService.getById(id);
         return new Result<>("操作成功: 查询用户！", user);
+    }
+
+    /**
+     * 获取用户列表 - 查
+     * @Return Result<List<User>> 用户列表
+     */
+    @GetMapping("/list")
+    public Result<List<User>> list(){
+        List<User> userList = userService.list();
+        return new Result<>("操作成功: 用户列表！", userList);
     }
 
     /**

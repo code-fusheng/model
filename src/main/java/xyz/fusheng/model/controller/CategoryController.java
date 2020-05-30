@@ -1,10 +1,7 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -29,6 +26,16 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    /**
+     * 查询所有分类 - 查
+     * @return
+     */
+    @GetMapping("/getList")
+    public Result<List<Category>> getList() {
+        List<Category> categoryList =categoryService.list();
+        return new Result<>("操作成功: 查询所有分类！", categoryList);
+    }
 
     /**
      * 多条件分页查询

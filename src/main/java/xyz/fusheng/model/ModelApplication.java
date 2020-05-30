@@ -36,6 +36,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -61,7 +62,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/15 10:27 --- 2020/5/15 16:04 code-fusheng 后端模版 --- 编写了 Elasticsearch 相关操作的测试类，实现CRUD以及目标字段高亮显示
  * @Data: 2020/5/30 14:10 --- 2020/5/30 14:11 code-fusheng 文章模块 --- 补充提交浅一短时间添加的文章分类内容
  * @Data: 2020/5/30 14:14 --- 2020/5/30 15:07 code-fusheng 后端模版 --- 优化高级模版的MyBaitsPlus语法
- * @Data: 2020/5/30 15:07 --- 2020/5/30 17:10 code-fusheng 文章模块 --- 优化了文章模块的相关逻辑，修复了乐观锁与逻辑删除问题，添加了简单搜索的功能
+ * @Data: 2020/5/30 15:07 --- 2020/5/30 17:10 code-fusheng 文章模块 --- 优化了文章模块的相关逻辑，修复了乐观锁（@Version）与逻辑删除（@TableLogic）问题，添加了简单搜索的功能
+ * @Data: 2020/5/31 02:21 --- 2020/5/31 04:38 code-fusheng 用户模块 --- 完善了用户信息的查询，修复了前后端用户信息交互问题 admin/info（前后台）
+ * @Data: 2020/5/31 02:21 --- 2020/5/31 04:38 code-fusheng 文章模块 --- 完善了文章模块的相关接口，关于数据CRUD后的正确性有待加强，添加了Elasticsearch定时同步功能，初步封装了搜索接口
  *
  *
  *
@@ -70,6 +73,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @MapperScan("xyz.fusheng.model.core.mapper")
 @EnableCaching
+@EnableScheduling
 public class ModelApplication {
 
     public static void main(String[] args) {

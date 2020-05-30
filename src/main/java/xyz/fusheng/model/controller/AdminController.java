@@ -1,6 +1,7 @@
 
 package xyz.fusheng.model.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,8 +42,10 @@ public class AdminController {
      */
     @GetMapping("/info")
     public Result<Object> info(){
-        SelfUser userDetails = (SelfUser) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
-        return new Result<>("操作成功: 当前用户信息！", userDetails);
+        SelfUser selfUser = (SelfUser) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+        User user = userService.getById(selfUser.getUserId());
+        selfUser.setHeader(user.getHeader());
+        return new Result<>("操作成功: 当前用户信息！", selfUser);
     }
 
     /**

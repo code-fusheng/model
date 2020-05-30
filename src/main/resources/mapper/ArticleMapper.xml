@@ -61,6 +61,14 @@
                             left join sys_user as  u on a.author_id = u.user_id
         where a.is_deleted = 0 and c.is_deleted = 0
     </select>
+    <!-- 根据id查询 ArticleVo -->
+    <select id="getById" resultType="xyz.fusheng.model.core.vo.ArticleVo" parameterType="java.lang.Long">
+        select
+        a.*, c.category_name, u.username as authorName, u.header
+        from m_article as a left join m_category as c on c.category_id = a.article_category
+                            left join sys_user as  u on a.author_id = u.user_id
+        where a.is_deleted = 0 and c.is_deleted = 0 and a.article_id = #{id}
+    </select>
 
 
 </mapper>

@@ -38,4 +38,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return
      */
     List<ArticleVo> getList();
+
+    /**
+     * 根据id查询 ArticleVo
+     * @param id
+     * @return
+     */
+    ArticleVo getById(Long id);
 }
