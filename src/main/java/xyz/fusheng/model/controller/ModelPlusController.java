@@ -31,7 +31,7 @@ public class ModelPlusController {
     private ModelPlusService modelPlusService;
 
     /**
-     * 添加模型 管理员
+     * 添加模型 - 增 - 管理员
      * @param modelPlus
      * @return
      */
@@ -43,20 +43,32 @@ public class ModelPlusController {
     }
 
     /**
-     * 根据id删除 物理删除 管理员
+     * 根据id删除模型 - 删【逻辑删除】- 管理员
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping("/deleteById/{id}")
+    public Result<Object> deleteById(@PathVariable("id") Long id){
+        modelPlusService.deleteById(id);
+        return new Result<>("操作成功: 删除模型！");
+    }
+
+    /**
+     * 根据id删除 - 删【物理删除】 - 管理员
      * @param id
      * @return
      */
     @CacheEvict(cacheNames = "modelPlus",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @DeleteMapping("/deleteById/{id}")
-    public Result<Object> deleteById(@PathVariable("id") Long id){
+    @DeleteMapping("/ruleDeleteById/{id}")
+    public Result<Object> ruleDeleteById(@PathVariable("id") Long id){
         modelPlusService.removeById(id);
         return new Result<>("操作成功: 删除模型！");
     }
 
     /**
-     * 修改
+     * 修改模版 - 改 - 管理员
      * @param modelPlus
      * @return
      */
@@ -69,7 +81,7 @@ public class ModelPlusController {
     }
 
     /**
-     * 根据id查询
+     * 根据id查询 - 查 - 管理员
      * @param id
      * @return
      */
@@ -82,7 +94,7 @@ public class ModelPlusController {
     }
 
     /**
-     * 查询所有模型
+     * 查询所有模型 - 查 -管理员
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -93,7 +105,7 @@ public class ModelPlusController {
     }
 
     /**
-     * 多条件分页查询
+     * 多条件分页查询 - 查 - 管理员
      * @param page
      * @return
      */
@@ -116,6 +128,30 @@ public class ModelPlusController {
         }
         page = modelPlusService.getByPage(page);
         return new Result<>("操作成功: 分页查询模型！", page);
+    }
+
+    /**
+     * 启用 - 改 - 管理员
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/enable/{id}")
+    public Result<Object> enable(@PathVariable("id") Long id) {
+        modelPlusService.enableById(id);
+        return new Result<>("操作成功: 启用模版！");
+    }
+
+    /**
+     * 弃用 - 改 - 管理员
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/disable/{id}")
+    public Result<Object> disable(@PathVariable("id") Long id) {
+        modelPlusService.disableById(id);
+        return new Result<>("操作成功: 弃用模版！");
     }
 
 }

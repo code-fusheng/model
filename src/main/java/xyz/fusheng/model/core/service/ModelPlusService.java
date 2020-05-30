@@ -22,4 +22,22 @@ public interface ModelPlusService extends IService<ModelPlus> {
      * @return
      */
     Page<ModelPlus> getByPage(Page<ModelPlus> page);
+
+    /**
+     * 根据id逻辑删除
+     * @param id
+     */
+    void deleteById(Long id);
+
+    /**
+     * 根据id启用
+     * @param id
+     */
+    void enableById(Long id);
+
+    /**
+     * 根据id弃用
+     * @param id
+     */
+    void disableById(Long id);
 }

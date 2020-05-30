@@ -20,6 +20,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -28,6 +29,7 @@ import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,7 +39,9 @@ import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.service.ArticleService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
@@ -222,6 +226,24 @@ class ModelApplicationTests {
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         // 7、测试输出
         System.out.println(searchResponse);
-
+        //解析结果
+        ArrayList<Map<String,Object>> list = new ArrayList<>();
+        for (SearchHit doc:searchResponse.getHits().getHits()){
+            // 解析高亮字段
+            Map<String, HighlightField> highlightFields = doc.getHighlightFields();
+            HighlightField articleTitle = highlightFields.get("articleTitle");
+            // 解析原来的结果
+            Map<String, Object> sourceAsMap = doc.getSourceAsMap();  //原来的结果
+            if(articleTitle!=null){
+                Text[] fragments = articleTitle.fragments();
+                String n_articleTitle="";
+                for (Text res:fragments){
+                    n_articleTitle += res;
+                }
+                sourceAsMap.put("articleTitle",n_articleTitle);  //将原来的替换为高亮的
+            }
+            list.add(sourceAsMap);
+        }
+        System.out.println(list);
     }
 }

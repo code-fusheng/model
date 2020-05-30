@@ -9,6 +9,9 @@ spring:
     url: jdbc:mysql://cdb-csnz8qhs.cd.tencentcdb.com:10087/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     username: root
     password: code-fusheng
+    #      url: jdbc:mysql://127.0.0.1:3306/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    #      username: root
+    #      password: sa123
     # 可以不配置，根据url自动识别，建议配置
     driver-class-name: com.mysql.cj.jdbc.Driver
     #以下为druid的配置
@@ -73,6 +76,9 @@ mybatis-plus:
   # 以下配置均有默认值,可以不设置
   global-config:
     db-config:
+      #逻辑删除
+      logic-not-delete-value: 0
+      logic-delete-value: 1
       #主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
       id-type: AUTO
       #字段策略 IGNORED:"忽略判断"  NOT_NULL:"非 NULL 判断")  NOT_EMPTY:"非空判断"

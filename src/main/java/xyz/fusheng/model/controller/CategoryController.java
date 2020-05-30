@@ -52,5 +52,4 @@ public class CategoryController {
         page = categoryService.getByPage(page);
         return new Result<>("操作成功: 分页查询分类！", page);
     }
-
 }

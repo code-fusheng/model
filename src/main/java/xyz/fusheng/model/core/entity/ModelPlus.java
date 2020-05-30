@@ -7,10 +7,7 @@
 package xyz.fusheng.model.core.entity;
 
 
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -49,6 +46,7 @@ public class ModelPlus implements Serializable {
     /**
      * 乐观锁
      */
+    @Version
     private Integer version;
 
     /**

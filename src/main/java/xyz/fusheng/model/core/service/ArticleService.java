@@ -1,10 +1,13 @@
 package xyz.fusheng.model.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.elasticsearch.action.search.SearchResponse;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.vo.ArticleVo;
+
+import java.io.IOException;
 
 /**
  * @FileName: ArticleService
@@ -26,17 +29,35 @@ public interface ArticleService extends IService<Article> {
      * 根据id逻辑删除
      * @param id
      */
-    void deleteById(Integer id);
+    void deleteById(Long id);
 
     /**
      * 启用
      * @param id
      */
-    void enableById(Integer id);
+    void enableById(Long id);
 
     /**
      * 弃用
      * @param id
      */
-    void disableById(Integer id);
+    void disableById(Long id);
+
+    /**
+     * 根据id阅读
+     * @param id
+     * @return
+     */
+    ArticleVo readById(Long id);
+
+    /**
+     * 高亮搜索
+     * @param keyword
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws IOException
+     */
+    SearchResponse searchPageHighlightBuilder(String keyword, int pageNo, int pageSize) throws IOException;
+
 }

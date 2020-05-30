@@ -25,6 +25,16 @@ public class Page<T> implements Serializable {
     private static final String SORT_DESC = "desc";
 
     /**
+     * 关键字 搜索条件
+     */
+    private String keyword;
+
+    /**
+     * 搜索字段
+     */
+    private String[] keyColumns;
+
+    /**
      * 当前页
      */
     private Integer currentPage = 1;
@@ -32,7 +42,7 @@ public class Page<T> implements Serializable {
     /**
      * 每页显示条数
      */
-    private Integer pageSize = 20;
+    private Integer pageSize = 10;
 
     /**
      * 总页数
