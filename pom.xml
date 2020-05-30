@@ -60,11 +60,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- MybatisPlus 核心库 -->
+        <!-- MyBatisPlus 依赖 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.0</version>
+            <version>3.3.1.tmp</version>
         </dependency>
         <!-- 引入阿里数据库连接池 -->
         <dependency>

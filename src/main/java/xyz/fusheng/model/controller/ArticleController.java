@@ -44,7 +44,7 @@ public class ArticleController {
      */
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Article article){
-        article.setArticleAuthor(SecurityUtil.getUserName());
+        article.setAuthorId(SecurityUtil.getUserId());
         articleService.save(article);
         return new Result<>("操作成功: 添加文章！");
     }
@@ -54,7 +54,7 @@ public class ArticleController {
      * @param id
      * @return
      */
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
         articleService.deleteById(id);
         return new Result<>("操作成功: 删除文章！");
@@ -67,6 +67,8 @@ public class ArticleController {
      */
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Article article){
+        // 修改时先查询数据
+        article.setVersion(articleService.getById(article.getArticleId()).getVersion());
         articleService.updateById(article);
         return new Result<>("操作成功: 更新文章!");
     }
@@ -93,6 +95,19 @@ public class ArticleController {
         page = articleService.getByPage(page);
         return new Result<>("操作成功: 分页查询文章！", page);
     }
+
+    /**
+     * 查询所有 - 查
+     * @param
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping("/getList")
+    public Result<List<ArticleVo>> getList(){
+        List<ArticleVo> articleVoList = articleService.getList();
+        return new Result<>("操作成功: 分页查询文章！", articleVoList);
+    }
+
 
     /**
      * 启用 - 改

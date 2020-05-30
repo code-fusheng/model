@@ -60,6 +60,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/15 00:12 --- 2020/5/15 01:19 code-fusheng 文章模块 --- 运用MyBatisPlus的条件构造器优化了文章模块的部分功能
  * @Data: 2020/5/15 10:27 --- 2020/5/15 16:04 code-fusheng 后端模版 --- 编写了 Elasticsearch 相关操作的测试类，实现CRUD以及目标字段高亮显示
  * @Data: 2020/5/30 14:10 --- 2020/5/30 14:11 code-fusheng 文章模块 --- 补充提交浅一短时间添加的文章分类内容
+ * @Data: 2020/5/30 14:14 --- 2020/5/30 15:07 code-fusheng 后端模版 --- 优化高级模版的MyBaitsPlus语法
+ * @Data: 2020/5/30 15:07 --- 2020/5/30 17:10 code-fusheng 文章模块 --- 优化了文章模块的相关逻辑，修复了乐观锁与逻辑删除问题，添加了简单搜索的功能
+ *
  *
  *
  */

@@ -21,8 +21,10 @@ import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.entity.Category;
+import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.mapper.ArticleMapper;
 import xyz.fusheng.model.core.mapper.CategoryMapper;
+import xyz.fusheng.model.core.mapper.UserMapper;
 import xyz.fusheng.model.core.service.ArticleService;
 import xyz.fusheng.model.core.vo.ArticleVo;
 
@@ -48,6 +50,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Resource
     private CategoryMapper categoryMapper;
 
+    @Resource
+    private UserMapper userMapper;
+
     //面向对象操作
     @Autowired
     @Qualifier("restHighLevelClient")  //如定义的名称与配置文件一直则不需要这个
@@ -65,11 +70,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public List<ArticleVo> getList() {
+        return articleMapper.getList();
+    }
+
+    @Override
     public void deleteById(Long id) {
-        UpdateWrapper<Article> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.lambda().eq(Article::getArticleId, id);
-        updateWrapper.lambda().set(Article::getIsDeleted, StateEnums.DELETED.getCode());
-        articleMapper.update(null, updateWrapper);
+        articleMapper.deleteById(id);
     }
 
     @Override
@@ -100,6 +107,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 查询分类
         Category category = categoryMapper.selectById(article.getArticleCategory());
         articleVo.setCategoryName(category.getCategoryName());
+        // 根据作者id 查询头像、作者名
+        User user = userMapper.selectById(article.getAuthorId());
+        articleVo.setAuthorName(user.getUsername());
+        articleVo.setHeader(user.getHeader());
         return articleVo;
     }
 

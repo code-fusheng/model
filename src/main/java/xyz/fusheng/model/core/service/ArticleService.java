@@ -8,6 +8,7 @@ import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.vo.ArticleVo;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @FileName: ArticleService
@@ -24,6 +25,12 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Page<ArticleVo> getByPage(Page<ArticleVo> page);
+
+    /**
+     * 查询所有 ArticleVo
+     * @return
+     */
+    List<ArticleVo> getList();
 
     /**
      * 根据id逻辑删除

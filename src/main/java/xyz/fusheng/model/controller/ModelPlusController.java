@@ -7,7 +7,6 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +17,7 @@ import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.entity.ModelPlus;
+import xyz.fusheng.model.core.mapper.ModelPlusMapper;
 import xyz.fusheng.model.core.service.ModelPlusService;
 
 import java.util.Arrays;
@@ -51,19 +51,6 @@ public class ModelPlusController {
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
         modelPlusService.deleteById(id);
-        return new Result<>("操作成功: 删除模型！");
-    }
-
-    /**
-     * 根据id删除 - 删【物理删除】 - 管理员
-     * @param id
-     * @return
-     */
-    @CacheEvict(cacheNames = "modelPlus",key = "#id")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @DeleteMapping("/ruleDeleteById/{id}")
-    public Result<Object> ruleDeleteById(@PathVariable("id") Long id){
-        modelPlusService.removeById(id);
         return new Result<>("操作成功: 删除模型！");
     }
 

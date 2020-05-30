@@ -37,6 +37,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.annotation.RequestParam;
 import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.service.ArticleService;
+import xyz.fusheng.model.core.vo.ArticleVo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
-class ModelApplicationTests {
+class ElasticsearchTests {
 
     @Autowired
     private ArticleService articleService;
@@ -145,27 +146,6 @@ class ModelApplicationTests {
         System.out.println(response.status());
     }
 
-    //批量处理数据(全量同步)
-    @Test
-    void testBulkRequest() throws IOException {
-        BulkRequest request = new BulkRequest();
-        request.timeout("10s");
-
-        // 获取数据库的article数据
-        List<Article> articleList = articleService.list();
-        for(int i = 0; i < articleList.size(); i++){
-            request.add(
-                    new IndexRequest("article_index")
-                    .id(""+i)
-                    .source(JSON.toJSONString(articleList.get(i)), XContentType.JSON)
-            );
-        }
-        // 客户端执行请求
-        BulkResponse responses = client.bulk(request, RequestOptions.DEFAULT);
-        // 返回是否失败状态
-        System.out.println(responses.hasFailures());
-    }
-
     //查询
     @Test
     void testSearch() throws IOException {
@@ -245,5 +225,25 @@ class ModelApplicationTests {
             list.add(sourceAsMap);
         }
         System.out.println(list);
+    }
+
+    //批量处理数据(全量同步)
+    @Test
+    void testBulkRequest() throws IOException {
+        BulkRequest request = new BulkRequest();
+        request.timeout("10s");
+        // 获取数据库的article数据
+        List<ArticleVo> articleVoList = articleService.getList();
+        for(ArticleVo articleVo : articleVoList) {
+            request.add(
+                    new IndexRequest("model_article_index")
+                            .id(""+articleVo.getArticleId())
+                            .source(JSON.toJSONString(articleVo), XContentType.JSON)
+            );
+        }
+        // 客户端执行请求
+        BulkResponse responses = client.bulk(request, RequestOptions.DEFAULT);
+        // 返回是否失败状态
+        System.out.println(responses.hasFailures());
     }
 }

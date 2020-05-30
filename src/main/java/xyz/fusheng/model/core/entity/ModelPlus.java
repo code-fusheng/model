@@ -57,5 +57,6 @@ public class ModelPlus implements Serializable {
     /**
      * 是否删除，0否1是 默认0
      */
+    @TableLogic
     private Integer isDeleted;
 }

@@ -38,14 +38,6 @@ public class ModelPlusServiceImpl extends ServiceImpl<ModelPlusMapper, ModelPlus
     }
 
     @Override
-    public void deleteById(Long id) {
-        UpdateWrapper<ModelPlus> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.lambda().eq(ModelPlus::getModelPlusId, id);
-        updateWrapper.lambda().set(ModelPlus::getIsDeleted, StateEnums.DELETED.getCode());
-        modelPlusMapper.update(null, updateWrapper);
-    }
-
-    @Override
     public void enableById(Long id) {
         UpdateWrapper<ModelPlus> updateWrapper = new UpdateWrapper<>();
         updateWrapper.lambda().eq(ModelPlus::getModelPlusId, id);
@@ -59,5 +51,10 @@ public class ModelPlusServiceImpl extends ServiceImpl<ModelPlusMapper, ModelPlus
         updateWrapper.lambda().eq(ModelPlus::getModelPlusId, id);
         updateWrapper.lambda().set(ModelPlus::getIsEnabled, StateEnums.NOT_ENABLE.getCode());
         modelPlusMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        modelPlusMapper.deleteById(id);
     }
 }

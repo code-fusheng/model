@@ -32,4 +32,10 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return
      */
     int getCountByPage(Page<ArticleVo> page);
+
+    /**
+     * 查询所有 ArticleVo
+     * @return
+     */
+    List<ArticleVo> getList();
 }

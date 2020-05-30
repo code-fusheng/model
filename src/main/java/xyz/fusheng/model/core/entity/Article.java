@@ -3,6 +3,7 @@ package xyz.fusheng.model.core.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -33,9 +34,9 @@ public class Article implements Serializable {
     private String articleTitle;
 
     /**
-     * 文章作者
+     * 作者id
      */
-    private String articleAuthor;
+    private Long authorId;
 
     /**
      * 文章封面
@@ -100,6 +101,7 @@ public class Article implements Serializable {
     /**
      * 乐观锁
      */
+    @Version
     private Integer version;
 
     /**
@@ -110,6 +112,7 @@ public class Article implements Serializable {
     /**
      * 是否删除，0否1是 默认0
      */
+    @TableLogic
     private Integer isDeleted;
 
 }

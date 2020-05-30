@@ -12,14 +12,15 @@
     <!-- 分页查询 -->
     <select id="getByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="xyz.fusheng.model.core.vo.ArticleVo">
         select
-        a.*, c.category_name
+        a.*, c.category_name, u.username as authorName, u.header
         from m_article as a left join m_category as c on c.category_id = a.article_category
+                            left join sys_user as  u on a.author_id = u.user_id
         where a.is_deleted = 0 and c.is_deleted = 0
         <if test="params.articleTitle!=null and params.articleTitle!=''">
             and a.article_title like CONCAT('%', #{params.articleTitle}, '%')
         </if>
         <if test="params.articleAuthor!=null and params.articleAuthor!=''">
-            and a.article_author like CONCAT('%', #{params.articleAuthor}, '%')
+            and u.username like CONCAT('%', #{params.articleAuthor}, '%')
         </if>
         <if test="params.articleCategory!=null and params.articleCategory!=''">
             and a.article_category = #{params.articleCategory}
@@ -37,9 +38,13 @@
         select
         count(*)
         from m_article as a left join m_category as c on c.category_id = a.article_category
+        left join sys_user as  u on a.article_id = u.user_id
         where a.is_deleted = 0 and c.is_deleted = 0
         <if test="params.articleTitle!=null and params.articleTitle!=''">
             and a.article_title like CONCAT('%', #{params.articleTitle}, '%')
+        </if>
+        <if test="params.articleAuthor!=null and params.articleAuthor!=''">
+            and u.username like CONCAT('%', #{params.articleAuthor}, '%')
         </if>
         <if test="params.articleCategory!=null and params.articleCategory!=''">
             and a.article_category = #{params.articleCategory}
@@ -47,6 +52,14 @@
         <if test="params.articleTime!=null">
             and created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
         </if>
+    </select>
+    <!-- 查询所有 ArticleVo -->
+    <select id="getList" resultType="xyz.fusheng.model.core.vo.ArticleVo">
+        select
+        a.*, c.category_name, u.username as authorName, u.header
+        from m_article as a left join m_category as c on c.category_id = a.article_category
+                            left join sys_user as  u on a.author_id = u.user_id
+        where a.is_deleted = 0 and c.is_deleted = 0
     </select>
 
 
