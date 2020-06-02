@@ -39,4 +39,8 @@
             and created_time between #{params.categoryTime[0],jdbcType=TIMESTAMP} and #{params.categoryTime[1],jdbcType=TIMESTAMP}
         </if>
     </select>
+    <!-- 根据分类id 获取该分类的文章数量 -->
+    <select id="getArticleCountByCategoryId" resultType="java.lang.Integer">
+        select count(*) from m_article where article_category = #{categoryId} and is_deleted = 0
+    </select>
 </mapper>

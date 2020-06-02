@@ -26,7 +26,7 @@
             and a.article_category = #{params.articleCategory}
         </if>
         <if test="params.articleTime!=null">
-            and created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
+            and a.created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
         </if>
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
@@ -50,7 +50,7 @@
             and a.article_category = #{params.articleCategory}
         </if>
         <if test="params.articleTime!=null">
-            and created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
+            and a.created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
         </if>
     </select>
     <!-- 查询所有 ArticleVo -->

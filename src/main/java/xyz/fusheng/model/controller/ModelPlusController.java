@@ -59,10 +59,10 @@ public class ModelPlusController {
      * @param modelPlus
      * @return
      */
-    @CachePut(cacheNames = "modelPlus",key = "#modelPlus.modelPlusId")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody ModelPlus modelPlus){
+        modelPlus.setVersion(modelPlusService.getById(modelPlus.getModelPlusId()).getVersion());
         modelPlusService.updateById(modelPlus);
         return new Result<>("操作成功: 修改模版!");
     }
@@ -72,7 +72,6 @@ public class ModelPlusController {
      * @param id
      * @return
      */
-    @Cacheable(cacheNames = "modelPlus",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("getById/{id}")
     public Result<ModelPlus> getById(@PathVariable("id") Long id){

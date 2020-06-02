@@ -45,7 +45,7 @@ public class ArticleController {
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Article article){
         article.setAuthorId(SecurityUtil.getUserId());
-        articleService.save(article);
+        articleService.saveArticleAndUpdateCategory(article);
         return new Result<>("操作成功: 添加文章！");
     }
 
@@ -54,6 +54,7 @@ public class ArticleController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
         articleService.deleteById(id);
@@ -67,9 +68,9 @@ public class ArticleController {
      */
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Article article){
-        // 修改时先查询数据
+        // 修改时先查询数据 获取 version 字段
         article.setVersion(articleService.getById(article.getArticleId()).getVersion());
-        articleService.updateById(article);
+        articleService.updateArticleAndCategory(article);
         return new Result<>("操作成功: 更新文章!");
     }
 
@@ -78,7 +79,6 @@ public class ArticleController {
      * @param page
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/getByPage")
     public Result<Page<ArticleVo>> getByPage(@RequestBody Page<ArticleVo> page){
         String sortColumn = page.getSortColumn();
@@ -101,9 +101,8 @@ public class ArticleController {
      * @param
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @GetMapping("/getList")
-    public Result<List<ArticleVo>> getList(){
+    @GetMapping("/list")
+    public Result<List<ArticleVo>> list(){
         List<ArticleVo> articleVoList = articleService.getList();
         return new Result<>("操作成功: 分页查询文章！", articleVoList);
     }
@@ -125,6 +124,7 @@ public class ArticleController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/enable/{id}")
     public Result<Object> enable(@PathVariable("id") Long id) {
         articleService.enableById(id);
@@ -136,6 +136,7 @@ public class ArticleController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/disable/{id}")
     public Result<Object> disable(@PathVariable("id") Long id) {
         articleService.disableById(id);

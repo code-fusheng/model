@@ -6,8 +6,10 @@
  */
 package xyz.fusheng.model.core.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Category;
 import xyz.fusheng.model.core.entity.ModelPlus;
@@ -34,5 +36,26 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         int totalCount = categoryMapper.getCountByPage(page);
         page.setTotalCount(totalCount);
         return page;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        categoryMapper.deleteById(id);
+    }
+
+    @Override
+    public void enableById(Long id) {
+        UpdateWrapper<Category> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.lambda().eq(Category::getCategoryId, id);
+        updateWrapper.lambda().set(Category::getIsEnabled, StateEnums.ENABLED.getCode());
+        categoryMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    public void disableById(Long id) {
+        UpdateWrapper<Category> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.lambda().eq(Category::getCategoryId, id);
+        updateWrapper.lambda().set(Category::getIsEnabled, StateEnums.NOT_ENABLE.getCode());
+        categoryMapper.update(null, updateWrapper);
     }
 }

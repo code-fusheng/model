@@ -1,12 +1,15 @@
 package xyz.fusheng.model.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Category;
+import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.service.CategoryService;
 
 import java.util.Arrays;
@@ -28,13 +31,72 @@ public class CategoryController {
     private CategoryService categoryService;
 
     /**
+     * 添加分类 - 增 - 管理员
+     * @param category
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping("/save")
+    public Result<Object> save(@RequestBody Category category){
+        QueryWrapper<Category> wrapper = new QueryWrapper();
+        wrapper.lambda().eq(Category::getCategoryName, category.getCategoryName());
+        if( null != categoryService.getOne(wrapper) ) {
+            return new Result<>("操作失败: 已存在相同分类！");
+        }
+        categoryService.save(category);
+        return new Result<>("操作成功: 添加分类！");
+    }
+
+    /**
+     * 根据id删除分类 - 删【逻辑删除】 - 管理员
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping("/deleteById/{id}")
+    public Result<Object> deleteById(@PathVariable("id") Long id){
+        categoryService.deleteById(id);
+        return new Result<>("操作成功: 删除分类！");
+    }
+
+    /**
+     * 修改分类 - 改 - 管理员
+     * @param category
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/update")
+    public Result<Object> update(@RequestBody Category category){
+        QueryWrapper<Category> wrapper = new QueryWrapper();
+        wrapper.lambda().eq(Category::getCategoryName, category.getCategoryName());
+        if( null != categoryService.getOne(wrapper) ) {
+            return new Result<>("操作失败: 已存在相同分类！");
+        }
+        category.setVersion(categoryService.getById(category.getCategoryId()).getVersion());
+        categoryService.updateById(category);
+        return new Result<>("操作成功: 修改分类!");
+    }
+
+    /**
+     * 根据id查询 - 查 - 管理员
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("getById/{id}")
+    public Result<Category> getById(@PathVariable("id") Long id){
+        Category category = categoryService.getById(id);
+        return new Result<>("操作成功: 查询分类！", category);
+    }
+
+    /**
      * 查询所有分类 - 查
      * @return
      */
-    @GetMapping("/getList")
-    public Result<List<Category>> getList() {
+    @GetMapping("/list")
+    public Result<List<Category>> list() {
         List<Category> categoryList =categoryService.list();
-        return new Result<>("操作成功: 查询所有分类！", categoryList);
+        return new Result<>("操作成功: 查询分类列表！", categoryList);
     }
 
     /**
@@ -58,5 +120,29 @@ public class CategoryController {
         }
         page = categoryService.getByPage(page);
         return new Result<>("操作成功: 分页查询分类！", page);
+    }
+
+    /**
+     * 启用 - 改 - 管理员
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/enable/{id}")
+    public Result<Object> enable(@PathVariable("id") Long id) {
+        categoryService.enableById(id);
+        return new Result<>("操作成功: 启用分类！");
+    }
+
+    /**
+     * 弃用 - 改 - 管理员
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/disable/{id}")
+    public Result<Object> disable(@PathVariable("id") Long id) {
+        categoryService.disableById(id);
+        return new Result<>("操作成功: 弃用分类！");
     }
 }

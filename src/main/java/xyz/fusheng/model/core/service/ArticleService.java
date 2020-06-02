@@ -19,6 +19,20 @@ import java.util.List;
  */
 
 public interface ArticleService extends IService<Article> {
+
+    /**
+     * 保存文章 并且更新分类数
+     * @param article
+     * @return
+     */
+    void saveArticleAndUpdateCategory(Article article);
+
+    /**
+     * 修改文章 并且更新分类数
+     * @param article
+     */
+    void updateArticleAndCategory(Article article);
+
     /**
      * 多条件分页查询
      * @param page
@@ -72,5 +86,7 @@ public interface ArticleService extends IService<Article> {
      * @throws IOException
      */
     SearchResponse searchPageHighlightBuilder(String keyword, int pageNo, int pageSize) throws IOException;
+
+
 
 }

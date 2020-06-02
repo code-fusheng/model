@@ -65,6 +65,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/5/30 15:07 --- 2020/5/30 17:10 code-fusheng 文章模块 --- 优化了文章模块的相关逻辑，修复了乐观锁（@Version）与逻辑删除（@TableLogic）问题，添加了简单搜索的功能
  * @Data: 2020/5/31 02:21 --- 2020/5/31 04:38 code-fusheng 用户模块 --- 完善了用户信息的查询，修复了前后端用户信息交互问题 admin/info（前后台）
  * @Data: 2020/5/31 02:21 --- 2020/5/31 04:38 code-fusheng 文章模块 --- 完善了文章模块的相关接口，关于数据CRUD后的正确性有待加强，添加了Elasticsearch定时同步功能，初步封装了搜索接口
+ * @Data: 2020/6/02 06:25 --- 2020/6/02 16:21 code-fusheng 文章模块 --- 完善了文章模块中文章和分类之间的逻辑，保证了数据的正确性（同期实现了对应的后台页面）
  *
  *
  *

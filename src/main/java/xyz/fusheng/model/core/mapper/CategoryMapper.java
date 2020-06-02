@@ -29,4 +29,10 @@ public interface CategoryMapper extends BaseMapper<Category> {
      */
     int getCountByPage(Page<Category> page);
 
+    /**
+     * 根据分类id获取分类的文章量
+     * @param categoryId
+     * @return
+     */
+    int getArticleCountByCategoryId(long categoryId);
 }

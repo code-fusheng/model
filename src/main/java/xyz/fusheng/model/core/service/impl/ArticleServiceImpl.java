@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Article;
@@ -57,6 +58,46 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     @Qualifier("restHighLevelClient")  //如定义的名称与配置文件一直则不需要这个
     private RestHighLevelClient client;
+
+    /**
+     * 添加文章 并且更新对应分类的文章数 失败回滚
+     * @param article
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveArticleAndUpdateCategory(Article article) {
+        articleMapper.insert(article);
+        // 添加成功时，更新对应分类文章数
+        long categoryId = article.getArticleCategory();
+        // 根据分类id 查询该分类的文章数
+        int categoryCountForArticle = categoryMapper.getArticleCountByCategoryId(categoryId);
+        // 更新分类文章数
+        Category category = categoryMapper.selectById(categoryId);
+        category.setArticleCount(categoryCountForArticle);
+        categoryMapper.updateById(category);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateArticleAndCategory(Article article) {
+        // 获取article的旧/新分类
+        long oldCategoryId = articleMapper.getById(article.getArticleId()).getArticleCategory();
+        long newCategoryId = article.getArticleCategory();
+        // 判断是否更改了分类
+        if(oldCategoryId != newCategoryId) {
+            // int oldCategoryCountForArticle = categoryMapper.getArticleCountByCategoryId(oldCategoryId);
+            // 更新 旧分类 文章数
+            Category oldCategory = categoryMapper.selectById(oldCategoryId);
+            oldCategory.setArticleCount(oldCategory.getArticleCount() - 1);
+            categoryMapper.updateById(oldCategory);
+            // int newCategoryCountForArticle = categoryMapper.getArticleCountByCategoryId(newCategoryId);
+            // 更新 新分类 文章数
+            Category newCategory = categoryMapper.selectById(newCategoryId);
+            newCategory.setArticleCount(newCategory.getArticleCount() + 1);
+            categoryMapper.updateById(newCategory);
+        }
+        articleMapper.updateById(article);
+    }
 
     @Override
     public Page<ArticleVo> getByPage(Page<ArticleVo> page) {
