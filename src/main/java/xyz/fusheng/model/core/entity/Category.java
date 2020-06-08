@@ -25,7 +25,7 @@ public class Category implements Serializable {
      * 分类id 编号
      */
     @TableId
-    private String categoryId;
+    private Long categoryId;
 
     /**
      * 分类名称

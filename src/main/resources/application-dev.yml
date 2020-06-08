@@ -69,6 +69,11 @@ spring:
         max-wait: 200
   cache:
     type: redis
+  # 以下为 MongoDB 配置
+  data:
+    mongodb:
+      host: 175.24.45.179
+      database: model
 #以下为Mybatis-plus的配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -120,4 +125,3 @@ upload:
     - image/bmp
     - image/gif
     - audio/mpeg
-

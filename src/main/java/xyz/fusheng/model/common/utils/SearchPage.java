@@ -21,8 +21,14 @@ public class SearchPage<T> implements Serializable {
      * 输入关键字 eg:测试
      */
     private String keyword;
+
     /**
-     * 当前页号 eg:1
+     * 全文检索的字段
+     */
+    private String[] keyFields;
+
+    /**
+     * 当前页号 eg:1  注意 这里是起始页号
      */
     private Integer pageNo;
     /**
@@ -34,7 +40,7 @@ public class SearchPage<T> implements Serializable {
      */
     private String params;
     /**
-     * 索引 eg:clms_article_index
+     * 索引 eg:model_article_index
      */
     private String index;
 

@@ -17,10 +17,18 @@ public interface SearchService {
 
     /**
      * 基础高亮分页搜索
+     *
      * @param searchPage
      * @return
      * @throws IOException
      */
     SearchResponse searchPageHighlight(SearchPage searchPage) throws IOException;
 
+    /**
+     * 复杂多字段高亮搜索
+     *
+     * @param searchPage
+     * @return
+     */
+    SearchResponse searchPageHighlightWithFields(SearchPage searchPage) throws IOException;
 }

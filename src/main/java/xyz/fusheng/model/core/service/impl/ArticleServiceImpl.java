@@ -85,12 +85,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         long newCategoryId = article.getArticleCategory();
         // 判断是否更改了分类
         if(oldCategoryId != newCategoryId) {
-            // int oldCategoryCountForArticle = categoryMapper.getArticleCountByCategoryId(oldCategoryId);
             // 更新 旧分类 文章数
             Category oldCategory = categoryMapper.selectById(oldCategoryId);
             oldCategory.setArticleCount(oldCategory.getArticleCount() - 1);
             categoryMapper.updateById(oldCategory);
-            // int newCategoryCountForArticle = categoryMapper.getArticleCountByCategoryId(newCategoryId);
             // 更新 新分类 文章数
             Category newCategory = categoryMapper.selectById(newCategoryId);
             newCategory.setArticleCount(newCategory.getArticleCount() + 1);

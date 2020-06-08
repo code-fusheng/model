@@ -30,4 +30,9 @@ public class ArticleVo extends Article {
      */
     private String header;
 
+    /**
+     * 文章点赞状态标识 只用于前端判断，不做数据存储
+     */
+    private boolean goodArticleFlag = false;
+
 }
