@@ -48,4 +48,9 @@ public class SearchPage<T> implements Serializable {
      * 数据
      */
     private List<T> list;
+
+    /**
+     * 对象实体
+     */
+    private T searchEntity;
 }

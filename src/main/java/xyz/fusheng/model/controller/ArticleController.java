@@ -1,5 +1,6 @@
 package xyz.fusheng.model.controller;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.search.SearchHit;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
-import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
-import xyz.fusheng.model.common.utils.SecurityUtil;
-import xyz.fusheng.model.common.utils.StringUtils;
+import xyz.fusheng.model.common.utils.*;
 import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.service.ArticleService;
 import xyz.fusheng.model.core.vo.ArticleVo;
@@ -39,38 +37,51 @@ public class ArticleController {
 
     /**
      * 保存文章 - 增
+     *
      * @param article
      * @return
      */
     @PostMapping("/save")
-    public Result<Object> save(@RequestBody Article article){
+    public Result<Object> save(@RequestBody Article article) throws IOException {
         article.setAuthorId(SecurityUtil.getUserId());
         articleService.saveArticleAndUpdateCategory(article);
+        // String searchIndex = "model_article_index";
+        // String id = article.getArticleId().toString();
+        // SearchUtils.addDocument(searchIndex, article, id);
         return new Result<>("操作成功: 添加文章！");
     }
 
     /**
      * 根据id删除文章 - 删【逻辑删除】
+     *
      * @param id
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/deleteById/{id}")
-    public Result<Object> deleteById(@PathVariable("id") Long id){
+    public Result<Object> deleteById(@PathVariable("id") Long id) throws IOException {
         articleService.deleteById(id);
+        // String searchIndex = "model_article_index";
+        // String did = id.toString();
+        // SearchUtils.deleteDocument(searchIndex, "6");
         return new Result<>("操作成功: 删除文章！");
     }
 
     /**
      * 修改文章 - 改
+     *
      * @param article
      * @return
      */
     @PutMapping("/update")
-    public Result<Object> update(@RequestBody Article article){
+    public Result<Object> update(@RequestBody Article article) throws IOException {
         // 修改时先查询数据 获取 version 字段
         article.setVersion(articleService.getById(article.getArticleId()).getVersion());
         articleService.updateArticleAndCategory(article);
+        Article newArticle = articleService.getById(article.getArticleId());
+        // String searchIndex = "model_article_index";
+        // String id = article.getArticleId().toString();
+        // SearchUtils.updateDocument(searchIndex, newArticle, id);
         return new Result<>("操作成功: 更新文章!");
     }
 

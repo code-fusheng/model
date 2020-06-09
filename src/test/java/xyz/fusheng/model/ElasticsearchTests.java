@@ -27,7 +27,6 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -36,7 +35,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.bind.annotation.RequestParam;
 import xyz.fusheng.model.common.utils.SearchPage;
 import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.service.ArticleService;
@@ -47,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class ElasticsearchTests {
@@ -68,7 +67,7 @@ class ElasticsearchTests {
     void testCreateIndex() throws IOException {
 
         //1.创建索引请求   类似于 kibana 中的put命令
-        CreateIndexRequest request = new CreateIndexRequest("model_model_article_index");
+        CreateIndexRequest request = new CreateIndexRequest("model_article_index");
         //2.客户端执行创建请求 IndicesClient,请求后获得响应
         CreateIndexResponse createIndexResponse =
                 client.indices().create(request, RequestOptions.DEFAULT);
@@ -78,7 +77,7 @@ class ElasticsearchTests {
     //测试获取索引 判断其是否存在
     @Test
     void testExistIndex() throws IOException {
-        GetIndexRequest request = new GetIndexRequest("model_model_article_index");
+        GetIndexRequest request = new GetIndexRequest("model_article_index");
         boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
         System.out.println(exists);
     }
@@ -95,11 +94,15 @@ class ElasticsearchTests {
     @Test
     void testAddDocument() throws IOException {
         // 1、创建对象
-        Article article = articleService.getById(6L);
+        Article article = new Article();
+        article.setArticleTitle("Elasticsearch测试文章标题 - Java 测试");
+        article.setArticleDesc("这是Elasticsearch测试文章的第二篇 -  Java 测试");
+        article.setArticleId(2L);
+        String id = article.getArticleId().toString();
         // 2、创建请求
         IndexRequest request = new IndexRequest("model_article_index");
         // 3、设置规则 => put /model_article_index/_doc/1
-        request.id("2");
+        request.id(id);
         // 4、设置超时
         request.timeout(TimeValue.timeValueSeconds(1));
         request.timeout("5s");
@@ -107,7 +110,6 @@ class ElasticsearchTests {
         request.source(JSON.toJSONString(article), XContentType.JSON);
         // 6、客户端发送请求。获取响应结果
         IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
-
         System.out.println(indexResponse.toString());
         System.out.println(indexResponse.status());
     }
@@ -128,16 +130,14 @@ class ElasticsearchTests {
         // 获取请求
         UpdateRequest request = new UpdateRequest("model_article_index", "1");
         request.timeout("5s");
-
         // 修改数据
-        Article article = articleService.getById(6L);
+        Article article = new Article();
         article.setArticleTitle("Elasticsearch测试修改内容");
-        articleService.updateById(article);
+        article.setArticleDesc("这是在Java中测试Elasticsearch更新文章的测试");
         request.doc(JSON.toJSONString(article), XContentType.JSON);
-
         // 客户端执行请求
-        UpdateResponse update = client.update(request, RequestOptions.DEFAULT);
-        System.out.println(update.status());
+        UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
+        System.out.println(response.status());
     }
 
     //删除文档信息
@@ -175,17 +175,24 @@ class ElasticsearchTests {
         // 将json转换为字符串打印
         System.out.println(JSON.toJSONString(searchResponse.getHits()));
         System.out.println("======遍历======");
-        for(SearchHit res : searchResponse.getHits().getHits()){
+        for (SearchHit res : searchResponse.getHits().getHits()) {
             System.out.println(res.getSourceAsMap());
         }
     }
 
+    /**
+     * 单字段高亮查询
+     *
+     * @throws IOException
+     */
     @Test
     void searchHighlightBuilder() throws IOException {
-        String keyword = "Postman";
+        String keyword = "测试";
         int pageNo = 1;
         int pageSize = 5;
-        if(pageNo <= 1){ pageNo=1; }
+        if (pageNo <= 1) {
+            pageNo = 1;
+        }
         // 1、创建查询索引
         SearchRequest searchRequest = new SearchRequest("model_article_index");
         // 2、条件查询
@@ -239,14 +246,14 @@ class ElasticsearchTests {
     void searchHighlightWithFields() throws IOException {
         SearchPage searchPage = new SearchPage();
         searchPage.setPageNo(1);
-        searchPage.setPageSize(3);
+        searchPage.setPageSize(2);
         searchPage.setIndex("model_article_index");
-        searchPage.setKeyword("Postman");
+        searchPage.setKeyword("测试");
         searchPage.setParams("articleTitle");
         String[] fields = {"articleTitle", "articleDesc"};
         searchPage.setKeyFields(fields);
         // 1、创建查询索引
-        SearchRequest searchRequest = new SearchRequest("model_article_index");
+        SearchRequest searchRequest = new SearchRequest(searchPage.getIndex());
         // 2、条件查询
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         // 3、分页
@@ -273,7 +280,7 @@ class ElasticsearchTests {
         searchRequest.source(sourceBuilder);
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         // 7、测试输出
-        System.out.println(searchResponse);
+        // System.out.println(searchResponse);
         //解析结果
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         for (SearchHit doc : searchResponse.getHits().getHits()) {
@@ -298,7 +305,10 @@ class ElasticsearchTests {
                 list.add(sourceAsMap);
             }
         }
-        System.out.println(list);
+        // List 数组去重， 多字段查询高亮解析的时候存在数组重复的情况（优化方法未知！）
+        List newList = list.stream().distinct().collect(Collectors.toList());
+        searchPage.setList(newList);
+        System.out.println(searchPage);
     }
 
     //批量处理数据(全量同步)
@@ -335,11 +345,7 @@ class ElasticsearchTests {
         // 设置分页起始位置
         searchSourceBuilder.from(0);
         // 设置分页大小
-        searchSourceBuilder.size(10);
-        // 先按 时间createdTime 倒排
-        // searchSourceBuilder.sort(SortBuilders.fieldSort("createdTime").order(SortOrder.DESC));
-        // 再按 id 正排
-        // searchSourceBuilder.sort("articleId");
+        searchSourceBuilder.size(2);
         // 定义搜索响应
         SearchResponse searchResponse = null;
         searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
@@ -347,7 +353,7 @@ class ElasticsearchTests {
     }
 
     /**
-     * matchQuery 查询
+     * matchQuery 匹配查询
      */
     @Test
     void matchQuery() throws IOException {
@@ -365,7 +371,6 @@ class ElasticsearchTests {
         matchQueryBuilder.prefixLength(3);
         // maxExpansion 选项、用来控制模糊查询
         matchQueryBuilder.maxExpansions(10);
-
         searchSourceBuilder.from(0);
         searchSourceBuilder.size(10);
         SearchResponse searchResponse = null;

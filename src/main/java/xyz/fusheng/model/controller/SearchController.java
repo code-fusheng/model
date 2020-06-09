@@ -15,7 +15,9 @@ import xyz.fusheng.model.core.service.SearchService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @FileName: SearchController
@@ -95,7 +97,9 @@ public class SearchController {
                 list.add(sourceAsMap);
             }
         }
-        searchPage.setList(list);
+        // List 数组去重， 多字段查询高亮解析的时候存在数组重复的情况（优化方法未知！）
+        List newList = list.stream().distinct().collect(Collectors.toList());
+        searchPage.setList(newList);
         return new Result<>(searchPage);
     }
 

@@ -1,12 +1,22 @@
 package xyz.fusheng.model.common.utils;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.poi.ss.formula.functions.T;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.rest.RestStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,6 +26,7 @@ import xyz.fusheng.model.core.vo.ArticleVo;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -65,5 +76,4 @@ public class SearchUtils {
         // 返回是否失败状态
         System.out.println(responses.hasFailures());
     }
-
 }

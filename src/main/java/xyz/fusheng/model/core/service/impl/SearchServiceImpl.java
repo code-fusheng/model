@@ -67,7 +67,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public SearchResponse searchPageHighlightWithFields(SearchPage searchPage) throws IOException {
         // 1、创建查询索引
-        SearchRequest searchRequest = new SearchRequest("model_article_index");
+        SearchRequest searchRequest = new SearchRequest(searchPage.getIndex());
         // 2、条件查询
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         // 3、分页
