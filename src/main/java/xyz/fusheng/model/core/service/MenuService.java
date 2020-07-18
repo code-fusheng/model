@@ -22,8 +22,17 @@ public interface MenuService extends IService<Menu> {
 
     /**
      * 根据角色id查询权限列表
+     *
      * @param id
      * @return
      */
     List<Menu> getMenuListByRoleId(Long id);
+
+    /**
+     * 格式化权限
+     *
+     * @param id
+     * @return
+     */
+    List<Menu> getFormatMenuListByRoleId(Long id);
 }

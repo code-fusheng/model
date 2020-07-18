@@ -6,6 +6,7 @@
  */
 package xyz.fusheng.model.core.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -52,4 +53,10 @@ public class Role implements Serializable {
      * 是否删除，0否1是 默认0
      */
     private Integer isDeleted;
+
+    /**
+     * 权限列表
+     */
+    @TableField(exist = false)
+    private List<Menu> menuList;
 }

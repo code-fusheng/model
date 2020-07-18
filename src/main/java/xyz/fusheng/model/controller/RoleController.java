@@ -14,6 +14,7 @@ import xyz.fusheng.model.core.service.MenuService;
 import xyz.fusheng.model.core.service.RoleMenuService;
 import xyz.fusheng.model.core.service.RoleService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,19 +43,39 @@ public class RoleController {
      * @Return Result<List<Role>> 角色列表
      */
     @GetMapping("/list")
-    public Result<List<Role>> list(){
+    public Result<List<Role>> list() {
         List<Role> roleList = roleService.list();
+        List<Menu> menuList = new ArrayList<>(16);
+        for (Role role : roleList) {
+            menuList = menuService.getFormatMenuListByRoleId(role.getRoleId());
+            if (menuList != null) {
+                role.setMenuList(menuList);
+            }
+        }
         return new Result<>("操作成功: 角色列表！", roleList);
     }
 
     /**
      * 获取角色权限列表 - 查
+     *
      * @param id
      * @return
      */
     @GetMapping("/getMenuListByRoleId/{id}")
-    public Result<List<Menu>> getMenuListByRoleId(@PathVariable Long id){
+    public Result<List<Menu>> getMenuListByRoleId(@PathVariable Long id) {
         List<Menu> menuList = menuService.getMenuListByRoleId(id);
+        return new Result<>("操作成功: 角色权限列表！", menuList);
+    }
+
+    /**
+     * 获取角色权限列表(格式化) - 查
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/getFormatMenuListByRoleId/{id}")
+    public Result<List<Menu>> getFormatMenuListByRoleId(@PathVariable Long id) {
+        List<Menu> menuList = menuService.getFormatMenuListByRoleId(id);
         return new Result<>("操作成功: 角色权限列表！", menuList);
     }
 

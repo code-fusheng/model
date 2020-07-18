@@ -6,11 +6,13 @@
  */
 package xyz.fusheng.model.core.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @TableName("sys_menu")
@@ -41,7 +43,7 @@ public class Menu implements Serializable {
     /**
      * 权限父级id
      */
-    private Integer pid;
+    private Long pid;
 
     /**
      * 创建时间
@@ -67,4 +69,10 @@ public class Menu implements Serializable {
      * 是否删除，0否1是 默认0
      */
     private Integer isDeleted;
+
+    /**
+     * 子权限
+     */
+    @TableField(exist = false)
+    private List<Menu> childList;
 }

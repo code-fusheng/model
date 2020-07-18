@@ -109,7 +109,7 @@ public class MenuController {
         // 判断排序列不为空
         if(StringUtils.isNotBlank(sortColumn)){
             // 权限名称，权限级别，权限父级id 创建时间， 更新时间
-            String[] sortColumns = {"name", "level", "pid", "created_time", "update_time"};
+            String[] sortColumns = {"name", "menu_id", "level", "pid", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if(!sortList.contains(newSortColumn.toLowerCase())) {
                 return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");

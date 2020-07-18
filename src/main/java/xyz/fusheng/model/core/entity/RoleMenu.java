@@ -21,12 +21,24 @@ public class RoleMenu implements Serializable {
      */
     @TableId
     private Long id;
+
     /**
      * 角色ID
      */
     private Long roleId;
+
     /**
      * 权限ID
      */
     private Long menuId;
+
+    /**
+     * 模版创建时间
+     */
+    private String createdTime;
+
+    /**
+     * 模版修改时间
+     */
+    private String updateTime;
 }
