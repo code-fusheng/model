@@ -17,6 +17,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -50,7 +51,7 @@ public class SearchUtils {
      * 面向对象操作
      * 如定义的名称与配置文件一直则不需要这个
      */
-    @Resource
+    @Autowired
     @Qualifier("restHighLevelClient")
     private RestHighLevelClient client;
 

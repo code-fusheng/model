@@ -74,6 +74,15 @@ spring:
     mongodb:
       host: 175.24.45.179
       database: model
+  # RabbitMQ
+  rabbitmq:
+    host: 175.24.45.179
+    port: 5672
+    virtual-host: /model
+    username: admin
+    password: 111111
+    publisher-confirm-type: correlated #必须配置这个才会确认回调
+    publisher-returns: true
 #以下为Mybatis-plus的配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）

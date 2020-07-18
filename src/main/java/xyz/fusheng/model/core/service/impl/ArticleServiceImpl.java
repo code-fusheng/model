@@ -1,18 +1,28 @@
 package xyz.fusheng.model.core.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.slf4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,6 +52,7 @@ import java.util.concurrent.TimeUnit;
  * Description: 文章业务逻辑接口实现类
  */
 
+@Slf4j
 @Service("articleService")
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
@@ -67,6 +78,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Transactional(rollbackFor = Exception.class)
     public void saveArticleAndUpdateCategory(Article article) {
         articleMapper.insert(article);
+        ArticleVo articleDoc = articleMapper.getById(article.getArticleId());
+        IndexRequest request = new IndexRequest("model_article_index");
+        request.id(article.getArticleId().toString());
+        request.timeout("5s");
+        request.source(JSON.toJSONString(articleDoc), XContentType.JSON);
+        IndexResponse indexResponse = null;
+        try {
+            indexResponse = client.index(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assert indexResponse != null;
+            log.info("Elasticsearch状态：{}", indexResponse.status());
+        }
         // 添加成功时，更新对应分类文章数
         long categoryId = article.getArticleCategory();
         // 根据分类id 查询该分类的文章数
@@ -95,6 +120,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             categoryMapper.updateById(newCategory);
         }
         articleMapper.updateById(article);
+        ArticleVo articleDoc = articleMapper.getById(article.getArticleId());
+        UpdateRequest request = new UpdateRequest("model_article_index", articleDoc.getArticleId().toString());
+        request.timeout("5s");
+        request.doc(JSON.toJSONString(articleDoc), XContentType.JSON);
+        UpdateResponse updateResponse = null;
+        try {
+            updateResponse = client.update(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            log.info("Elasticsearch 同步状态：{}", updateResponse.status());
+        }
     }
 
     @Override
@@ -121,6 +158,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public void deleteById(Long id) {
         articleMapper.deleteById(id);
+        DeleteRequest request = new DeleteRequest("model_article_index", id.toString());
+        request.timeout("5s");
+        DeleteResponse deleteResponse = null;
+        try {
+            deleteResponse = client.delete(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            log.info("Elasticsearch 同步状态：{}", deleteResponse.status());
+        }
     }
 
     @Override
@@ -129,6 +176,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         updateWrapper.lambda().eq(Article::getArticleId, id);
         updateWrapper.lambda().set(Article::getIsEnabled, StateEnums.ENABLED.getCode());
         articleMapper.update(null, updateWrapper);
+        ArticleVo articleDoc = articleMapper.getById(id);
+        IndexRequest request = new IndexRequest("model_article_index");
+        request.id(articleDoc.getArticleId().toString());
+        request.timeout("5s");
+        request.source(JSON.toJSONString(articleDoc), XContentType.JSON);
+        IndexResponse indexResponse = null;
+        try {
+            indexResponse = client.index(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            log.info("Elasticsearch 同步状态：{}", indexResponse.status());
+        }
     }
 
     @Override
@@ -137,6 +197,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         updateWrapper.lambda().eq(Article::getArticleId, id);
         updateWrapper.lambda().set(Article::getIsEnabled, StateEnums.NOT_ENABLE.getCode());
         articleMapper.update(null, updateWrapper);
+        DeleteRequest request = new DeleteRequest("model_article_index", id.toString());
+        request.timeout("5s");
+        DeleteResponse deleteResponse = null;
+        try {
+            deleteResponse = client.delete(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            log.info("Elasticsearch 同步状态：{}", deleteResponse.status());
+        }
     }
 
     @Override
@@ -156,32 +226,5 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleVo.setAuthorName(user.getUsername());
         articleVo.setHeader(user.getHeader());
         return articleVo;
-    }
-
-    @Override
-    public SearchResponse searchPageHighlightBuilder(String keyword, int pageNo, int pageSize) throws IOException {
-        if(pageNo <= 1){ pageNo=1; }
-        // 1、创建查询索引
-        SearchRequest searchRequest = new SearchRequest("article_index");
-        // 2、条件查询
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        // 3、分页
-        sourceBuilder.from(pageNo);
-        sourceBuilder.size(pageSize);
-        // 4、精准匹配(中文)
-        MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("articleTitle", keyword);
-        sourceBuilder.query(matchQueryBuilder);
-        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
-        // 5、高亮设置(替换返回结果文本中目标值的文本内容)
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.field("articleTitle");
-        highlightBuilder.requireFieldMatch(true);
-        highlightBuilder.preTags("<span style='color:red'>");
-        highlightBuilder.postTags("</span>");
-        sourceBuilder.highlighter(highlightBuilder);
-        // 6、执行搜索
-        searchRequest.source(sourceBuilder);
-        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-        return searchResponse;
     }
 }

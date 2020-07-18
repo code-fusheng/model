@@ -88,11 +88,10 @@ public class MenuController {
      * 查询所有权限
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/list")
     public Result<List<Menu>> list(){
-        List<Menu> menues = menuService.list();
-        return new Result<>("操作成功: 权限列表！", menues);
+        List<Menu> menus = menuService.list();
+        return new Result<>("操作成功: 权限列表！", menus);
     }
 
     /**
@@ -100,7 +99,6 @@ public class MenuController {
      * @param page
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/getByPage")
     public Result<Page<Menu>> getByPage(@RequestBody Page<Menu> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列

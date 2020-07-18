@@ -12,9 +12,11 @@
     <!-- 分页查询 -->
     <select id="getByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="xyz.fusheng.model.core.vo.ArticleVo">
         select
-        a.*, c.category_name, u.username as authorName, u.header
+        a.article_id, a.article_title, a.article_image, a.article_desc, a.edit_model, a.article_category,
+        a.good_count, a.read_count, a.collection_count, a.comment_count, a.article_source, a.created_time,
+        a.update_time, a.is_enabled, c.category_name, u.username as authorName, u.header
         from m_article as a left join m_category as c on c.category_id = a.article_category
-                            left join sys_user as  u on a.author_id = u.user_id
+        left join sys_user as u on a.author_id = u.user_id
         where a.is_deleted = 0 and c.is_deleted = 0
         <if test="params.articleTitle!=null and params.articleTitle!=''">
             and a.article_title like CONCAT('%', #{params.articleTitle}, '%')

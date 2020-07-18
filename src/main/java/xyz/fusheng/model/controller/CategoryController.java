@@ -67,11 +67,6 @@ public class CategoryController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Category category){
-        QueryWrapper<Category> wrapper = new QueryWrapper();
-        wrapper.lambda().eq(Category::getCategoryName, category.getCategoryName());
-        if( null != categoryService.getOne(wrapper) ) {
-            return new Result<>("操作失败: 已存在相同分类！");
-        }
         category.setVersion(categoryService.getById(category.getCategoryId()).getVersion());
         categoryService.updateById(category);
         return new Result<>("操作成功: 修改分类!");

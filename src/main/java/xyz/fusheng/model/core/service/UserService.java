@@ -45,10 +45,25 @@ public interface UserService extends IService<User> {
 
     /**
      * 分页查询
+     *
      * @param page
      * @return
      */
     Page<User> getByPage(Page<User> page);
+
+    /**
+     * 根据id启用
+     *
+     * @param id
+     */
+    void enableById(Long id);
+
+    /**
+     * 根据id弃用
+     *
+     * @param id
+     */
+    void disableById(Long id);
 
 }
 

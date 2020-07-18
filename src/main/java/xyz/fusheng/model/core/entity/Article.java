@@ -55,6 +55,8 @@ public class Article implements Serializable {
 
     /**
      * 编辑模式
+     * 0 markdown
+     * 1 tinymce富文本
      */
     private String editModel;
 

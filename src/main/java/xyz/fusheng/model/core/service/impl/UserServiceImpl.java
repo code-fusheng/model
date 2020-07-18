@@ -7,11 +7,14 @@
 package xyz.fusheng.model.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Menu;
+import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.mapper.UserMapper;
@@ -72,5 +75,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         int totalCount = userMapper.getCountByPage(page);
         page.setTotalCount(totalCount);
         return page;
+    }
+
+    @Override
+    public void enableById(Long id) {
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.lambda().eq(User::getUserId, id);
+        updateWrapper.lambda().set(User::getIsEnabled, StateEnums.ENABLED.getCode());
+        userMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    public void disableById(Long id) {
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.lambda().eq(User::getUserId, id);
+        updateWrapper.lambda().set(User::getIsEnabled, StateEnums.NOT_ENABLE.getCode());
+        userMapper.update(null, updateWrapper);
     }
 }

@@ -160,11 +160,37 @@ public class UserController {
             // 2. 该方法不适用于剧本数据类型（byte,short,int,long,float,double,boolean）
             // 3. 不支持add和remove方法
             List<String> sortList = Arrays.asList(sortColumns);
-            if(!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(),"参数错误！");
+            if (!sortList.contains(newSortColumn.toLowerCase())) {
+                return new Result<>(ResultEnums.ERROR.getCode(), "参数错误！");
             }
         }
-        page =userService.getByPage(page);
+        page = userService.getByPage(page);
         return new Result<>("操作成功: 分页查询用户！", page);
+    }
+
+    /**
+     * 启用 - 改 - 管理员
+     *
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/enable/{id}")
+    public Result<Object> enable(@PathVariable("id") Long id) {
+        userService.enableById(id);
+        return new Result<>("操作成功: 启用用户！");
+    }
+
+    /**
+     * 弃用 - 改 - 管理员
+     *
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/disable/{id}")
+    public Result<Object> disable(@PathVariable("id") Long id) {
+        userService.disableById(id);
+        return new Result<>("操作成功: 弃用用户！");
     }
 }

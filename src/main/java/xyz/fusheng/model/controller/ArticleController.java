@@ -1,11 +1,23 @@
 package xyz.fusheng.model.controller;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.poi.ss.formula.functions.T;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.text.Text;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
@@ -35,6 +47,11 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    //面向对象操作
+    @Autowired
+    @Qualifier("restHighLevelClient")  //如定义的名称与配置文件一直则不需要这个
+    private RestHighLevelClient client;
+
     /**
      * 保存文章 - 增
      *
@@ -45,9 +62,6 @@ public class ArticleController {
     public Result<Object> save(@RequestBody Article article) throws IOException {
         article.setAuthorId(SecurityUtil.getUserId());
         articleService.saveArticleAndUpdateCategory(article);
-        // String searchIndex = "model_article_index";
-        // String id = article.getArticleId().toString();
-        // SearchUtils.addDocument(searchIndex, article, id);
         return new Result<>("操作成功: 添加文章！");
     }
 
@@ -61,9 +75,6 @@ public class ArticleController {
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id) throws IOException {
         articleService.deleteById(id);
-        // String searchIndex = "model_article_index";
-        // String did = id.toString();
-        // SearchUtils.deleteDocument(searchIndex, "6");
         return new Result<>("操作成功: 删除文章！");
     }
 
@@ -78,10 +89,6 @@ public class ArticleController {
         // 修改时先查询数据 获取 version 字段
         article.setVersion(articleService.getById(article.getArticleId()).getVersion());
         articleService.updateArticleAndCategory(article);
-        Article newArticle = articleService.getById(article.getArticleId());
-        // String searchIndex = "model_article_index";
-        // String id = article.getArticleId().toString();
-        // SearchUtils.updateDocument(searchIndex, newArticle, id);
         return new Result<>("操作成功: 更新文章!");
     }
 
@@ -97,7 +104,7 @@ public class ArticleController {
         page.setSortColumn(newSortColumn);
         if(StringUtils.isNotBlank(sortColumn)){
             // 文章标题
-            String[] sortColumns = {"article_title", "article_author", "good_count", "read_count", "collection_count", "comment_count", "created_time", "update_time"};
+            String[] sortColumns = {"article_title", "author_name", "good_count", "read_count", "collection_count", "comment_count", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if(!sortList.contains(newSortColumn.toLowerCase())) {
                 return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
@@ -132,24 +139,26 @@ public class ArticleController {
 
     /**
      * 启用 - 改
+     *
      * @param id
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/enable/{id}")
-    public Result<Object> enable(@PathVariable("id") Long id) {
+    public Result<Object> enable(@PathVariable("id") Long id) throws IOException {
         articleService.enableById(id);
         return new Result<>("操作成功: 启用文章!");
     }
 
     /**
      * 弃用 - 改
+     *
      * @param id
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/disable/{id}")
-    public Result<Object> disable(@PathVariable("id") Long id) {
+    public Result<Object> disable(@PathVariable("id") Long id) throws IOException {
         articleService.disableById(id);
         return new Result<>("操作成功: 弃用文章！");
     }
@@ -164,39 +173,4 @@ public class ArticleController {
         ArticleVo articleVo = articleService.readById(id);
         return new Result<>("操作成功: 阅读文章！", articleVo);
     }
-
-    /**
-     * 高亮搜索 - 查
-     * @return
-     * @throws IOException
-     */
-    @GetMapping("/highLightSearch")
-    public Result<Page<Article>> search(@RequestBody Page page) throws IOException {
-        String keyword = page.getKeyword();
-        int pageNo = page.getCurrentPage();
-        int pageSize = page.getPageSize();
-        SearchResponse searchResponse = articleService.searchPageHighlightBuilder(keyword,pageNo,pageSize);
-        //解析结果
-        ArrayList<Map<String,Object>> list = new ArrayList<>();
-        for (SearchHit doc:searchResponse.getHits().getHits()){
-            // 解析高亮字段
-            Map<String, HighlightField> highlightFields = doc.getHighlightFields();
-            HighlightField articleTitle = highlightFields.get("articleTitle");
-            // 解析原来的结果
-            Map<String, Object> sourceAsMap = doc.getSourceAsMap();
-            if(articleTitle!=null){
-                Text[] fragments = articleTitle.fragments();
-                String n_articleTitle="";
-                for (Text res:fragments){
-                    n_articleTitle += res;
-                }
-                //将原来的替换为高亮的
-                sourceAsMap.put("articleTitle",n_articleTitle);
-            }
-            list.add(sourceAsMap);
-        }
-        page.setList(list);
-        return new Result<>(page);
-    }
-
 }

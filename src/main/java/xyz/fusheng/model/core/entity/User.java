@@ -37,6 +37,16 @@ public class User implements Serializable {
     private String password;
 
     /**
+     * 电话号码
+     */
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    private String mail;
+
+    /**
      * 头像
      */
     private String header;
@@ -57,7 +67,7 @@ public class User implements Serializable {
     private String realname;
 
     /**
-     * 性别 0:男 1:女
+     * 性别 0:私密 1:男 2:女
      */
     private Integer sex;
 

@@ -77,16 +77,4 @@ public interface ArticleService extends IService<Article> {
      */
     ArticleVo readById(Long id);
 
-    /**
-     * 高亮搜索
-     * @param keyword
-     * @param pageNo
-     * @param pageSize
-     * @return
-     * @throws IOException
-     */
-    SearchResponse searchPageHighlightBuilder(String keyword, int pageNo, int pageSize) throws IOException;
-
-
-
 }

@@ -80,10 +80,10 @@ public class ModelPlusController {
     }
 
     /**
-     * 查询所有模型 - 查 -管理员
+     * 查询所有模型 - 查
+     *
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/list")
     public Result<List<ModelPlus>> list(){
         List<ModelPlus> modelPluses = modelPlusService.list();
@@ -91,11 +91,10 @@ public class ModelPlusController {
     }
 
     /**
-     * 多条件分页查询 - 查 - 管理员
+     * 多条件分页查询 - 查
      * @param page
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/getByPage")
     public Result<Page<ModelPlus>> getByPage(@RequestBody Page<ModelPlus> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列

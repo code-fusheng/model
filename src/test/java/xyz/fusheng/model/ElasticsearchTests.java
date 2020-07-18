@@ -314,6 +314,8 @@ class ElasticsearchTests {
     //批量处理数据(全量同步)
     @Test
     void testBulkRequest() throws IOException {
+        DeleteIndexRequest indexRequest = new DeleteIndexRequest("model_article_index");
+        client.indices().delete(indexRequest, RequestOptions.DEFAULT);
         BulkRequest request = new BulkRequest();
         request.timeout("10s");
         // 获取数据库的article数据
@@ -362,7 +364,7 @@ class ElasticsearchTests {
         searchRequest.source(searchSourceBuilder);
         // MatchQueryBuilder 匹配查询构建器
         // QueryBuilders 查询生成器
-        MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("articleTitle", "测试");
+        MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("articleTitle", "文章");
         // 搜索源工厂通过匹配查询构建器的条件执行查询
         searchSourceBuilder.query(matchQueryBuilder);
         // 模糊查询条件
