@@ -27,8 +27,12 @@
         <if test="params.articleCategory!=null and params.articleCategory!=''">
             and a.article_category = #{params.articleCategory}
         </if>
+        <if test="params.isEnabled!=null">
+            and a.is_enabled = #{params.is_enabled}
+        </if>
         <if test="params.articleTime!=null">
-            and a.created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
+            and a.created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and
+            #{params.articleTime[1],jdbcType=TIMESTAMP}
         </if>
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
@@ -40,7 +44,7 @@
         select
         count(*)
         from m_article as a left join m_category as c on c.category_id = a.article_category
-        left join sys_user as  u on a.article_id = u.user_id
+        left join sys_user as u on a.article_id = u.user_id
         where a.is_deleted = 0 and c.is_deleted = 0
         <if test="params.articleTitle!=null and params.articleTitle!=''">
             and a.article_title like CONCAT('%', #{params.articleTitle}, '%')
@@ -51,8 +55,12 @@
         <if test="params.articleCategory!=null and params.articleCategory!=''">
             and a.article_category = #{params.articleCategory}
         </if>
+        <if test="params.isEnabled!=null">
+            and a.is_enabled = #{params.is_enabled}
+        </if>
         <if test="params.articleTime!=null">
-            and a.created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and #{params.articleTime[1],jdbcType=TIMESTAMP}
+            and a.created_time between #{params.articleTime[0],jdbcType=TIMESTAMP} and
+            #{params.articleTime[1],jdbcType=TIMESTAMP}
         </if>
     </select>
     <!-- 查询所有 ArticleVo -->

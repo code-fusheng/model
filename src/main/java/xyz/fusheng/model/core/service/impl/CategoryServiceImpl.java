@@ -6,6 +6,8 @@
  */
 package xyz.fusheng.model.core.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -57,5 +59,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         updateWrapper.lambda().eq(Category::getCategoryId, id);
         updateWrapper.lambda().set(Category::getIsEnabled, StateEnums.NOT_ENABLE.getCode());
         categoryMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    public List<Category> getList() {
+        QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+        // 启用状态
+        queryWrapper.lambda().eq(Category::getIsEnabled, StateEnums.ENABLED.getCode());
+        // 按分类文章数排序
+        queryWrapper.lambda().orderByDesc(Category::getArticleCount);
+        List<Category> categoryList = categoryMapper.selectList(queryWrapper);
+        return categoryList;
     }
 }

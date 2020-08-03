@@ -107,6 +107,9 @@ public class RequestAspect {
     @AfterReturning(returning = "ret", pointcut = "logPointCut()")
     public void doAfterReturning(Object ret) {
         String result = JSON.toJSONString(ret);
+        // 数据量大选择性赋值为******
+        result = "******";
+        ret = "******";
         log.info("返回值:{}", JSON.toJSONString(ret));
         Log logger = ThreadLocalContext.get().getLogger();
         logger.setLogResult(result);
@@ -124,6 +127,8 @@ public class RequestAspect {
         Log logger = ThreadLocalContext.get().getLogger();
         logger.setLogStatus(StateEnums.REQUEST_ERROR.getCode());
         String exception = StringUtils.getPackageException(e, "xyz.fusheng");
+        // 数据量大选择性赋值为******
+        exception = "******";
         logger.setLogMessage(exception);
         logger.setLogTime(0L);
         // 发生异常走异常通知
@@ -146,6 +151,8 @@ public class RequestAspect {
         String controllerName = joinPoint.getSignature().getDeclaringTypeName();
         log.info("方法 : {}.{}", controllerName, joinPoint.getSignature().getName());
         String params = Arrays.toString(joinPoint.getArgs());
+        // 数据量大选择性赋值为******
+        params = "******";
         log.info("请求参数：{}", params);
 
         // 获取日志实体

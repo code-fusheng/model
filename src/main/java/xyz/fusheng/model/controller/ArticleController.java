@@ -106,8 +106,8 @@ public class ArticleController {
             // 文章标题
             String[] sortColumns = {"article_title", "author_name", "good_count", "read_count", "collection_count", "comment_count", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
-            if(!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
+            if (!sortList.contains(newSortColumn.toLowerCase())) {
+                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = articleService.getByPage(page);
@@ -115,12 +115,25 @@ public class ArticleController {
     }
 
     /**
-     * 查询所有 - 查
+     * 查询所有 - 查【后台查询】
+     *
      * @param
      * @return
      */
-    @GetMapping("/list")
-    public Result<List<ArticleVo>> list(){
+    @GetMapping("/getAll")
+    public Result<List<ArticleVo>> getAll() {
+        List<ArticleVo> articleVoList = articleService.getList();
+        return new Result<>("操作成功: 分页查询文章！", articleVoList);
+    }
+
+    /**
+     * 查询所有 - 查【前台查询】
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/getList")
+    public Result<List<ArticleVo>> getList() {
         List<ArticleVo> articleVoList = articleService.getList();
         return new Result<>("操作成功: 分页查询文章！", articleVoList);
     }

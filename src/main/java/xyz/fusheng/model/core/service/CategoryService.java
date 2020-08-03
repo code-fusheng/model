@@ -5,6 +5,8 @@ import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Category;
 import xyz.fusheng.model.core.entity.ModelPlus;
 
+import java.util.List;
+
 /**
  * @FileName: CategoryService
  * @Author: code-fusheng
@@ -35,7 +37,15 @@ public interface CategoryService extends IService<Category> {
 
     /**
      * 根据id弃用
+     *
      * @param id
      */
     void disableById(Long id);
+
+    /**
+     * 查询可用分类列表
+     *
+     * @return
+     */
+    List<Category> getList();
 }

@@ -85,22 +85,34 @@ public class CategoryController {
     }
 
     /**
-     * 查询所有分类 - 查
+     * 查询所有分类 - 查 - 后台查询
+     *
      * @return
      */
-    @GetMapping("/list")
-    public Result<List<Category>> list() {
-        List<Category> categoryList =categoryService.list();
+    @GetMapping("/getAll")
+    public Result<List<Category>> getLAll() {
+        List<Category> categoryList = categoryService.list();
         return new Result<>("操作成功: 查询分类列表！", categoryList);
     }
 
     /**
+     * 查询可用分类列表 - 查 - 前台查询
+     */
+    @GetMapping("/getList")
+    public Result<List<Category>> getList() {
+        List<Category> categoryList = categoryService.getList();
+        return new Result<>("操作成功: 查询分类列表！", categoryList);
+    }
+
+
+    /**
      * 多条件分页查询
+     *
      * @param page
      * @return
      */
     @PostMapping("/getByPage")
-    public Result<Page<Category>> getByPage(@RequestBody Page<Category> page){
+    public Result<Page<Category>> getByPage(@RequestBody Page<Category> page) {
         String sortColumn = page.getSortColumn();
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);

@@ -10,7 +10,7 @@
     </parent>
     <groupId>xyz.fusheng</groupId>
     <artifactId>model</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>model</name>
     <description>code-fusheng 【后端模版】</description>
 
@@ -215,10 +215,10 @@
             <version>2.9.0</version>
         </dependency>
         <!-- Spring Data MongoDB -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
+        <!--        </dependency>-->
         <!-- jieba for java -->
         <dependency>
             <groupId>com.huaban</groupId>
