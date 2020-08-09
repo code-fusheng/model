@@ -28,7 +28,7 @@ public enum StateEnums {
      */
     SEX_MAN(1, "男"),
     SEX_WOMAN(2, "女"),
-    SEX_PRIVACY(0,"私密"),
+    SEX_PRIVACY(0, "私密"),
 
     /**
      * 请求访问状态枚举
@@ -36,7 +36,8 @@ public enum StateEnums {
     REQUEST_SUCCESS(1, "请求正常"),
     REQUEST_ERROR(0, "请求异常"),
 
-    ;
+    ARTICLE_COMMENT(0, "文章的评论"),
+    COMMENT_COMMENT(1, "文章的评论的评论");
     /**
      * code 状态码
      * msg 状态信息

@@ -12,4 +12,11 @@ import xyz.fusheng.model.core.entity.Comment;
  */
 
 public interface CommentService extends IService<Comment> {
+
+    /**
+     * 发表评论
+     *
+     * @param comment
+     */
+    void saveComment(Comment comment);
 }

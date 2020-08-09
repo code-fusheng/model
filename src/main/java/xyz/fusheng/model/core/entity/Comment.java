@@ -1,6 +1,7 @@
 package xyz.fusheng.model.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
  */
 
 @Data
+@TableName("m_comment")
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 5831896222812520271L;
@@ -36,12 +38,17 @@ public class Comment implements Serializable {
     private Long commentUser;
 
     /**
-     * 评论的文章id
+     * 评论的根id,文章id
      */
-    private Long commentArticle;
+    private Integer commentRoot;
 
     /**
-     * 评论的评论量 一级评论才显示
+     * 评论的目标id
+     */
+    private Long commentTarget;
+
+    /**
+     * 评论的评论量
      */
     private Integer commentCount;
 
@@ -51,18 +58,11 @@ public class Comment implements Serializable {
     private Integer goodCount;
 
     /**
-     * 评论的类型
-     * 1:直接评论   ？（评论） @ ？（文章）
-     * 2:评论的评论 带有指定的父级评论对象 存在回复的用户 ？（评论） @ ？（评论）
+     * 评论类型
+     * 0:直接评论   ？（评论） @ ？（文章）
+     * 1:评论的评论 带有指定的父级评论对象 存在回复的用户 ？（评论） @ ？（评论）
      */
-    private Integer commentLevel;
-
-    /**
-     * 评论的父级id
-     * 1、当评论的类型为1时，pid指代文章id
-     * 2、当评论的类型为2时，pid指代评论id
-     */
-    private Integer pid;
+    private Integer commentType;
 
     /**
      * 评论状态 默认1 == PS： 这里理解为删除
