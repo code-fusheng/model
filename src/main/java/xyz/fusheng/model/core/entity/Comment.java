@@ -35,7 +35,7 @@ public class Comment implements Serializable {
     /**
      * 评论人id
      */
-    private Long commentUser;
+    private Long commentUserId;
 
     /**
      * 评论的根id,文章id

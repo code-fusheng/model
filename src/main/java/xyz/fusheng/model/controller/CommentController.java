@@ -30,7 +30,7 @@ public class CommentController {
     @PostMapping("/save")
     public Result<Comment> save(@RequestBody Comment comment) {
         // 获取评论人的用户id
-        comment.setCommentUser(SecurityUtil.getUserId());
+        comment.setCommentUserId(SecurityUtil.getUserId());
         commentService.saveComment(comment);
         return new Result<>("操作成功: 发表评论！");
     }

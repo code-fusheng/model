@@ -35,4 +35,9 @@ public class ArticleVo extends Article {
      */
     private boolean goodArticleFlag = false;
 
+    /**
+     * 文章收藏状态标识 只用于前端判断，不做数据存储
+     */
+    private boolean collectionArticleFlag = false;
+
 }

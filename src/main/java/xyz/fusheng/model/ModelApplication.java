@@ -71,6 +71,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/7/18 13:14 --- 2020/7/18 16:33 code-fusheng 权限设计 --- 初步实现了格式化的权限列表查询方法（存在小BUG:递归问题 - 未解决）
  * @Data: 2020/8/03 06:05 --- 2020/8/03 13:03
  * @Data: 2020/8/09 20:12 --- 2020/8/09 22:42 code-fusheng 评论模块 --- 初步设计了评论的功能接口
+ * @Data: 2020/8/10 21:38 --- 2020/8/10 22:47 code-fusheng 文章模块 --- 初步设计点赞、收藏实体类以及层次结构
  *
  *
  *
