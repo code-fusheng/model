@@ -2,4 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xyz.fusheng.model.core.mapper.CommentMapper">
 
+
+    <!--  分页查询评论列表  -->
+    <select id="getCommentList" resultType="xyz.fusheng.model.core.vo.CommentVo"
+            parameterType="xyz.fusheng.model.common.utils.Page">
+        select
+        c.*, su.username, su.header
+        from m_comment as c left join sys_user as su on c.comment_user_id = su.user_id
+        where 1 = 1
+        <if test="params.commentType!=null">
+            and c.comment_type = #{params.commentType}
+        </if>
+        <if test="params.commentTarget!=null">
+            and c.comment_target = #{params.commentTarget}
+        </if>
+        <if test="sortColumn!=null and sortColumn!=''">
+            order by ${sortColumn} ${sortMethod}
+        </if>
+        limit #{index}, #{pageSize}
+    </select>
+    <!--  分页查询统计总数  -->
+    <select id="getCountByPage" resultType="java.lang.Integer" parameterType="xyz.fusheng.model.common.utils.Page">
+        select count(*)
+        from m_comment as c left join sys_user as su on c.comment_user_id = su.user_id
+        where 1 = 1
+        <if test="params.commentType!=null">
+            and c.comment_type = #{params.commentType}
+        </if>
+        <if test="params.commentTarget!=null">
+            and c.comment_target = #{params.commentTarget}
+        </if>
+    </select>
 </mapper>

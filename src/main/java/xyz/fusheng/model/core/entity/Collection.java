@@ -1,5 +1,9 @@
 package xyz.fusheng.model.core.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 /**
  * @FileName: Collection
  * @Author: code-fusheng
@@ -8,11 +12,14 @@ package xyz.fusheng.model.core.entity;
  * Description: 收藏实体类
  */
 
+@Data
+@TableName("m_collection")
 public class Collection {
 
     /**
      * 收藏id
      */
+    @TableId
     private Long collectionId;
 
     /**

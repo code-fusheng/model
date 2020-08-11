@@ -1,5 +1,9 @@
 package xyz.fusheng.model.core.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 /**
  * @FileName: Good
  * @Author: code-fusheng
@@ -8,11 +12,14 @@ package xyz.fusheng.model.core.entity;
  * Description: 点赞实体类
  */
 
+@Data
+@TableName("m_good")
 public class Good {
 
     /**
      * 点赞id
      */
+    @TableId
     private Long goodId;
 
     /**

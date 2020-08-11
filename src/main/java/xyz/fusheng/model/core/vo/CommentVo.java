@@ -15,14 +15,14 @@ import xyz.fusheng.model.core.entity.Comment;
 public class CommentVo extends Comment {
 
     /**
-     * 作者头像 vo属性
+     * 评论人用户名
      */
-    private String userIcon;
+    private String username;
 
     /**
-     * 对应父级的评论的 用户名
+     * 作者头像 vo属性
      */
-    private String parentCommentUser;
+    private String header;
 
     /**
      * 评论点赞标识 仅用于前端展示，不做数据持久化

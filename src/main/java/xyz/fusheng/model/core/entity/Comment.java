@@ -59,17 +59,20 @@ public class Comment implements Serializable {
 
     /**
      * 评论类型
-     * 0:直接评论   ？（评论） @ ？（文章）
-     * 1:评论的评论 带有指定的父级评论对象 存在回复的用户 ？（评论） @ ？（评论）
      */
     private Integer commentType;
+
+    /**
+     * @ username
+     */
+    private String commentParentUser;
 
     /**
      * 评论状态 默认1 == PS： 这里理解为删除
      * 0： 正常情况
      * 1： 评论不合法 被楼主删除
      */
-    private Integer commentStats;
+    private Integer commentState;
 
     /**
      * 评论时间

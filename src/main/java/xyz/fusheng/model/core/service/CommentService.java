@@ -1,7 +1,11 @@
 package xyz.fusheng.model.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Comment;
+import xyz.fusheng.model.core.vo.CommentVo;
+
+import java.util.List;
 
 /**
  * @FileName: CommentService
@@ -19,4 +23,20 @@ public interface CommentService extends IService<Comment> {
      * @param comment
      */
     void saveComment(Comment comment);
+
+    /**
+     * 根据id删除评论
+     *
+     * @param id
+     */
+    void deleteById(Long id);
+
+    /**
+     * 分页查询评论列表
+     *
+     * @param page
+     * @return
+     */
+    Page<CommentVo> getByPage(Page<CommentVo> page);
+
 }
