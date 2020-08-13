@@ -16,6 +16,10 @@
         <if test="params.commentTarget!=null">
             and c.comment_target = #{params.commentTarget}
         </if>
+        <if test="params.commentTime!=null">
+            and c.comment_time between #{params.commentTime[0],jdbcType=TIMESTAMP} and
+            #{params.commentTime[1],jdbcType=TIMESTAMP}
+        </if>
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
         </if>
@@ -32,5 +36,9 @@
         <if test="params.commentTarget!=null">
             and c.comment_target = #{params.commentTarget}
         </if>
+    </select>
+    <!--  根据id获取对象内容字段  -->
+    <select id="getCommentContentById" resultType="java.lang.String" parameterType="java.lang.Long">
+        select comment_content from m_comment where comment_id = #{commentId}
     </select>
 </mapper>

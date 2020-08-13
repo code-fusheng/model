@@ -36,6 +36,13 @@ public enum StateEnums {
     REQUEST_SUCCESS(1, "请求正常"),
     REQUEST_ERROR(0, "请求异常"),
 
+    DEFAULT_GOOD(0, "默认的点赞"),
+    ARTICLE_GOOD(1, "文章的点赞"),
+    COMMENT_GOOD(2, "评论的点赞"),
+
+    DEFAULT_COLLECTION(0, "默认的收藏"),
+    ARTICLE_COLLECTION(1, "文章的收藏"),
+
     ARTICLE_COMMENT(0, "文章的评论"),
     COMMENT_COMMENT(1, "文章的评论的评论");
     /**

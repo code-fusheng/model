@@ -79,6 +79,10 @@
                             left join sys_user as  u on a.author_id = u.user_id
         where a.is_deleted = 0 and c.is_deleted = 0 and a.article_id = #{id}
     </select>
+    <!--  根据文章id获取文章标题  -->
+    <select id="getArticleTitleById" parameterType="java.lang.Long" resultType="string">
+        select article_title from m_article where article_id = #{articleId}
+    </select>
 
 
 </mapper>

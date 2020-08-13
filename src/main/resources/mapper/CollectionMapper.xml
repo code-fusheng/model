@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.fusheng.model.core.mapper.CollectionMapper">
+    <!--  根据用户id、目标id、点赞类型查询收藏列表  -->
+    <select id="getCollectionsByUserAndTargetAndType" resultType="xyz.fusheng.model.core.entity.Collection">
+        select * from m_collection
+        where collection_user_id = #{userId} and collection_target = #{collectionTarget} and collection_type = #{collectionType}
+        limit 1
+    </select>
+    <!--  根据用户id和目标id以及分类更新文章收藏量  -->
+    <update id="updateArticleCollectionCountByTargetAndUserAndType">
+        update m_article set collection_count = (select count(*) from m_collection where collection_type = #{type} and collection_target = #{targetId}) where article_id = #{targetId}
+    </update>
+    <!--  多条件分页查询  -->
+    <select id="getByPage" resultType="xyz.fusheng.model.core.vo.CollectionVo">
+        select c.*, su.username
+        from m_collection as c left join sys_user as su on c.collection_user_id = su.user_id
+        where 1 = 1
+        <if test="params.username!=null and params.username!=''">
+            and su.username like CONCAT('%', #{params.username}, '%')
+        </if>
+        <if test="params.collectionTarget!=null">
+            and c.collection_target = #{params.colletionTarget}
+        </if>
+        <if test="params.collectionType!=null">
+            and c.collection_type = #{params.collectionType}
+        </if>
+        <if test="params.collectionTime!=null">
+            and c.collection_time between #{params.collectionTime[0],jdbcType=TIMESTAMP} and
+            #{params.collectionTime[1],jdbcType=TIMESTAMP}
+        </if>
+        <if test="sortColumn!=null and sortColumn!=''">
+            order by ${sortColumn} ${sortMethod}
+        </if>
+        limit #{index}, #{pageSize}
+    </select>
+    <!--  统计总数  -->
+    <select id="getCountByPage" resultType="java.lang.Integer">
+        select
+        count(*)
+        from m_collection as c left join sys_user as su on c.collection_user_id = su.user_id
+        where 1 = 1
+        <if test="params.username!=null and params.username!=''">
+            and su.username like CONCAT('%', #{params.username}, '%')
+        </if>
+        <if test="params.collectionTarget!=null">
+            and c.collection_target = #{params.colletionTarget}
+        </if>
+        <if test="params.collectionType!=null">
+            and c.collection_type = #{params.collectionType}
+        </if>
+        <if test="params.collectionTime!=null">
+            and c.collection_time between #{params.collectionTime[0],jdbcType=TIMESTAMP} and
+            #{params.collectionTime[1],jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.fusheng.model.core.mapper.GoodMapper">
+    <!--  根据用户id、目标id、点赞类型查询点赞列表  -->
+    <select id="getGoodsByUserAndTargetAndType" resultType="xyz.fusheng.model.core.entity.Good">
+        select * from m_good
+        where good_user_id = #{userId} and good_target = #{goodTarget} and good_type = #{goodType}
+        limit 1
+    </select>
+    <!--  根据用户id和目标id以及分类更新文章点赞量  -->
+    <update id="updateArticleGoodCountByTargetAndUserAndType">
+        update m_article set good_count = (select count(*) from m_good where good_type = #{type} and good_target = #{targetId}) where article_id = #{targetId}
+    </update>
+    <!--  根据用户id和目标id以及分类更新评论点赞量  -->
+    <update id="updateCommentGoodCountByTargetAndUserAndType">
+        update m_comment set good_count = (select count(*) from m_good where good_type = #{type} and good_target = #{targetId}) where comment_id = #{targetId}
+    </update>
+    <!--  多条件分页查询  -->
+    <select id="getByPage" resultType="xyz.fusheng.model.core.vo.GoodVo"
+            parameterType="xyz.fusheng.model.common.utils.Page">
+        select g.*, su.username
+        from m_good as g left join sys_user as su on g.good_user_id = su.user_id
+        where 1 = 1
+        <if test="params.username!=null and params.username!=''">
+            and su.username like CONCAT('%', #{params.username}, '%')
+        </if>
+        <if test="params.goodTarget!=null">
+            and g.good_target = #{params.goodTarget}
+        </if>
+        <if test="params.goodType!=null">
+            and g.good_type = #{params.goodType}
+        </if>
+        <if test="params.goodTime!=null">
+            and a.good_time between #{params.goodTime[0],jdbcType=TIMESTAMP} and
+            #{params.goodTime[1],jdbcType=TIMESTAMP}
+        </if>
+        <if test="sortColumn!=null and sortColumn!=''">
+            order by ${sortColumn} ${sortMethod}
+        </if>
+        limit #{index}, #{pageSize}
+    </select>
+    <!--  统计总数  -->
+    <select id="getCountByPage" resultType="java.lang.Integer" parameterType="xyz.fusheng.model.common.utils.Page">
+        select
+        count(*)
+        from m_good as g left join sys_user as su on g.good_user_id = su.user_id
+        where 1 = 1
+        <if test="params.username!=null and params.username!=''">
+            and su.username like CONCAT('%', #{params.username}, '%')
+        </if>
+        <if test="params.goodTarget!=null">
+            and g.good_target = #{params.goodTarget}
+        </if>
+        <if test="params.goodType!=null">
+            and g.good_type = #{params.goodType}
+        </if>
+        <if test="params.goodTime!=null">
+            and a.good_time between #{params.goodTime[0],jdbcType=TIMESTAMP} and
+            #{params.goodTime[1],jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+</mapper>

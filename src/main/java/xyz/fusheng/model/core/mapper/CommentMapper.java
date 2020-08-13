@@ -86,4 +86,12 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return
      */
     int getCountByPage(Page<CommentVo> page);
+
+    /**
+     * 根据id获取对象内容字段
+     *
+     * @param commentId
+     * @return
+     */
+    String getCommentContentById(Long commentId);
 }

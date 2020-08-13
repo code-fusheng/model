@@ -41,8 +41,17 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     /**
      * 根据id查询 ArticleVo
+     *
      * @param id
      * @return
      */
     ArticleVo getById(Long id);
+
+    /**
+     * 根据文章id获取文章标题
+     *
+     * @param articleId
+     * @return
+     */
+    String getArticleTitleById(Long articleId);
 }

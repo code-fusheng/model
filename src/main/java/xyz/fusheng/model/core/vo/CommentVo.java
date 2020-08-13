@@ -20,7 +20,7 @@ public class CommentVo extends Comment {
     private String username;
 
     /**
-     * 作者头像 vo属性
+     * 评论人头像
      */
     private String header;
 

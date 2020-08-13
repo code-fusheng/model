@@ -72,9 +72,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/8/09 20:12 --- 2020/8/09 22:42 code-fusheng 评论模块 --- 初步设计了评论的功能接口
  * @Data: 2020/8/10 21:38 --- 2020/8/10 22:47 code-fusheng 文章模块 --- 初步设计点赞、收藏实体类以及层次结构
  * @Data: 2020/8/11 08:30 --- 2020/8/11 17:04 code-fusheng 评论模块 --- 进一步完善评论模块的设计与前后端交互的实现（目前多级评论接口正常）
- *
- *
- *
+ * @Data: 2020/8/13 08:37 --- 2020/8/13 22:05 code-fusheng 点赞收藏 --- 初步完成了文章模块的点赞、收藏操作的后端接口 good 、collection
  *
  */
 @SpringBootApplication

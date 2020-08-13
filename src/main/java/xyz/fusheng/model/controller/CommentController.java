@@ -65,7 +65,7 @@ public class CommentController {
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);
         if (StringUtils.isNotBlank(sortColumn)) {
-            // 评论拍戏条件 : 评论时间、评论评论量、评论点赞量
+            // 评论排序条件 : 评论时间、评论评论量、评论点赞量
             String[] sortColumns = {"comment_time", "comment_count", "good_count"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
