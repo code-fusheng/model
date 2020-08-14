@@ -20,6 +20,11 @@ public class CommentVo extends Comment {
     private String username;
 
     /**
+     * @ username
+     */
+    private String commentParentUserName;
+
+    /**
      * 评论人头像
      */
     private String header;

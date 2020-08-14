@@ -26,16 +26,16 @@ import org.slf4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.core.entity.Article;
-import xyz.fusheng.model.core.entity.Category;
-import xyz.fusheng.model.core.entity.User;
-import xyz.fusheng.model.core.mapper.ArticleMapper;
-import xyz.fusheng.model.core.mapper.CategoryMapper;
-import xyz.fusheng.model.core.mapper.UserMapper;
+import xyz.fusheng.model.common.utils.SecurityUtil;
+import xyz.fusheng.model.core.entity.*;
+import xyz.fusheng.model.core.mapper.*;
 import xyz.fusheng.model.core.service.ArticleService;
 import xyz.fusheng.model.core.vo.ArticleVo;
 
@@ -64,6 +64,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private GoodMapper goodMapper;
+
+    @Resource
+    private CollectionMapper collectionMapper;
 
     //面向对象操作
     @Autowired
@@ -140,6 +146,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 查询数据
         List<ArticleVo> articleVoList = articleMapper.getByPage(page);
         page.setList(articleVoList);
+        // 判断当前用户是否登录
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            articleVoList.forEach(articleVo -> {
+                // 用户浏览界面文章是否点赞标识
+                List<Good> goods = goodMapper.getGoodsByUserAndTargetAndType(SecurityUtil.getUserId(), articleVo.getArticleId(), StateEnums.ARTICLE_GOOD.getCode());
+                if (goods.size() == 0) {
+                    articleVo.setGoodArticleFlag(false);
+                } else {
+                    articleVo.setGoodArticleFlag(true);
+                }
+                // 用户浏览界面文章是否收藏标识
+                List<Collection> collections = collectionMapper.getCollectionsByUserAndTargetAndType(SecurityUtil.getUserId(), articleVo.getArticleId(), StateEnums.ARTICLE_COLLECTION.getCode());
+                if (collections.size() == 0) {
+                    articleVo.setCollectionArticleFlag(false);
+                } else {
+                    articleVo.setCollectionArticleFlag(true);
+                }
+            });
+        }
+
         // 统计总数
         int totalCount = articleMapper.getCountByPage(page);
         page.setTotalCount(totalCount);
@@ -226,6 +253,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         User user = userMapper.selectById(article.getAuthorId());
         articleVo.setAuthorName(user.getUsername());
         articleVo.setHeader(user.getHeader());
+        // 判断当前用户是否登录
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            // 用户浏览界面文章是否点赞标识
+            List<Good> goods = goodMapper.getGoodsByUserAndTargetAndType(SecurityUtil.getUserId(), articleVo.getArticleId(), StateEnums.ARTICLE_GOOD.getCode());
+            if (goods.size() == 0) {
+                articleVo.setGoodArticleFlag(false);
+            } else {
+                articleVo.setGoodArticleFlag(true);
+            }
+            // 用户浏览界面文章是否收藏标识
+            List<Collection> collections = collectionMapper.getCollectionsByUserAndTargetAndType(SecurityUtil.getUserId(), articleVo.getArticleId(), StateEnums.ARTICLE_COLLECTION.getCode());
+            if (collections.size() == 0) {
+                articleVo.setCollectionArticleFlag(false);
+            } else {
+                articleVo.setCollectionArticleFlag(true);
+            }
+        }
         return articleVo;
     }
 }

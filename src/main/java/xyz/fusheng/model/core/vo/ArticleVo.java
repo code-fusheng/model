@@ -40,4 +40,14 @@ public class ArticleVo extends Article {
      */
     private boolean collectionArticleFlag = false;
 
+    /**
+     * 文章阅读状态标识 只用于前端判断，不做数据存储
+     */
+    private boolean readArticleFlag = false;
+
+    /**
+     * 文章评论状态标识 只用于前端判断，不做数据存储
+     */
+    private boolean commentArticleFlag = false;
+
 }
