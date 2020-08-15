@@ -74,6 +74,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/8/11 08:30 --- 2020/8/11 17:04 code-fusheng 评论模块 --- 进一步完善评论模块的设计与前后端交互的实现（目前多级评论接口正常）
  * @Data: 2020/8/13 08:37 --- 2020/8/13 22:05 code-fusheng 点赞收藏 --- 初步完成了文章模块的点赞、收藏操作的后端接口 good 、collection
  * @Data: 2020/8/14 12:00 --- 2020/8/14 18:28 code-fusheng 评论模块 --- 多级评论的功能设计（总觉的很垃圾）
+ * 更新开发记录规范 --- Git Commit 个人开发规范
+ * (2020/08/15 23:00 --- 2020/08/15 23:08) docs : 文档管理 --- 新增开发规范的 git commit 的规范要求与说明
  *
  */
 @SpringBootApplication
