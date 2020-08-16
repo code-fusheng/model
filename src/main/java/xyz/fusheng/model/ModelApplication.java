@@ -76,6 +76,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Data: 2020/8/14 12:00 --- 2020/8/14 18:28 code-fusheng 评论模块 --- 多级评论的功能设计（总觉的很垃圾）
  * 更新开发记录规范 --- Git Commit 个人开发规范
  * (2020/08/15 23:00 --- 2020/08/15 23:08) docs : 文档管理 --- 新增开发规范的 git commit 的规范要求与说明
+ * (2020/08/16 11:19 --- 2020/08/16 14:38) feature : 音乐欣赏 --- 新增音乐相关的后端接口（论坛中仅涉及简单的音乐模块，后续单独写音乐播放器以及视频播放器）
  *
  */
 @SpringBootApplication

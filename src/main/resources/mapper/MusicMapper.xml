@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.fusheng.model.core.mapper.MusicMapper">
+
+    <select id="getByPage" parameterType="xyz.fusheng.model.common.utils.Page"
+            resultType="xyz.fusheng.model.core.entity.Music">
+        select *
+        from m_music
+        where is_deleted = 0
+        <if test="params.musicName!=null and params.musicName!=''">
+            and music_name like concat('%', #{params.musicName}, '%')
+        </if>
+        <if test="params.musicArtist!=null and params.musicArtist!=''">
+            and music_artist like concat('%', #{params.musicArtist}, '%')
+        </if>
+        <if test="params.musicTime!=null">
+            and created_time between #{params.musicTime[0],jdbcType=TIMESTAMP} and
+            #{params.musicTime[1],jdbcType=TIMESTAMP}
+        </if>
+        <if test="sortColumn!=null and sortColumn!=''">
+            order by ${sortColumn} ${sortMethod}
+        </if>
+        limit #{index}, #{pageSize}
+    </select>
+
+
+    <select id="getCountByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="java.lang.Integer">
+        select count(*)
+        from m_music
+        where is_deleted = 0
+        <if test="params.musicName!=null and params.musicName!=''">
+            and music_name like concat('%', #{params.musicName}, '%')
+        </if>
+        <if test="params.musicArtist!=null and params.musicArtist!=''">
+            and music_artist like concat('%', #{params.musicArtist}, '%')
+        </if>
+        <if test="params.musicTime!=null">
+            and created_time between #{params.musicTime[0],jdbcType=TIMESTAMP} and
+            #{params.musicTime[1],jdbcType=TIMESTAMP}
+        </if>
+    </select>
+</mapper>

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @FileName: Good
  * @Author: code-fusheng
@@ -14,7 +16,9 @@ import lombok.Data;
 
 @Data
 @TableName("m_good")
-public class Good {
+public class Good implements Serializable {
+
+    private static final long serialVersionUID = 5569524258358038061L;
 
     /**
      * 点赞id
