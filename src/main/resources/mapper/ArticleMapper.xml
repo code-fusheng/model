@@ -4,7 +4,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        article_id, article_title, article_author, article_image, article_desc, article_content,
+        article_id, article_title, article_author, article_image, article_desc, article_content, edit_content,
         edit_model, article_category, good_count, read_count, collection_count, comment_count,
         article_source, created_time, update_time, is_enabled, version
     </sql>

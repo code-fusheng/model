@@ -54,6 +54,11 @@ public class Article implements Serializable {
     private String articleContent;
 
     /**
+     * 编辑内容 == 源码
+     */
+    private String editContent;
+
+    /**
      * 编辑模式
      * 0 markdown
      * 1 tinymce富文本
