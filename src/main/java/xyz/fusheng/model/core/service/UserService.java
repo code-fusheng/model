@@ -65,5 +65,12 @@ public interface UserService extends IService<User> {
      */
     void disableById(Long id);
 
+    /**
+     * 用户信息
+     *
+     * @param userId
+     * @return
+     */
+    User getUserInfoById(Long userId);
 }
 

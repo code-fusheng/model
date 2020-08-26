@@ -43,8 +43,16 @@
             and username like concat('%', #{params.username}, '%')
         </if>
         <if test="params.userTime!=null">
-            and created_time between #{params.userTime[0],jdbcType=TIMESTAMP} and #{params.userTime[1],jdbcType=TIMESTAMP}
+            and created_time between #{params.userTime[0],jdbcType=TIMESTAMP} and
+            #{params.userTime[1],jdbcType=TIMESTAMP}
         </if>
+    </select>
+
+    <select id="getUserInfoById" resultType="xyz.fusheng.model.core.entity.User" parameterType="long">
+        select su.*, sur.role_id, sr.role_name
+        from sys_user su join sys_user_role sur on su.user_id = sur.user_id
+		                join sys_role sr on sur.role_id = sr.role_id
+	    where su.user_id = #{userId}
     </select>
 
 </mapper>

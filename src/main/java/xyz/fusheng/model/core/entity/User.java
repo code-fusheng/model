@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -100,4 +101,18 @@ public class User implements Serializable {
      * 是否删除，0否1是 默认0
      */
     private Integer isDeleted;
+
+    /**
+     * 用户角色id
+     */
+    @TableField(exist = false)
+    private Long roleId;
+
+    /**
+     * 用户权限列表
+     */
+    @TableField(exist = false)
+    private List<Menu> menuList;
+
+
 }

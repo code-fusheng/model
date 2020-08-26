@@ -42,10 +42,11 @@ public class AdminController {
      */
     @GetMapping("/info")
     public Result<Object> info(){
-        SelfUser selfUser = (SelfUser) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
-        User user = userService.getById(selfUser.getUserId());
-        selfUser.setHeader(user.getHeader());
-        return new Result<>("操作成功: 当前用户信息！", selfUser);
+        Long userId = SecurityUtil.getUserId();
+        User userInfo = new User();
+        userInfo = userService.getUserInfoById(userId);
+        // userInfo.setMenuList(menuService.getMenuListByRoleId(userInfo.getRoleId()));
+        return new Result<>("操作成功: 当前用户信息！", userInfo);
     }
 
     /**

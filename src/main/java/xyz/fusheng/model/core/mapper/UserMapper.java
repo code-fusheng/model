@@ -43,9 +43,17 @@ public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 分页查询统计总数
+     *
      * @param page
      * @return
      */
     int getCountByPage(Page<User> page);
 
+    /**
+     * 查询用户信息
+     *
+     * @param userId
+     * @return
+     */
+    User getUserInfoById(Long userId);
 }

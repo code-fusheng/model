@@ -1,12 +1,12 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.*;
 import xyz.fusheng.model.core.entity.Comment;
 import xyz.fusheng.model.core.service.CommentService;
-import xyz.fusheng.model.core.service.UserService;
 import xyz.fusheng.model.core.vo.CommentVo;
 
 import java.util.Arrays;
@@ -33,6 +33,7 @@ public class CommentController {
      * @param comment
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/comment/save','comment:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Comment comment) {
         // 获取评论人的用户id
@@ -59,6 +60,7 @@ public class CommentController {
      * @param page
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('comment/getByPage','comment:list')")
     @PostMapping("/getByPage")
     public Result<Page<CommentVo>> getByPage(@RequestBody Page<CommentVo> page) {
         String sortColumn = page.getSortColumn();

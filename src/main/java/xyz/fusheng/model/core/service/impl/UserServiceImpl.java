@@ -92,4 +92,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         updateWrapper.lambda().set(User::getIsEnabled, StateEnums.NOT_ENABLE.getCode());
         userMapper.update(null, updateWrapper);
     }
+
+    @Override
+    public User getUserInfoById(Long userId) {
+        User userInfo = userMapper.getUserInfoById(userId);
+        return userInfo;
+    }
 }

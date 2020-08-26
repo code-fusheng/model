@@ -26,8 +26,6 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService UserService;
-    @Autowired
     private UserService userService;
     @Autowired
     private UserRoleService userRoleService;
