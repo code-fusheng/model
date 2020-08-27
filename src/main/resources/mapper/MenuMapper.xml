@@ -37,9 +37,9 @@
     </select>
     <!-- 角色对应权限列表 -->
     <select id="getMenuListByRoleId" resultType="xyz.fusheng.model.core.entity.Menu" parameterType="java.lang.Long">
-        SELECT r.role_name, rm.menu_id, m.name, m.level, m.pid, m.permission
-        FROM sys_role r left join sys_role_menu rm on r.role_id = rm.role_id
-		                left join sys_menu m on rm.menu_id = m.menu_id
-        where r.role_id = #{id}
+        SELECT sr.role_name, srm.menu_id, sm.name, sm.level, sm.pid, sm.permission
+        FROM sys_role sr left join sys_role_menu srm on sr.role_id = srm.role_id
+		                left join sys_menu sm on srm.menu_id = sm.menu_id
+        where sr.role_id = #{id}
     </select>
 </mapper>

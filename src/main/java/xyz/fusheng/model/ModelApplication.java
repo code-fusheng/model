@@ -79,6 +79,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * (2020/08/16 11:19 --- 2020/08/16 14:38) feature : 音乐欣赏 --- 新增音乐相关的后端接口（论坛中仅涉及简单的音乐模块，后续单独写音乐播放器以及视频播放器）
  * (2020/08/20 06:41 --- 2020/08/20 20:11) feature : 文章模块 --- 实现了文本内容的编辑修改，增加 editContent 编辑内容字段 保存文章内容源码
  * (2020/08/26 09:35 --- 2020/08/26 13:49) fix : 登录逻辑 --- 解决了 Security 未登录状态资源访问问题，具体见 LoginController 的 callbackLogin() 方法
+ * (2020/08/27 09:42 --- 2020/08/27 13:17) feature : 权限设计 --- 通过改变字段，实现了后台添加权限的功能，在常规模版上添加而注解以及路由标识控制权限（下一步，后台角色全向绑定操作）
  *
  */
 @SpringBootApplication

@@ -29,7 +29,6 @@ public class CommentController {
 
     /**
      * 发表评论
-     *
      * @param comment
      * @return
      */
@@ -44,7 +43,6 @@ public class CommentController {
 
     /**
      * 删除评论
-     *
      * @param id
      * @return
      */
@@ -56,7 +54,6 @@ public class CommentController {
 
     /**
      * 分页查询文章的评论列表 (参数带评论类型)
-     *
      * @param page
      * @return
      */

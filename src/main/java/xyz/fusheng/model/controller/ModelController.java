@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
@@ -37,6 +38,7 @@ public class ModelController {
      * @param model
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/model/save','model:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Model model){
         modelService.save(model);
@@ -48,6 +50,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/model/delete','model:list:delete')")
     @DeleteMapping("/delete/{id}")
     public Result<Object> delete(@PathVariable("id") Integer id){
         modelService.deleteById(id);
@@ -59,6 +62,7 @@ public class ModelController {
      * @param ids
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') and hasPermission('/model/deleteByIds','model:list:deletes')")
     @PutMapping("/deleteByIds")
     public Result<Object> deleteByIds(@RequestBody List<Integer> ids){
         modelService.deleteByIds(ids);
@@ -70,6 +74,7 @@ public class ModelController {
      * @param model
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/model/update','model:list:update')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Model model){
         modelService.update(model);
@@ -81,6 +86,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/model/get','model:list:info')")
     @GetMapping("/get/{id}")
     public Result<Model> get(@PathVariable("id") Integer id){
         Model model = modelService.getById(id);
@@ -91,6 +97,7 @@ public class ModelController {
      * 查询所有
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') and hasPermission('/model/list','model:list')")
     @GetMapping("/list")
     public Result<List<Model>> list(){
         List<Model> modelList = modelService.getAll();
@@ -102,6 +109,7 @@ public class ModelController {
      * @param page
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER') and hasPermission('/model/getByPage','model:list')")
     @PostMapping("/getByPage")
     public Result<Page<Model>> getByPage(@RequestBody Page<Model> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
@@ -131,6 +139,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER') and hasPermission('/model/enable','model:list:enable')")
     @PutMapping("/enable/{id}")
     public Result<Object> enable(@PathVariable("id") Integer id) {
         modelService.enableById(id);
@@ -142,6 +151,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER') and hasPermission('/model/disable','model:list:disable')")
     @PutMapping("/disable/{id}")
     public Result<Object> disable(@PathVariable("id") Integer id) {
         modelService.disableById(id);

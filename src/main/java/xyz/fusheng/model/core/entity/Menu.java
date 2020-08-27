@@ -6,6 +6,7 @@
  */
 package xyz.fusheng.model.core.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -22,7 +23,7 @@ public class Menu implements Serializable {
     /**
      * 权限ID
      */
-    @TableId
+    @TableId(value = "menu_id", type = IdType.INPUT)
     private Long menuId;
 
     /**
