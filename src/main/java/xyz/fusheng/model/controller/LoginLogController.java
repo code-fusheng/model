@@ -1,0 +1,81 @@
+package xyz.fusheng.model.controller; /**
+ * @author: code-fusheng
+ * @Date: 2020/9/5 20:14
+ */
+
+import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.enums.ResultEnums;
+import xyz.fusheng.model.common.utils.Page;
+import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.model.common.utils.StringUtils;
+import xyz.fusheng.model.core.entity.LoginLog;
+import xyz.fusheng.model.core.service.LoginLogService;
+
+import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @FileName: LoginLogController
+ * @Author: code-fusheng
+ * @Date: 2020/9/5 20:14
+ * @version: 1.0
+ * Description: 登录日志控制类
+ */
+
+@RestController
+@RequestMapping("/loginLog")
+public class LoginLogController {
+
+    @Resource
+    private LoginLogService loginLogService;
+
+    /**
+     * 分页查询 + 排序
+     *
+     * @param page
+     * @return
+     */
+    @PostMapping("/getByPage")
+    public Result<Page<LoginLog>> getByPage(@RequestBody Page<LoginLog> page) {
+        String sortColumn = page.getSortColumn();
+        String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
+        page.setSortColumn(newSortColumn);
+        if (StringUtils.isNotBlank(sortColumn)) {
+            // 根据 请求时间 排序
+            String[] sortColumns = {"login_time"};
+            List<String> sortList = Arrays.asList(sortColumns);
+            if (!sortList.contains(newSortColumn.toLowerCase())) {
+                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+            }
+        }
+        page = loginLogService.getByPage(page);
+        return new Result<>(page);
+    }
+
+    /**
+     * 根据id删除
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete/{id}")
+    public Result<Object> delete(@PathVariable("id") Integer id) {
+        loginLogService.deleteById(id);
+        return new Result<>("删除成功: 删除日志！");
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    @PutMapping("/deleteByIds")
+    public Result<Object> deleteByIds(@RequestBody List<Integer> ids) {
+        loginLogService.deleteByIds(ids);
+        return new Result<>("操作成功: 批量删除日志！");
+    }
+
+
+}

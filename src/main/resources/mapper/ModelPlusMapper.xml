@@ -27,4 +27,5 @@
             and created_time between #{params.modelPlusTime[0],jdbcType=TIMESTAMP} and #{params.modelPlusTime[1],jdbcType=TIMESTAMP}
         </if>
     </select>
+
 </mapper>

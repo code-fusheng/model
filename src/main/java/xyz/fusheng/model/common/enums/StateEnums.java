@@ -24,6 +24,12 @@ public enum StateEnums {
     NOT_ENABLE(0, "未启用"),
 
     /**
+     * 登录状态
+     */
+    LOGIN_SUCCESS(0, "登录成功"),
+    LOGIN_ERROR(1, "登录失败"),
+
+    /**
      * 性别状态
      */
     SEX_MAN(1, "男"),

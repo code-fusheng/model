@@ -6,6 +6,7 @@
  */
 package xyz.fusheng.model.security.core;
 
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,11 +18,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import xyz.fusheng.model.common.utils.AddressUtils;
+import xyz.fusheng.model.common.utils.IpUtils;
+import xyz.fusheng.model.core.entity.LoginLog;
 import xyz.fusheng.model.core.entity.Role;
+import xyz.fusheng.model.core.service.LoginLogService;
 import xyz.fusheng.model.core.service.UserService;
 import xyz.fusheng.model.security.entity.SelfUser;
 import xyz.fusheng.model.security.service.SelfUserDetailsService;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +40,9 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     private SelfUserDetailsService selfUserDetailsService;
     @Autowired
     private UserService userService;
+
+    @Resource
+    private LoginLogService loginLogService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
