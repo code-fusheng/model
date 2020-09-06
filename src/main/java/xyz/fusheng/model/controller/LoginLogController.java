@@ -32,7 +32,6 @@ public class LoginLogController {
 
     /**
      * 分页查询 + 排序
-     *
      * @param page
      * @return
      */
@@ -55,7 +54,6 @@ public class LoginLogController {
 
     /**
      * 根据id删除
-     *
      * @param id
      * @return
      */
@@ -67,7 +65,6 @@ public class LoginLogController {
 
     /**
      * 批量删除
-     *
      * @param ids
      * @return
      */

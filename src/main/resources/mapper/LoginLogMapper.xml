@@ -5,11 +5,11 @@
     <select id="getByPage" resultType="xyz.fusheng.model.core.entity.LoginLog" parameterType="xyz.fusheng.model.common.utils.Page">
         select * from sys_login_log
         where 1 = 1
-        <if test="params.loginStatus!=null and params.loginStatus!=''">
-            and login_status like concat('%', #{params.loginStatus}, '%')
+        <if test="params.loginStatus!=null">
+            and login_status = #{params.loginStatus}
         </if>
         <if test="params.loginLogTime!=null">
-            and created_time between #{params.loginLogTime[0],jdbcType=TIMESTAMP} and #{params.loginLogTime[1],jdbcType=TIMESTAMP}
+            and login_time between #{params.loginLogTime[0],jdbcType=TIMESTAMP} and #{params.loginLogTime[1],jdbcType=TIMESTAMP}
         </if>
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
@@ -21,11 +21,11 @@
         select count(*)
         from sys_login_log
         where 1 = 1
-        <if test="params.loginStatus!=null and params.loginStatus!=''">
-            and login_status like concat('%', #{params.loginStatus}, '%')
+        <if test="params.loginStatus!=null">
+            and login_status = #{params.loginStatus}
         </if>
         <if test="params.loginLogTime!=null">
-            and created_time between #{params.loginLogTime[0],jdbcType=TIMESTAMP} and #{params.loginLogTime[1],jdbcType=TIMESTAMP}
+            and login_time between #{params.loginLogTime[0],jdbcType=TIMESTAMP} and #{params.loginLogTime[1],jdbcType=TIMESTAMP}
         </if>
     </select>
 

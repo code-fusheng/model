@@ -31,7 +31,7 @@
             and g.good_type = #{params.goodType}
         </if>
         <if test="params.goodTime!=null">
-            and a.good_time between #{params.goodTime[0],jdbcType=TIMESTAMP} and
+            and g.good_time between #{params.goodTime[0],jdbcType=TIMESTAMP} and
             #{params.goodTime[1],jdbcType=TIMESTAMP}
         </if>
         <if test="sortColumn!=null and sortColumn!=''">
@@ -55,7 +55,7 @@
             and g.good_type = #{params.goodType}
         </if>
         <if test="params.goodTime!=null">
-            and a.good_time between #{params.goodTime[0],jdbcType=TIMESTAMP} and
+            and g.good_time between #{params.goodTime[0],jdbcType=TIMESTAMP} and
             #{params.goodTime[1],jdbcType=TIMESTAMP}
         </if>
     </select>
