@@ -35,4 +35,26 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     List<Menu> getFormatMenuListByRoleId(Long id);
+
+    /**
+     * 获取权限树
+     *
+     * @return
+     */
+    List<Menu> getFormatMenuTree();
+
+    /**
+     * 查询可用权限列表
+     *
+     * @return
+     */
+    List<Menu> getMenuTree();
+
+    /**
+     * 根据角色ID查询菜单权限ID数据
+     *
+     * @param roleId
+     * @return
+     */
+    List<Long> getMenuIdsByRoleId(Long roleId);
 }

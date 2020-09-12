@@ -42,4 +42,20 @@
 		                left join sys_menu sm on srm.menu_id = sm.menu_id
         where sr.role_id = #{id}
     </select>
+    <!-- 查询所有可用权限 -->
+    <select id="getAll" resultType="xyz.fusheng.model.core.entity.Menu">
+        select menu_id, name, permission, level, pid, created_time, update_time, is_enabled from sys_menu
+        where is_deleted = 0
+    </select>
+
+    <select id="queryMenuIdsByRoleId" resultType="java.lang.Long">
+        select rm.menu_id from sys_role_menu rm where rm.role_id = #{roleId}
+            and rm.menu_id not in
+            (select m.pid from sys_menu m
+                        inner join sys_role_menu srm on m.menu_id = srm.menu_id
+                        and srm.role_id = #{roleId})
+    </select>
+
+
+
 </mapper>

@@ -31,9 +31,24 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     /**
      * 根据角色id查询权限列表
+     *
      * @param id
      * @return
      */
     List<Menu> getMenuListByRoleId(Long id);
 
+    /**
+     * 查询所有权限 可用的
+     *
+     * @return
+     */
+    List<Menu> getAll();
+
+    /**
+     * 根据角色ID查询所有选中的权限菜单ID【只查子节点的】
+     *
+     * @param roleId
+     * @return
+     */
+    List<Long> queryMenuIdsByRoleId(Long roleId);
 }

@@ -50,7 +50,6 @@ public class MenuController {
      * @param id
      * @return
      */
-    @CacheEvict(cacheNames = "menu",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
@@ -63,12 +62,11 @@ public class MenuController {
      * @param menu
      * @return
      */
-    @CachePut(cacheNames = "menu",key = "#menu.menuId")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Menu menu){
         menuService.updateById(menu);
-        return new Result<>("操作成功: 修改模版!");
+        return new Result<>("操作成功: 修改权限!");
     }
 
     /**
@@ -76,7 +74,6 @@ public class MenuController {
      * @param id
      * @return
      */
-    @Cacheable(cacheNames = "menu",key = "#id")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("getById/{id}")
     public Result<Menu> getById(@PathVariable("id") Long id){
@@ -86,21 +83,34 @@ public class MenuController {
 
     /**
      * 查询所有权限
+     *
      * @return
      */
     @GetMapping("/list")
-    public Result<List<Menu>> list(){
+    public Result<List<Menu>> list() {
         List<Menu> menus = menuService.list();
         return new Result<>("操作成功: 权限列表！", menus);
     }
 
     /**
+     * 查询可用权限列表
+     *
+     * @return
+     */
+    @GetMapping("/getMenuTree")
+    public Result<List<Menu>> getMenuTree() {
+        List<Menu> menuList = menuService.getMenuTree();
+        return new Result<>("操作成功: 可用权限列表！", menuList);
+    }
+
+    /**
      * 多条件分页查询
+     *
      * @param page
      * @return
      */
     @PostMapping("/getByPage")
-    public Result<Page<Menu>> getByPage(@RequestBody Page<Menu> page){
+    public Result<Page<Menu>> getByPage(@RequestBody Page<Menu> page) {
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
         String sortColumn = page.getSortColumn();
         // 驼峰转下划线

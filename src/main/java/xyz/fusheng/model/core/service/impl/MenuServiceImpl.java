@@ -8,8 +8,10 @@ package xyz.fusheng.model.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.stereotype.Service;
+import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Menu;
 import xyz.fusheng.model.core.entity.ModelPlus;
@@ -39,6 +41,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return page;
     }
 
+
     @Override
     public List<Menu> getMenuListByRoleId(Long id) {
         List<Menu> menuList = menuMapper.getMenuListByRoleId(id);
@@ -57,6 +60,33 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             menu.setChildList(child);
         }
         return menus;
+    }
+
+    @Override
+    public List<Menu> getFormatMenuTree() {
+        List<Menu> menuList = menuMapper.getAll();
+        QueryWrapper<Menu> queryWrapper = new QueryWrapper();
+        // 获取一级权限
+        queryWrapper.lambda().eq(Menu::getLevel, 1);
+        List<Menu> menus = menuMapper.selectList(queryWrapper);
+        for (Menu menu : menus) {
+            List<Menu> child = getChild(menu.getMenuId(), menuList);
+            menu.setChildList(child);
+        }
+        return menuList;
+    }
+
+    @Override
+    public List<Menu> getMenuTree() {
+        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Menu::getIsEnabled, StateEnums.ENABLED.getCode());
+        List<Menu> menuList = menuMapper.selectList(queryWrapper);
+        return menuList;
+    }
+
+    @Override
+    public List<Long> getMenuIdsByRoleId(Long roleId) {
+        return menuMapper.queryMenuIdsByRoleId(roleId);
     }
 
     /**

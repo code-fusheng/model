@@ -1,7 +1,6 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +9,7 @@ import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.User;
-import xyz.fusheng.model.core.entity.UserRole;
 import xyz.fusheng.model.core.service.UserService;
-import xyz.fusheng.model.core.service.UserRoleService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,8 +24,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserRoleService userRoleService;
 
     /**
      * 注册用户 Security 开放接口 - 增
@@ -53,10 +48,6 @@ public class UserController {
             return new Result<>("注册失败！");
         }
         // 默认角色 User 普通用户
-        UserRole userRole = new UserRole();
-        userRole.setUserId(userService.selectUserByName(user.getUsername()).getUserId());
-        userRole.setRoleId(2L);
-        userRoleService.save(userRole);
         return new Result<>("注册成功！");
     }
 
@@ -84,10 +75,6 @@ public class UserController {
             return new Result<>("添加失败！");
         }
         // 默认角色 User 普通用户
-        UserRole userRole = new UserRole();
-        userRole.setUserId(userService.selectUserByName(user.getUsername()).getUserId());
-        userRole.setRoleId(2L);
-        userRoleService.save(userRole);
         return new Result<>("添加成功！");
     }
 

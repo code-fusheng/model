@@ -32,7 +32,7 @@ public class CommentController {
      * @param comment
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/comment/save','comment:add')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/comment/save','comment:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Comment comment) {
         // 获取评论人的用户id
@@ -46,6 +46,7 @@ public class CommentController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/comment/save','comment:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id) {
         commentService.deleteById(id);

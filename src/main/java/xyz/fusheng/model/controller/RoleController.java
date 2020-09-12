@@ -1,7 +1,6 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,9 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.core.entity.Menu;
 import xyz.fusheng.model.core.entity.Role;
-import xyz.fusheng.model.core.entity.RoleMenu;
 import xyz.fusheng.model.core.service.MenuService;
-import xyz.fusheng.model.core.service.RoleMenuService;
 import xyz.fusheng.model.core.service.RoleService;
 
 import java.util.ArrayList;
@@ -33,9 +30,6 @@ public class RoleController {
     private RoleService roleService;
 
     @Autowired
-    private RoleMenuService roleMenuService;
-
-    @Autowired
     private MenuService menuService;
 
     /**
@@ -45,13 +39,13 @@ public class RoleController {
     @GetMapping("/list")
     public Result<List<Role>> list() {
         List<Role> roleList = roleService.list();
-        List<Menu> menuList = new ArrayList<>(16);
-        for (Role role : roleList) {
-            menuList = menuService.getFormatMenuListByRoleId(role.getRoleId());
-            if (menuList != null) {
-                role.setMenuList(menuList);
-            }
-        }
+        // List<Menu> menuList = new ArrayList<>(16);
+        // for (Role role : roleList) {
+        //     menuList = menuService.getFormatMenuListByRoleId(role.getRoleId());
+        //     if (menuList.size() > 0) {
+        //         role.setMenuList(menuList);
+        //     }
+        // }
         return new Result<>("操作成功: 角色列表！", roleList);
     }
 
@@ -78,5 +72,18 @@ public class RoleController {
         List<Menu> menuList = menuService.getFormatMenuListByRoleId(id);
         return new Result<>("操作成功: 角色权限列表！", menuList);
     }
+
+    /**
+     * 根据角色id获取菜单权限ids
+     *
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/getMenuIdsByRoleId/{roleId}")
+    public Result<List<Long>> getMenuIdsByRoleId(@PathVariable Long roleId) {
+        List<Long> ids = menuService.getMenuIdsByRoleId(roleId);
+        return new Result<>("操作成功: 角色对应的权限IDs！", ids);
+    }
+
 
 }

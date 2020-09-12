@@ -246,9 +246,9 @@ class ElasticsearchTests {
     void searchHighlightWithFields() throws IOException {
         SearchPage searchPage = new SearchPage();
         searchPage.setPageNo(1);
-        searchPage.setPageSize(2);
+        searchPage.setPageSize(1);
         searchPage.setIndex("model_article_index");
-        searchPage.setKeyword("测试");
+        searchPage.setKeyword("数据结构");
         searchPage.setParams("articleTitle");
         String[] fields = {"articleTitle", "articleDesc"};
         searchPage.setKeyFields(fields);
@@ -263,6 +263,12 @@ class ElasticsearchTests {
         // MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(searchPage.getKeyFields()[0], searchPage.getKeyword());
         // 多匹配查询构建器
         MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(searchPage.getKeyword(), searchPage.getKeyFields());
+        // multiMatchQueryBuilder.
+        // .field("analyzer", "ik").field("search_analyzer","ik_smart")
+        // 默认分词 - 按词切分
+        multiMatchQueryBuilder.analyzer("standard");
+        // 不分词 - 不切分
+        // multiMatchQueryBuilder.analyzer("keyword");
         // sourceBuilder.query(matchQueryBuilder);
         sourceBuilder.query(multiMatchQueryBuilder);
         sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
