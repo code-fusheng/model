@@ -56,6 +56,11 @@
                         and srm.role_id = #{roleId})
     </select>
 
+    <!-- 删除权限时，删除角色权限中间表的相关数据 -->
+    <delete id="deleteRoleMenuByMenuId">
+        delete from sys_role_menu where menu_id = #{roleId}
+    </delete>
+
 
 
 </mapper>

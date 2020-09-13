@@ -1,10 +1,7 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.core.entity.Menu;
 import xyz.fusheng.model.core.entity.Role;
@@ -83,6 +80,26 @@ public class RoleController {
     public Result<List<Long>> getMenuIdsByRoleId(@PathVariable Long roleId) {
         List<Long> ids = menuService.getMenuIdsByRoleId(roleId);
         return new Result<>("操作成功: 角色对应的权限IDs！", ids);
+    }
+
+    /**
+     * 保存更新角色绑定权限
+     *
+     * @param roleId
+     * @param menuIds
+     * @return
+     */
+    @PostMapping("/saveRoleMenu/{roleId}/{menuIds}")
+    public Result<Object> saveRoleMenu(@PathVariable Long roleId, @PathVariable Long[] menuIds) {
+        /**
+         * 因为我们用的路径参数，前端可能传过来的menuIds是一个空的，但是为空的话无法匹配上面的路径
+         * 所以如果为空，我们让前端传一个-1过来，如果是-1说明当前角色一个权限也没有选择
+         */
+        if (menuIds.length == 1 && menuIds[0].equals(-1L)) {
+            menuIds = new Long[]{};
+        }
+        roleService.saveRoleMenu(roleId, menuIds);
+        return new Result<>("操作成功: 更新角色权限！");
     }
 
 

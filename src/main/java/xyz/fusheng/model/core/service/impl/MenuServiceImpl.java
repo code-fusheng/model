@@ -89,6 +89,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return menuMapper.queryMenuIdsByRoleId(roleId);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        // 删除权限
+        menuMapper.deleteById(id);
+        // 删除 sys_role_menu 中对应角色的权限
+        menuMapper.deleteRoleMenuByMenuId(id);
+    }
+
     /**
      * 获取子节点
      *

@@ -10,4 +10,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import xyz.fusheng.model.core.entity.Role;
 
 public interface RoleService extends IService<Role> {
+
+    /**
+     * 保存角色和菜单之间的关系
+     *
+     * @param roleId
+     * @param menuIds
+     */
+    void saveRoleMenu(Long roleId, Long[] menuIds);
+
 }

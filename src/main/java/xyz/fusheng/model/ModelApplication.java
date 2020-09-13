@@ -81,6 +81,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * (2020/08/26 09:35 --- 2020/08/26 13:49) fix : 登录逻辑 --- 解决了 Security 未登录状态资源访问问题，具体见 LoginController 的 callbackLogin() 方法
  * (2020/08/27 09:42 --- 2020/08/27 13:17) feature : 权限设计 --- 通过改变字段，实现了后台添加权限的功能，在常规模版上添加而注解以及路由标识控制权限（下一步，后台角色全向绑定操作）
  * (2020/09/05 20:00 --- 2020/09/05 23:13) feature : 登录日志 --- 新增日志管理-登录日志的相关接口方法(UserAgentUtils 浏览器解析客户端操作系统、浏览器、淘宝IP地址查询接口),登录操作保存登录信息
+ * (2020/09/12 08:00 --- 2020/09/13 17:09) feature : 权限设计 --- 新增树形权限设计，提供用户授权方法，优化角色权限中间表 sys_role_menu 设计，基本实现角色与权限的设计
  *
  */
 @SpringBootApplication

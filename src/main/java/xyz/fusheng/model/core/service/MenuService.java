@@ -57,4 +57,11 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     List<Long> getMenuIdsByRoleId(Long roleId);
+
+    /**
+     * 根据id删除权限
+     *
+     * @param id
+     */
+    void deleteById(Long id);
 }

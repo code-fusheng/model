@@ -51,4 +51,11 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return
      */
     List<Long> queryMenuIdsByRoleId(Long roleId);
+
+    /**
+     * 根据权限id 删除角色权限中间表的对应数据
+     *
+     * @param id
+     */
+    void deleteRoleMenuByMenuId(Long id);
 }

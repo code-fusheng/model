@@ -53,7 +53,7 @@ public class MenuController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
-        menuService.removeById(id);
+        menuService.deleteById(id);
         return new Result<>("操作成功: 删除权限！");
     }
 
