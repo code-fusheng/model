@@ -1,6 +1,7 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.core.entity.Menu;
@@ -30,8 +31,60 @@ public class RoleController {
     private MenuService menuService;
 
     /**
+     * 添加角色 - 增 - 管理员
+     *
+     * @param role
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping("/save")
+    public Result<Object> save(@RequestBody Role role) {
+        roleService.save(role);
+        return new Result<>("操作成功: 添加角色！");
+    }
+
+    /**
+     * 删除角色 - 删 - 管理员
+     *
+     * @param roleId
+     * @return
+     */
+    @DeleteMapping("/deleteById/{roleId}")
+    public Result<Object> deleteById(@PathVariable("roleId") Long roleId) {
+        // 删除角色的同时需要删除用户角色中间表中的数据
+        roleService.deleteById(roleId);
+        return new Result<>("操作成功: 删除角色！");
+    }
+
+    /**
+     * 修改角色 - 该 - 管理员
+     *
+     * @param role
+     * @return
+     */
+    @PutMapping("/update")
+    public Result<Object> update(@RequestBody Role role) {
+        role.setVersion(roleService.getById(role.getRoleId()).getVersion());
+        roleService.updateById(role);
+        return new Result<>("操作成功: 修改角色！");
+    }
+
+    /**
+     * 根据id查询角色 - 查 - 管理员
+     *
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/getById/{roleId}")
+    public Result<Role> getById(@PathVariable("roleId") Long roleId) {
+        Role role = roleService.getById(roleId);
+        return new Result<>("操作成功: 查询角色！", role);
+    }
+
+    /**
      * 获取角色列表 - 查
-     * @Return Result<List<Role>> 角色列表
+     *
+     * @Return Result<List < Role>> 角色列表
      */
     @GetMapping("/list")
     public Result<List<Role>> list() {
@@ -100,6 +153,32 @@ public class RoleController {
         }
         roleService.saveRoleMenu(roleId, menuIds);
         return new Result<>("操作成功: 更新角色权限！");
+    }
+
+    /**
+     * 启用 - 改 - 管理员
+     *
+     * @param roleId
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/enable/{roleId}")
+    public Result<Object> enable(@PathVariable("roleId") Long roleId) {
+        roleService.enableById(roleId);
+        return new Result<>("操作成功: 启用角色！");
+    }
+
+    /**
+     * 弃用 - 改 - 管理员
+     *
+     * @param roleId
+     * @return
+     */
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/disable/{roleId}")
+    public Result<Object> disable(@PathVariable("roleId") Long roleId) {
+        roleService.disableById(roleId);
+        return new Result<>("操作成功: 弃用角色！");
     }
 
 

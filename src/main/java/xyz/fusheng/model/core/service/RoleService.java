@@ -19,4 +19,33 @@ public interface RoleService extends IService<Role> {
      */
     void saveRoleMenu(Long roleId, Long[] menuIds);
 
+    /**
+     * 逻辑扇出角色 - 但是要删除对应用户角色中间表
+     *
+     * @param roleId
+     */
+    void deleteById(Long roleId);
+
+
+    /**
+     * 根据id启用
+     *
+     * @param roleId
+     */
+    void enableById(Long roleId);
+
+    /**
+     * 根据id弃用
+     *
+     * @param roleId
+     */
+    void disableById(Long roleId);
+
+    /**
+     * 保存用户与角色之间的关系
+     *
+     * @param userId
+     * @param roleIds
+     */
+    void saveUserRole(Long userId, Long[] roleIds);
 }

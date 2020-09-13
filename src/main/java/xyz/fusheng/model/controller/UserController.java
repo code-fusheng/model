@@ -3,19 +3,23 @@ package xyz.fusheng.model.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.User;
+import xyz.fusheng.model.core.service.RoleService;
 import xyz.fusheng.model.core.service.UserService;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * 用户
+ *
  * @author code-fusheng
  */
 @RestController
@@ -25,14 +29,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Resource
+    private RoleService roleService;
+
     /**
      * 注册用户 Security 开放接口 - 增
      * @param user
      * @return
      */
     @PostMapping("/register")
-    public Result<Object> register(@RequestBody User user){
-        if(StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())){
+    public Result<Object> register(@RequestBody User user) {
+        if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
             return new Result<>(400, "操作错误: 缺少必须表单字段！");
         }
         if(userService.selectUserByName(user.getUsername())!=null){
@@ -44,10 +51,13 @@ public class UserController {
         // 设置为启用状态
         user.setIsDeleted(0);
         boolean ret = userService.save(user);
-        if(!ret){
+        if (!ret) {
             return new Result<>("注册失败！");
         }
         // 默认角色 User 普通用户
+        Long userId = userService.selectUserByName(user.getUsername()).getUserId();
+        Long[] roleIds = {2L};
+        roleService.saveUserRole(userId, roleIds);
         return new Result<>("注册成功！");
     }
 
@@ -74,7 +84,6 @@ public class UserController {
         if(!ret){
             return new Result<>("添加失败！");
         }
-        // 默认角色 User 普通用户
         return new Result<>("添加成功！");
     }
 

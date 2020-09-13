@@ -8,6 +8,7 @@ package xyz.fusheng.model.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -28,6 +29,11 @@ public class Role implements Serializable {
      * 角色名称
      */
     private String roleName;
+
+    /**
+     * 角色备注
+     */
+    private String remark;
 
     /**
      * 创建时间
@@ -52,6 +58,7 @@ public class Role implements Serializable {
     /**
      * 是否删除，0否1是 默认0
      */
+    @TableLogic
     private Integer isDeleted;
 
     /**

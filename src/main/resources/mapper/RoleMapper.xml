@@ -11,5 +11,17 @@
     delete from sys_role_menu where role_id = #{roleId}
 </delete>
 
+<delete id="deleteUserRoleByRoleId">
+    delete from sys_user_role where role_id = #{roleId}
+</delete>
+
+<delete id="deleteUserRoleByUserId">
+    delete from sys_user_role where user_id = #{userId}
+</delete>
+
+<insert id="saveUserRole">
+    insert into sys_user_role(user_id, role_id) values (#{userId}, #{roleId})
+</insert>
+
 
 </mapper>
