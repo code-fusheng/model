@@ -89,14 +89,30 @@ public class RoleController {
     @GetMapping("/list")
     public Result<List<Role>> list() {
         List<Role> roleList = roleService.list();
-        // List<Menu> menuList = new ArrayList<>(16);
-        // for (Role role : roleList) {
-        //     menuList = menuService.getFormatMenuListByRoleId(role.getRoleId());
-        //     if (menuList.size() > 0) {
-        //         role.setMenuList(menuList);
-        //     }
-        // }
         return new Result<>("操作成功: 角色列表！", roleList);
+    }
+
+    /**
+     * 查询所有可用角色
+     *
+     * @return
+     */
+    @GetMapping("/selectAllRole")
+    public Result<List<Role>> selectAllRole() {
+        List<Role> roleList = roleService.selectAllRole();
+        return new Result<>("操作成功: 查询可用角色！", roleList);
+    }
+
+    /**
+     * 根据用户ID查询用户拥有的角色IDS - 查
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getRoleIdsByUserId/{userId}")
+    public Result<List<Long>> getRoleIdsByUserId(@PathVariable Long userId) {
+        List<Long> roleIds = roleService.getRoleIdsByUserId(userId);
+        return new Result<>("操作成功: 获取用户角色Ids！", roleIds);
     }
 
     /**
@@ -153,6 +169,26 @@ public class RoleController {
         }
         roleService.saveRoleMenu(roleId, menuIds);
         return new Result<>("操作成功: 更新角色权限！");
+    }
+
+    /**
+     * 保存更新用户角色
+     *
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    @PostMapping("/saveUserRole/{userId}/{roleIds}")
+    public Result<Object> saveUserRole(@PathVariable Long userId, @PathVariable Long[] roleIds) {
+        /**
+         * 因为我们用的路径参数，前端可能传过来的roleIds是一个空的，但是为空的话无法匹配上面的路径
+         * 所以如果为空，我们让前端传一个-1过来，如果是-1说明当前用户一个角色也没有选择
+         */
+        if (roleIds.length == 1 && roleIds[0].equals(-1L)) {
+            roleIds = new Long[]{};
+        }
+        roleService.saveUserRole(userId, roleIds);
+        return new Result<>("操作成功: 更新用户角色");
     }
 
     /**

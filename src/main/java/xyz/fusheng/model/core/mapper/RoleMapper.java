@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import xyz.fusheng.model.core.entity.Role;
 
+import java.util.List;
+
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
@@ -50,4 +52,12 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param roleId
      */
     void saveUserRole(Long userId, Long roleId);
+
+    /**
+     * 根据用户ID查询用户拥有的角色IDS
+     *
+     * @param userId
+     * @return
+     */
+    List<Long> getRoleIdsByUserId(Long userId);
 }

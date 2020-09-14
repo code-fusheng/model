@@ -6,6 +6,7 @@
  */
 package xyz.fusheng.model.core.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import xyz.fusheng.model.core.mapper.UserMapper;
 import xyz.fusheng.model.core.service.RoleService;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service("roleService")
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
@@ -40,6 +42,18 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         for (Long roleId : roleIds) {
             roleMapper.saveUserRole(userId, roleId);
         }
+    }
+
+    @Override
+    public List<Long> getRoleIdsByUserId(Long userId) {
+        return roleMapper.getRoleIdsByUserId(userId);
+    }
+
+    @Override
+    public List<Role> selectAllRole() {
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Role::getIsEnabled, StateEnums.ENABLED.getCode());
+        return roleMapper.selectList(queryWrapper);
     }
 
     @Override

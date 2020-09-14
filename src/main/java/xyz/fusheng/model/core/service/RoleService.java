@@ -9,6 +9,8 @@ package xyz.fusheng.model.core.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import xyz.fusheng.model.core.entity.Role;
 
+import java.util.List;
+
 public interface RoleService extends IService<Role> {
 
     /**
@@ -48,4 +50,19 @@ public interface RoleService extends IService<Role> {
      * @param roleIds
      */
     void saveUserRole(Long userId, Long[] roleIds);
+
+    /**
+     * 根据用户ID查询用户拥有的角色IDS
+     *
+     * @param userId
+     * @return
+     */
+    List<Long> getRoleIdsByUserId(Long userId);
+
+    /**
+     * 查询所有可用角色
+     *
+     * @return
+     */
+    List<Role> selectAllRole();
 }
