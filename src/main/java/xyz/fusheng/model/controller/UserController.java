@@ -66,7 +66,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/save', 'user:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody User user){
         if(StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())){
@@ -92,7 +92,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/deleteById', 'user:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
         userService.removeById(id);
@@ -104,7 +104,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/update', 'user:list:update')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody User user){
         userService.updateById(user);
@@ -116,7 +116,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/getById', 'user:list:info')")
     @GetMapping("getById/{id}")
     public Result<User> getById(@PathVariable("id") Long id){
         User user = userService.getById(id);
@@ -127,6 +127,7 @@ public class UserController {
      * 获取用户列表 - 查
      * @Return Result<List<User>> 用户列表
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/list', 'user:list')")
     @GetMapping("/list")
     public Result<List<User>> list(){
         List<User> userList = userService.list();
@@ -138,6 +139,7 @@ public class UserController {
      * @param page
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/getByPage', 'user:list')")
     @PostMapping("/getByPage")
     public Result<Page<User>> getByPage(@RequestBody Page<User> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
@@ -168,7 +170,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/enable', 'user:list:enable')")
     @PutMapping("/enable/{id}")
     public Result<Object> enable(@PathVariable("id") Long id) {
         userService.enableById(id);
@@ -181,7 +183,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/disable', 'user:list:disable')")
     @PutMapping("/disable/{id}")
     public Result<Object> disable(@PathVariable("id") Long id) {
         userService.disableById(id);

@@ -35,7 +35,7 @@ public class CategoryController {
      * @param category
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/save', 'category:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Category category){
         QueryWrapper<Category> wrapper = new QueryWrapper();
@@ -52,7 +52,7 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/deleteById', 'category:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
         categoryService.deleteById(id);
@@ -64,7 +64,7 @@ public class CategoryController {
      * @param category
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/update', 'category:list:update')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Category category){
         category.setVersion(categoryService.getById(category.getCategoryId()).getVersion());
@@ -77,7 +77,7 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/getById', 'category:list:info')")
     @GetMapping("getById/{id}")
     public Result<Category> getById(@PathVariable("id") Long id){
         Category category = categoryService.getById(id);
@@ -134,7 +134,7 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/enable', 'category:list:enable')")
     @PutMapping("/enable/{id}")
     public Result<Object> enable(@PathVariable("id") Long id) {
         categoryService.enableById(id);
@@ -146,7 +146,7 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/disable', 'category:list:disable')")
     @PutMapping("/disable/{id}")
     public Result<Object> disable(@PathVariable("id") Long id) {
         categoryService.disableById(id);

@@ -1,6 +1,7 @@
 package xyz.fusheng.model.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +41,7 @@ public class CollectionController {
      * @param collection
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('collection/save','collection:list:save')")
     @PostMapping("/save")
     @Transactional(rollbackFor = Exception.class)
     public Result<Object> save(@RequestBody Collection collection) {
@@ -59,6 +61,7 @@ public class CollectionController {
      * @param page
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('collection/getByPage','collection:list')")
     @PostMapping("/getByPage")
     public Result<Page<CollectionVo>> getByPage(@RequestBody Page<CollectionVo> page) {
         String sortColumn = page.getSortColumn();

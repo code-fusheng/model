@@ -37,6 +37,11 @@ public class Menu implements Serializable {
     private String permission;
 
     /**
+     * 权限路径
+     */
+    private String path;
+
+    /**
      * 权限级别
      */
     private Integer level;

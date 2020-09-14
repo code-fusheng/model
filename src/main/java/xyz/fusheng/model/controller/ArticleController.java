@@ -58,6 +58,7 @@ public class ArticleController {
      * @param article
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/save','article:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Article article) throws IOException {
         article.setAuthorId(SecurityUtil.getUserId());
@@ -71,7 +72,7 @@ public class ArticleController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/deleteById','article:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id) throws IOException {
         articleService.deleteById(id);
@@ -84,6 +85,7 @@ public class ArticleController {
      * @param article
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/update','article:list:update')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Article article) throws IOException {
         // 修改时先查询数据 获取 version 字段
@@ -156,7 +158,7 @@ public class ArticleController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/enable','article:list:enable')")
     @PutMapping("/enable/{id}")
     public Result<Object> enable(@PathVariable("id") Long id) throws IOException {
         articleService.enableById(id);
@@ -169,7 +171,7 @@ public class ArticleController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/disable','article:list:disable')")
     @PutMapping("/disable/{id}")
     public Result<Object> disable(@PathVariable("id") Long id) throws IOException {
         articleService.disableById(id);

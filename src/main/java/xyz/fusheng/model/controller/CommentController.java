@@ -32,7 +32,7 @@ public class CommentController {
      * @param comment
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/comment/save','comment:list:add')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/save','comment:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Comment comment) {
         // 获取评论人的用户id
@@ -46,7 +46,7 @@ public class CommentController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('/comment/save','comment:list:delete')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/deleteById','comment:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id) {
         commentService.deleteById(id);
@@ -58,7 +58,7 @@ public class CommentController {
      * @param page
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER') and hasPermission('comment/getByPage','comment:list')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('comment/getByPage','comment:list')")
     @PostMapping("/getByPage")
     public Result<Page<CommentVo>> getByPage(@RequestBody Page<CommentVo> page) {
         String sortColumn = page.getSortColumn();

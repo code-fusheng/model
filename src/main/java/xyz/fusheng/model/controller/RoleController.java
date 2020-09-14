@@ -36,7 +36,7 @@ public class RoleController {
      * @param role
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/save', 'role:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Role role) {
         roleService.save(role);
@@ -49,6 +49,7 @@ public class RoleController {
      * @param roleId
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/deleteById', 'role:list:delete')")
     @DeleteMapping("/deleteById/{roleId}")
     public Result<Object> deleteById(@PathVariable("roleId") Long roleId) {
         // 删除角色的同时需要删除用户角色中间表中的数据
@@ -62,6 +63,7 @@ public class RoleController {
      * @param role
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/update', 'role:list:update')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Role role) {
         role.setVersion(roleService.getById(role.getRoleId()).getVersion());
@@ -75,6 +77,7 @@ public class RoleController {
      * @param roleId
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/getById', 'role:list:info')")
     @GetMapping("/getById/{roleId}")
     public Result<Role> getById(@PathVariable("roleId") Long roleId) {
         Role role = roleService.getById(roleId);
@@ -86,6 +89,7 @@ public class RoleController {
      *
      * @Return Result<List < Role>> 角色列表
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/list', 'role:list')")
     @GetMapping("/list")
     public Result<List<Role>> list() {
         List<Role> roleList = roleService.list();
@@ -158,6 +162,7 @@ public class RoleController {
      * @param menuIds
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/saveRoleMenu', 'role:list:menu')")
     @PostMapping("/saveRoleMenu/{roleId}/{menuIds}")
     public Result<Object> saveRoleMenu(@PathVariable Long roleId, @PathVariable Long[] menuIds) {
         /**
@@ -173,11 +178,11 @@ public class RoleController {
 
     /**
      * 保存更新用户角色
-     *
      * @param userId
      * @param roleIds
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/saveUserRole', 'user:list:role')")
     @PostMapping("/saveUserRole/{userId}/{roleIds}")
     public Result<Object> saveUserRole(@PathVariable Long userId, @PathVariable Long[] roleIds) {
         /**
@@ -197,7 +202,7 @@ public class RoleController {
      * @param roleId
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/enable', 'role:list:enable')")
     @PutMapping("/enable/{roleId}")
     public Result<Object> enable(@PathVariable("roleId") Long roleId) {
         roleService.enableById(roleId);
@@ -210,12 +215,11 @@ public class RoleController {
      * @param roleId
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/disable', 'role:list:disable')")
     @PutMapping("/disable/{roleId}")
     public Result<Object> disable(@PathVariable("roleId") Long roleId) {
         roleService.disableById(roleId);
         return new Result<>("操作成功: 弃用角色！");
     }
-
 
 }

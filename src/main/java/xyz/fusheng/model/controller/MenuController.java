@@ -38,7 +38,7 @@ public class MenuController {
      * @param menu
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/save', 'menu:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Menu menu){
         menuService.save(menu);
@@ -50,7 +50,7 @@ public class MenuController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/deleteById', 'menu:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     public Result<Object> deleteById(@PathVariable("id") Long id){
         menuService.deleteById(id);
@@ -62,7 +62,7 @@ public class MenuController {
      * @param menu
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/update', 'menu:list:update')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Menu menu){
         menuService.updateById(menu);
@@ -74,7 +74,7 @@ public class MenuController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/getById', 'menu:list:info')")
     @GetMapping("getById/{id}")
     public Result<Menu> getById(@PathVariable("id") Long id){
         Menu menu = menuService.getById(id);
@@ -86,6 +86,7 @@ public class MenuController {
      *
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/list', 'menu:list')")
     @GetMapping("/list")
     public Result<List<Menu>> list() {
         List<Menu> menus = menuService.list();
@@ -109,6 +110,7 @@ public class MenuController {
      * @param page
      * @return
      */
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/getByPage', 'menu:list')")
     @PostMapping("/getByPage")
     public Result<Page<Menu>> getByPage(@RequestBody Page<Menu> page) {
         // 获取排序方式  page对象中 封装了 sortColumn 排序列

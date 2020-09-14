@@ -10,7 +10,7 @@
     </parent>
     <groupId>xyz.fusheng</groupId>
     <artifactId>model</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>model</name>
     <description>code-fusheng 【后端模版】</description>
 
