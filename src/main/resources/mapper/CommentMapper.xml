@@ -9,7 +9,7 @@
         select
         c.*, su.username, su.header
         from m_comment as c left join sys_user as su on c.comment_user_id = su.user_id
-        where 1 = 1
+        <where>
         <if test="params.commentType!=null">
             and c.comment_type = #{params.commentType}
         </if>
@@ -23,19 +23,23 @@
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
         </if>
+        </where>
         limit #{index}, #{pageSize}
+
     </select>
     <!--  分页查询统计总数  -->
     <select id="getCountByPage" resultType="java.lang.Integer" parameterType="xyz.fusheng.model.common.utils.Page">
         select count(*)
         from m_comment as c left join sys_user as su on c.comment_user_id = su.user_id
-        where 1 = 1
+        <where>
         <if test="params.commentType!=null">
             and c.comment_type = #{params.commentType}
         </if>
         <if test="params.commentTarget!=null">
             and c.comment_target = #{params.commentTarget}
         </if>
+        </where>
+
     </select>
     <!--  根据id获取对象内容字段  -->
     <select id="getCommentContentById" resultType="java.lang.String" parameterType="java.lang.Long">

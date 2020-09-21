@@ -1,14 +1,23 @@
 package xyz.fusheng.model.core.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.SecurityUtil;
+import xyz.fusheng.model.core.entity.Collection;
 import xyz.fusheng.model.core.entity.Comment;
+import xyz.fusheng.model.core.entity.Good;
+import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.mapper.ArticleMapper;
 import xyz.fusheng.model.core.mapper.CommentMapper;
+import xyz.fusheng.model.core.mapper.GoodMapper;
+import xyz.fusheng.model.core.mapper.UserMapper;
 import xyz.fusheng.model.core.service.CommentService;
 import xyz.fusheng.model.core.vo.CommentVo;
 
@@ -32,6 +41,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Resource
     private ArticleMapper articleMapper;
+
+    @Resource
+    private GoodMapper goodMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     private List<Integer> types = new ArrayList<>(16);
 
@@ -95,9 +110,26 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<CommentVo> commentList = commentMapper.getCommentList(page);
         // 获取登录用户id
         Long uid = SecurityUtil.getUserId();
-        commentList.forEach(commentVo -> {
-            commentVo.setGoodCommentFlag(false);
-        });
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            commentList.forEach(commentVo -> {
+                // 用户浏览界面评论是否点赞标识
+                List<Good> goods = goodMapper.getGoodsByUserAndTargetAndType(uid, commentVo.getCommentId(), StateEnums.COMMENT_GOOD.getCode());
+                if (goods.size() == 0) {
+                    commentVo.setGoodCommentFlag(false);
+                } else {
+                    commentVo.setGoodCommentFlag(true);
+                }
+                // 评论的评论需要为@赋值
+                if (commentVo.getCommentType().equals(StateEnums.COMMENT_COMMENT.getCode()) && commentVo.getCommentParentUserId() != null) {
+                    QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
+                    queryWrapper.lambda().eq(User::getUserId, commentVo.getCommentParentUserId());
+                    User user = userMapper.selectOne(queryWrapper);
+                    commentVo.setCommentParentUserName(user.getUsername());
+                }
+            });
+        }
+
         page.setList(commentList);
         // 统计总数
         int totalCount = commentMapper.getCountByPage(page);

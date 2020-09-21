@@ -4,7 +4,7 @@
 
     <select id="getByPage" resultType="xyz.fusheng.model.core.entity.LoginLog" parameterType="xyz.fusheng.model.common.utils.Page">
         select * from sys_login_log
-        where 1 = 1
+        <where>
         <if test="params.loginStatus!=null">
             and login_status = #{params.loginStatus}
         </if>
@@ -14,19 +14,22 @@
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
         </if>
+        </where>
         limit #{index}, #{pageSize}
     </select>
 
     <select id="getCountByPage" resultType="java.lang.Integer" parameterType="xyz.fusheng.model.common.utils.Page">
         select count(*)
         from sys_login_log
-        where 1 = 1
+        <where>
         <if test="params.loginStatus!=null">
             and login_status = #{params.loginStatus}
         </if>
         <if test="params.loginLogTime!=null">
             and login_time between #{params.loginLogTime[0],jdbcType=TIMESTAMP} and #{params.loginLogTime[1],jdbcType=TIMESTAMP}
         </if>
+        </where>
+
     </select>
 
     <!-- 根据id删除 -->

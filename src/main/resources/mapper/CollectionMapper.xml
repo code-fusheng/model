@@ -15,7 +15,7 @@
     <select id="getByPage" resultType="xyz.fusheng.model.core.vo.CollectionVo">
         select c.*, su.username
         from m_collection as c left join sys_user as su on c.collection_user_id = su.user_id
-        where 1 = 1
+        <where>
         <if test="params.username!=null and params.username!=''">
             and su.username like CONCAT('%', #{params.username}, '%')
         </if>
@@ -32,6 +32,7 @@
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
         </if>
+        </where>
         limit #{index}, #{pageSize}
     </select>
     <!--  统计总数  -->
@@ -39,7 +40,7 @@
         select
         count(*)
         from m_collection as c left join sys_user as su on c.collection_user_id = su.user_id
-        where 1 = 1
+        <where>
         <if test="params.username!=null and params.username!=''">
             and su.username like CONCAT('%', #{params.username}, '%')
         </if>
@@ -53,6 +54,7 @@
             and c.collection_time between #{params.collectionTime[0],jdbcType=TIMESTAMP} and
             #{params.collectionTime[1],jdbcType=TIMESTAMP}
         </if>
+        </where>
     </select>
 
 </mapper>

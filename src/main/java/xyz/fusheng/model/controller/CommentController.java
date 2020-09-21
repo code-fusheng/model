@@ -58,7 +58,7 @@ public class CommentController {
      * @param page
      * @return
      */
-    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('comment/getByPage','comment:list')")
+    @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/getByPage','comment:list')")
     @PostMapping("/getByPage")
     public Result<Page<CommentVo>> getByPage(@RequestBody Page<CommentVo> page) {
         String sortColumn = page.getSortColumn();
