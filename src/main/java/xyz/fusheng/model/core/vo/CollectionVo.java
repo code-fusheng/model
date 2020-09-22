@@ -23,4 +23,9 @@ public class CollectionVo extends Collection {
      */
     private String targetDesc;
 
+    /**
+     * 收藏对象用户名
+     */
+    private String targetUserName;
+
 }

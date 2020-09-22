@@ -38,4 +38,12 @@ public interface GoodService extends IService<Good> {
      * @return
      */
     Page<GoodVo> getByPage(Page<GoodVo> page);
+
+    /**
+     * 查询点赞视图
+     *
+     * @param goodId
+     * @return
+     */
+    GoodVo getGoodVoById(Long goodId);
 }

@@ -89,8 +89,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 // 完善消息对象
                 messageVo.setMessageTargetId(commentVo.getCommentId());
                 messageVo.setMessageTargetDesc(commentVo.getCommentContent());
-                messageVo.setReceiveUserId(commentVo.getCommentParentUserId());
-                messageVo.setReceiveUserName(commentVo.getCommentParentUserName());
+                messageVo.setReceiveUserId(commentVo.getCommentUserId());
+                messageVo.setReceiveUserName(commentVo.getUsername());
                 messageVo.setMessageType(StateEnums.REPLAY_COMMENT_MESSAGE.getCode());
                 break;
             default:

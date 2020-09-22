@@ -20,7 +20,7 @@ public class CommentVo extends Comment {
     private String username;
 
     /**
-     * @ username
+     * @ username 评论对象用户名
      */
     private String commentParentUserName;
 

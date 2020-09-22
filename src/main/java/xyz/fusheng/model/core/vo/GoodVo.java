@@ -24,5 +24,8 @@ public class GoodVo extends Good {
      */
     private String targetDesc;
 
-
+    /**
+     * 点赞对象用户名
+     */
+    private String targetUserName;
 }

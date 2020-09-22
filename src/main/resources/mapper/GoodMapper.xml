@@ -61,7 +61,13 @@
             #{params.goodTime[1],jdbcType=TIMESTAMP}
         </if>
         </where>
+    </select>
 
+    <!--  查询点赞视图  -->
+    <select id="getGoodVoById" resultType="xyz.fusheng.model.core.vo.GoodVo">
+        select g.*, su.username
+        from m_good as g left join sys_user as su on g.good_user_id = su.user_id
+        where g.good_id = #{goodId}
     </select>
 
 </mapper>

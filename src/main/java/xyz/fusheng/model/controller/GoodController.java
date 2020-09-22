@@ -1,14 +1,9 @@
 package xyz.fusheng.model.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
-import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.SecurityUtil;
@@ -17,6 +12,7 @@ import xyz.fusheng.model.core.entity.Good;
 import xyz.fusheng.model.core.service.GoodService;
 import xyz.fusheng.model.core.vo.GoodVo;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +28,7 @@ import java.util.List;
 @RequestMapping("/good")
 public class GoodController {
 
-    @Autowired
+    @Resource
     private GoodService goodService;
 
     /**
@@ -52,7 +48,20 @@ public class GoodController {
             return new Result<>(400, "操作失败: 重复点赞");
         }
         goodService.doGood(good);
+        // if (good.getGoodType() )
         return new Result<>("操作提示: 点赞成功！");
+    }
+
+    /**
+     * 根据id查询点赞视图信息
+     *
+     * @param goodId
+     * @return
+     */
+    @GetMapping("/getById/{goodId}")
+    public Result<GoodVo> getById(@PathVariable("goodId") Long goodId) {
+        GoodVo goodVo = goodService.getGoodVoById(goodId);
+        return new Result<>("操作成功: 查询点赞！");
     }
 
     /**

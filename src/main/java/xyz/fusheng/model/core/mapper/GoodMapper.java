@@ -60,4 +60,12 @@ public interface GoodMapper extends BaseMapper<Good> {
      * @return
      */
     int getCountByPage(Page<GoodVo> page);
+
+    /**
+     * 查询点赞视图
+     *
+     * @param goodId
+     * @return
+     */
+    GoodVo getGoodVoById(Long goodId);
 }
