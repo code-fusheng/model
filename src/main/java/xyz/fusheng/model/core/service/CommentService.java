@@ -39,4 +39,10 @@ public interface CommentService extends IService<Comment> {
      */
     Page<CommentVo> getByPage(Page<CommentVo> page);
 
+    /**
+     * 查询评论视图
+     *
+     * @param commentId
+     */
+    CommentVo getCommentVoById(Long commentId);
 }

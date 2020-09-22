@@ -46,5 +46,4 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @return
      */
     MessageVo getById(Long messageId);
-
 }

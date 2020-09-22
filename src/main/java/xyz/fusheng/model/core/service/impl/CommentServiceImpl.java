@@ -1,5 +1,6 @@
 package xyz.fusheng.model.core.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -10,16 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.SecurityUtil;
-import xyz.fusheng.model.core.entity.Collection;
-import xyz.fusheng.model.core.entity.Comment;
-import xyz.fusheng.model.core.entity.Good;
-import xyz.fusheng.model.core.entity.User;
-import xyz.fusheng.model.core.mapper.ArticleMapper;
-import xyz.fusheng.model.core.mapper.CommentMapper;
-import xyz.fusheng.model.core.mapper.GoodMapper;
-import xyz.fusheng.model.core.mapper.UserMapper;
+import xyz.fusheng.model.common.utils.WebSocketServer;
+import xyz.fusheng.model.core.entity.*;
+import xyz.fusheng.model.core.mapper.*;
 import xyz.fusheng.model.core.service.CommentService;
+import xyz.fusheng.model.core.vo.ArticleVo;
 import xyz.fusheng.model.core.vo.CommentVo;
+import xyz.fusheng.model.core.vo.MessageVo;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -48,6 +46,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private MessageMapper messageMapper;
+
     private List<Integer> types = new ArrayList<>(16);
 
     @Override
@@ -57,6 +58,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentMapper.insert(comment);
         // 获取评论类型
         int commentType = comment.getCommentType();
+        // 创建消息对象
+        MessageVo messageVo = new MessageVo();
+        messageVo.setSendUserId(SecurityUtil.getUserId());
+        messageVo.setSendUserName(SecurityUtil.getUserName());
+        messageVo.setMessageState(StateEnums.MESSAGE_NO_READ.getCode());
         types.clear();
         switch (commentType) {
             // 文章的评论，文章评论数更新
@@ -65,6 +71,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 types.add(StateEnums.ARTICLE_COMMENT.getCode());
                 types.add(StateEnums.COMMENT_COMMENT.getCode());
                 commentMapper.updateArticleCommentCount(comment.getCommentTarget(), commentMapper.getCountByRid(comment.getCommentRoot(), types));
+                ArticleVo articleVo = articleMapper.getById(comment.getCommentTarget());
+                // 完善消息对象
+                messageVo.setMessageTargetId(articleVo.getArticleId());
+                messageVo.setMessageTargetDesc(articleVo.getArticleTitle());
+                messageVo.setReceiveUserId(articleVo.getAuthorId());
+                messageVo.setReceiveUserName(articleVo.getAuthorName());
+                messageVo.setMessageType(StateEnums.ARTICLE_COMMENT_MESSAGE.getCode());
                 break;
             case 1:
                 // 更新评论评论数
@@ -72,9 +85,22 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 commentMapper.updateCommentCommentCount(comment.getCommentTarget(), commentMapper.getCountByTid(comment.getCommentTarget(), types));
                 types.add(StateEnums.ARTICLE_COMMENT.getCode());
                 commentMapper.updateArticleCommentCount(comment.getCommentRoot(), commentMapper.getCountByRid(comment.getCommentRoot(), types));
+                CommentVo commentVo = commentMapper.getCommentVoById(comment.getCommentTarget());
+                // 完善消息对象
+                messageVo.setMessageTargetId(commentVo.getCommentId());
+                messageVo.setMessageTargetDesc(commentVo.getCommentContent());
+                messageVo.setReceiveUserId(commentVo.getCommentParentUserId());
+                messageVo.setReceiveUserName(commentVo.getCommentParentUserName());
+                messageVo.setMessageType(StateEnums.REPLAY_COMMENT_MESSAGE.getCode());
+                break;
             default:
         }
-
+        messageMapper.insert(messageVo);
+        try {
+            WebSocketServer.sendInfo(JSON.toJSONString(messageVo));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -102,6 +128,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         } else {
             return;
         }
+    }
+
+    @Override
+    public CommentVo getCommentVoById(Long commentId) {
+        return commentMapper.getCommentVoById(commentId);
     }
 
     @Override
@@ -136,6 +167,4 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         page.setTotalCount(totalCount);
         return page;
     }
-
-
 }

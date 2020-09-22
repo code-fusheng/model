@@ -7,6 +7,8 @@ import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Message;
 import xyz.fusheng.model.core.vo.MessageVo;
 
+import java.util.List;
+
 /**
  * @FileName: MessageService
  * @Author: code-fusheng
@@ -26,20 +28,12 @@ public interface MessageService {
     void save(Message message);
 
     /**
-     * 多条件分页查询
-     *
-     * @param page
-     * @return
-     */
-    Page<MessageVo> getByPage(Page<MessageVo> page);
-
-    /**
      * 删除消息
      *
      * @param messageIds
      * @return
      */
-    void deleteByIds(Long[] messageIds);
+    void deleteByIds(List<Long> messageIds);
 
     /**
      * 修改消息
@@ -53,5 +47,35 @@ public interface MessageService {
      *
      * @param messageIds
      */
-    void confirmMessageByIds(Long[] messageIds);
+    void confirmMessageByIds(List<Long> messageIds);
+
+    /**
+     * 查询消息
+     *
+     * @param messageId
+     * @return
+     */
+    MessageVo getById(Long messageId);
+
+    /**
+     * 多条件分页查询
+     *
+     * @param page
+     * @return
+     */
+    Page<MessageVo> getByPage(Page<MessageVo> page);
+
+    /**
+     * 查询当前用户消息列表
+     *
+     * @return
+     */
+    List<Message> getList();
+
+    /**
+     * 查询所有消息
+     *
+     * @return
+     */
+    List<Message> getAll();
 }

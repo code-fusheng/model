@@ -94,4 +94,12 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return
      */
     String getCommentContentById(Long commentId);
+
+    /**
+     * 查询视图对象
+     *
+     * @param commentId
+     * @return
+     */
+    CommentVo getCommentVoById(Long commentId);
 }

@@ -65,7 +65,7 @@ public class Comment implements Serializable {
     /**
      * @ userId
      */
-    private String commentParentUserId;
+    private Long commentParentUserId;
 
     /**
      * 评论状态 默认1 == PS： 这里理解为删除

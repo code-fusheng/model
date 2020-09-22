@@ -286,7 +286,7 @@ class ElasticsearchTests {
         searchRequest.source(sourceBuilder);
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         // 7、测试输出
-        // System.out.println(searchResponse);
+        System.out.println(searchResponse);
         //解析结果
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         for (SearchHit doc : searchResponse.getHits().getHits()) {

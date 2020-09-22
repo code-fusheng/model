@@ -54,7 +54,20 @@ public class CommentController {
     }
 
     /**
+     * 根据id查询评论
+     *
+     * @param commentId
+     * @return
+     */
+    @GetMapping("/getById/{commentId}")
+    public Result<CommentVo> getById(@PathVariable("commentId") Long commentId) {
+        CommentVo commentVo = commentService.getCommentVoById(commentId);
+        return new Result<>("操作成功: 查询评论！", commentVo);
+    }
+
+    /**
      * 分页查询文章的评论列表 (参数带评论类型)
+     *
      * @param page
      * @return
      */

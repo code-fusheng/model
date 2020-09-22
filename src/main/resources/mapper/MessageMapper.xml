@@ -3,17 +3,63 @@
 <mapper namespace="xyz.fusheng.model.core.mapper.MessageMapper" >
 
 <select id="getByPage" resultType="xyz.fusheng.model.core.vo.MessageVo">
-
+    select m.*, su1.username as sendUserName, su2.username as receiveUserName
+    from m_message m
+    left join sys_user su1 on m.send_user_id = su1.user_id
+    left join sys_user su2 on m.receive_user_id = su2.user_id
+    <where>
+        <if test="params.sendUserId != null">
+            and m.send_user_id = #{params.sendUserId}
+        </if>
+        <if test="params.receiveUserId != null">
+            and m.receive_user_id = #{params.receiveUserId}
+        </if>
+        <if test="params.messageType != null">
+            and m.message_type = #{params.messageType}
+        </if>
+        <if test="params.messageState != null">
+            and m.message_state = #{params.messageState}
+        </if>
+        <if test="params.messageTime!=null">
+            and m.created_time between #{params.messageTime[0],jdbcType=TIMESTAMP} and #{params.messageTime[1],jdbcType=TIMESTAMP}
+        </if>
+    </where>
+    <if test="sortColumn != null and sortColumn!=''">
+        order by ${sortColumn} ${sortMethod}
+    </if>
+    limit #{index}, #{pageSize}
 </select>
 
 
 <select id="getCountByPage" resultType="int">
-
+    select count(*)
+    from m_message m
+    <where>
+        <if test="params.sendUserId != null">
+            and m.send_user_id = #{params.sendUserId}
+        </if>
+        <if test="params.receiveUserId != null">
+            and m.receive_user_id = #{params.receiveUserId}
+        </if>
+        <if test="params.messageType != null">
+            and m.message_type = #{params.messageType}
+        </if>
+        <if test="params.messageState != null">
+            and m.message_state = #{params.messageState}
+        </if>
+        <if test="params.messageTime!=null">
+            and m.created_time between #{params.messageTime[0],jdbcType=TIMESTAMP} and #{params.messageTime[1],jdbcType=TIMESTAMP}
+        </if>
+    </where>
 </select>
 
 
 <select id="getById" resultType="xyz.fusheng.model.core.vo.MessageVo">
-
+    select m.*, su1.username as sendUserName, su2.username as receiveUserName
+    from m_message m
+    left join sys_user su1 on m.send_user_id = su1.user_id
+    left join sys_user su2 on m.receive_user_id = su2.user_id
+    where m.message_id = #{messageId}
 </select>
 
 </mapper>

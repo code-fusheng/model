@@ -11,10 +11,10 @@
         <if test="params.loginLogTime!=null">
             and login_time between #{params.loginLogTime[0],jdbcType=TIMESTAMP} and #{params.loginLogTime[1],jdbcType=TIMESTAMP}
         </if>
+        </where>
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
         </if>
-        </where>
         limit #{index}, #{pageSize}
     </select>
 
