@@ -6,6 +6,8 @@
  */
 package xyz.fusheng.model.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -24,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/model")
+@Api(tags = "常规模版", value = "普通模版操作管理接口")
 public class ModelController {
 
     @Autowired
@@ -38,6 +41,7 @@ public class ModelController {
      * @param model
      * @return
      */
+    @ApiOperation(value = "添加常规模版", notes = "添加常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/save','model:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody Model model){
@@ -50,6 +54,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "删除单个常规模版", notes = "根据id删除常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/delete','model:list:delete')")
     @DeleteMapping("/delete/{id}")
     public Result<Object> delete(@PathVariable("id") Integer id){
@@ -62,6 +67,7 @@ public class ModelController {
      * @param ids
      * @return
      */
+    @ApiOperation(value = "批量删除常规模版", notes = "根据ids批量删除常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/deleteByIds','model:list:delete')")
     @PutMapping("/deleteByIds")
     public Result<Object> deleteByIds(@RequestBody List<Integer> ids){
@@ -74,6 +80,7 @@ public class ModelController {
      * @param model
      * @return
      */
+    @ApiOperation(value = "修改常规模版", notes = "根据id修改常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/update','model:list:update')")
     @PutMapping("/update")
     public Result<Object> update(@RequestBody Model model){
@@ -86,6 +93,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "查询单个常规模版", notes = "根据id查询常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/get','model:list:info')")
     @GetMapping("/get/{id}")
     public Result<Model> get(@PathVariable("id") Integer id){
@@ -97,6 +105,7 @@ public class ModelController {
      * 查询所有
      * @return
      */
+    @ApiOperation(value = "查询所有常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/list','model:list')")
     @GetMapping("/list")
     public Result<List<Model>> list(){
@@ -109,6 +118,7 @@ public class ModelController {
      * @param page
      * @return
      */
+    @ApiOperation(value = "分页查询常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/getByPage','model:list')")
     @PostMapping("/getByPage")
     public Result<Page<Model>> getByPage(@RequestBody Page<Model> page){
@@ -139,6 +149,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "启用模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/enable','model:list:enable')")
     @PutMapping("/enable/{id}")
     public Result<Object> enable(@PathVariable("id") Integer id) {
@@ -151,6 +162,7 @@ public class ModelController {
      * @param id
      * @return
      */
+    @ApiOperation("弃用模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/disable','model:list:disable')")
     @PutMapping("/disable/{id}")
     public Result<Object> disable(@PathVariable("id") Integer id) {

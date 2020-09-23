@@ -6,9 +6,8 @@
  */
 package xyz.fusheng.model.controller;
 
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
@@ -25,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/modelPlus")
+@Api(tags = "高级模版", value = "高级模版操作管理接口")
 public class ModelPlusController {
 
     @Autowired
@@ -35,6 +35,7 @@ public class ModelPlusController {
      * @param modelPlus
      * @return
      */
+    @ApiOperation(value = "添加高级模版", notes = "添加高级模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/save','modelplus:list:add')")
     @PostMapping("/save")
     public Result<Object> save(@RequestBody ModelPlus modelPlus){
@@ -44,12 +45,14 @@ public class ModelPlusController {
 
     /**
      * 根据id删除模型 - 删【逻辑删除】- 管理员
+     *
      * @param id
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/deleteById','modelplus:list:delete')")
     @DeleteMapping("/deleteById/{id}")
-    public Result<Object> deleteById(@PathVariable("id") Long id){
+    @ApiOperation(value = "逻辑删除单个高级模版", notes = "根据id逻辑删除高级模版")
+    public Result<Object> deleteById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.deleteById(id);
         return new Result<>("操作成功: 删除模型！");
     }
@@ -61,6 +64,7 @@ public class ModelPlusController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/update','modelplus:list:update')")
     @PutMapping("/update")
+    @ApiOperation(value = "修改高级模版", notes = "修改高级模版")
     public Result<Object> update(@RequestBody ModelPlus modelPlus){
         modelPlus.setVersion(modelPlusService.getById(modelPlus.getModelPlusId()).getVersion());
         modelPlusService.updateById(modelPlus);
@@ -69,12 +73,14 @@ public class ModelPlusController {
 
     /**
      * 根据id查询 - 查 - 管理员
+     *
      * @param id
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/getById','modelplus:list:info')")
     @GetMapping("getById/{id}")
-    public Result<ModelPlus> getById(@PathVariable("id") Long id){
+    @ApiOperation(value = "查询高级模版", notes = "根据id查询高级模版")
+    public Result<ModelPlus> getById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         ModelPlus modelPlus = modelPlusService.getById(id);
         return new Result<>("操作成功: 查询模型！", modelPlus);
     }
@@ -85,6 +91,7 @@ public class ModelPlusController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/list','modelplus:list')")
     @GetMapping("/list")
+    @ApiOperation(value = "查询高级模版列表", notes = "查询高级模版列表")
     public Result<List<ModelPlus>> list(){
         List<ModelPlus> modelPluses = modelPlusService.list();
         return new Result<>("操作成功: 模型列表！", modelPluses);
@@ -96,6 +103,7 @@ public class ModelPlusController {
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/getByPage','modelplus:list')")
+    @ApiOperation(value = "分页查询高级模版", notes = "分页查询高级模版")
     @PostMapping("/getByPage")
     public Result<Page<ModelPlus>> getByPage(@RequestBody Page<ModelPlus> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
@@ -118,24 +126,28 @@ public class ModelPlusController {
 
     /**
      * 启用 - 改 - 管理员
+     *
      * @param id
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/enable','modelplus:list:enable')")
     @PutMapping("/enable/{id}")
-    public Result<Object> enable(@PathVariable("id") Long id) {
+    @ApiOperation(value = "启用高级模版", notes = "根据id启用查询高级模版")
+    public Result<Object> enable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.enableById(id);
         return new Result<>("操作成功: 启用模版！");
     }
 
     /**
      * 弃用 - 改 - 管理员
+     *
      * @param id
      * @return
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/disable','modelplus:list:disable')")
     @PutMapping("/disable/{id}")
-    public Result<Object> disable(@PathVariable("id") Long id) {
+    @ApiOperation(value = "弃用高级模版", notes = "根据id弃用查询高级模版")
+    public Result<Object> disable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.disableById(id);
         return new Result<>("操作成功: 弃用模版！");
     }

@@ -2,6 +2,7 @@
 package xyz.fusheng.model.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@Api(tags = "当前用户接口", value = "系统登录获取用户信息，角色，权限")
 public class AdminController {
 
     @Autowired
