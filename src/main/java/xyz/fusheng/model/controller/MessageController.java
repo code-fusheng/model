@@ -74,7 +74,7 @@ public class MessageController {
      * @param messageIds
      * @return
      */
-    @PutMapping("confirmMessageIds")
+    @PutMapping("confirmMessageByIds")
     public Result<Object> confirmMessageByIds(@RequestBody List<Long> messageIds) {
         messageService.confirmMessageByIds(messageIds);
         return new Result<>("操作成功: 确认消息！");

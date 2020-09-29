@@ -29,10 +29,10 @@
             and c.collection_time between #{params.collectionTime[0],jdbcType=TIMESTAMP} and
             #{params.collectionTime[1],jdbcType=TIMESTAMP}
         </if>
+        </where>
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
         </if>
-        </where>
         limit #{index}, #{pageSize}
     </select>
     <!--  统计总数  -->
@@ -56,5 +56,4 @@
         </if>
         </where>
     </select>
-
 </mapper>

@@ -34,10 +34,10 @@
             and g.good_time between #{params.goodTime[0],jdbcType=TIMESTAMP} and
             #{params.goodTime[1],jdbcType=TIMESTAMP}
         </if>
+        </where>
         <if test="sortColumn!=null and sortColumn!=''">
             order by ${sortColumn} ${sortMethod}
         </if>
-        </where>
         limit #{index}, #{pageSize}
 
     </select>

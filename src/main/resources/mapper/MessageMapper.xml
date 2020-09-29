@@ -14,11 +14,11 @@
         <if test="params.receiveUserId != null">
             and m.receive_user_id = #{params.receiveUserId}
         </if>
-        <if test="params.messageType != null">
-            and m.message_type = #{params.messageType}
-        </if>
         <if test="params.messageState != null">
             and m.message_state = #{params.messageState}
+        </if>
+        <if test="params.messageType!=null || params.messageType[0]!=null || params.messageType[1]!=null">
+            and message_type between #{params.messageType[0]} and #{params.messageType[1]}
         </if>
         <if test="params.messageTime!=null">
             and m.created_time between #{params.messageTime[0],jdbcType=TIMESTAMP} and #{params.messageTime[1],jdbcType=TIMESTAMP}
@@ -30,7 +30,6 @@
     limit #{index}, #{pageSize}
 </select>
 
-
 <select id="getCountByPage" resultType="int">
     select count(*)
     from m_message m
@@ -41,8 +40,8 @@
         <if test="params.receiveUserId != null">
             and m.receive_user_id = #{params.receiveUserId}
         </if>
-        <if test="params.messageType != null">
-            and m.message_type = #{params.messageType}
+        <if test="params.messageType!=null || params.messageType[0]!=null || params.messageType[1]!=null">
+            and message_type between #{params.messageType[0]} and #{params.messageType[1]}
         </if>
         <if test="params.messageState != null">
             and m.message_state = #{params.messageState}

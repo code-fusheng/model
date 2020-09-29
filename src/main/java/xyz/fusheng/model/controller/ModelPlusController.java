@@ -8,6 +8,7 @@ package xyz.fusheng.model.controller;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
@@ -19,6 +20,7 @@ import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.mapper.ModelPlusMapper;
 import xyz.fusheng.model.core.service.ModelPlusService;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +29,7 @@ import java.util.List;
 @Api(tags = "高级模版", value = "高级模版操作管理接口")
 public class ModelPlusController {
 
-    @Autowired
+    @Resource
     private ModelPlusService modelPlusService;
 
     /**

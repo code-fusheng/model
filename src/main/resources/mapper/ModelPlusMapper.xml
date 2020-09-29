@@ -16,6 +16,7 @@
         </if>
         limit #{index}, #{pageSize}
     </select>
+
     <select id="getCountByPage" parameterType="xyz.fusheng.model.common.utils.Page" resultType="java.lang.Integer">
         select count(*)
         from sys_model_plus

@@ -18,6 +18,7 @@ import java.io.Serializable;
 @TableName("sys_model_plus")
 @ApiModel(value = "modelPlus", description = "高级模版")
 public class ModelPlus implements Serializable {
+
     private static final long serialVersionUID = -961610786115619340L;
 
     /**

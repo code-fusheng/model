@@ -21,10 +21,14 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+import xyz.fusheng.model.common.utils.HttpUtils;
+import xyz.fusheng.model.common.utils.ServletUtils;
 import xyz.fusheng.model.security.core.UserAuthenticationProvider;
 import xyz.fusheng.model.security.core.UserPermissionEvaluator;
 import xyz.fusheng.model.security.handler.*;
 import xyz.fusheng.model.security.jwt.JwtAuthenticationTokenFilter;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -115,6 +119,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 其他的需要登陆后才能访问
                 .anyRequest().authenticated()
                 .and()
+                // 配置 X-Frame-Options 问题
+                .headers().frameOptions().disable()
+                .and()
                 // 配置未登录自定义处理类
                 .httpBasic().authenticationEntryPoint(userAuthenticationEntryPointHandler)
                 .and()
@@ -150,8 +157,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web){
+    public void configure(WebSecurity web) throws Exception {
         // 设置拦截忽略文件夹，可以对静态资源放行
-        web.ignoring().antMatchers("/css/**", "/js/**,/static/**","/templates/**","/img/**");
+        web.ignoring().antMatchers("/css/**", "/js/**,/static/**", "/templates/**", "/img/**");
     }
+
 }
