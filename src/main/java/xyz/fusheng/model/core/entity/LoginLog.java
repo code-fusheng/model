@@ -1,4 +1,5 @@
-package xyz.fusheng.model.core.entity; /**
+package xyz.fusheng.model.core.entity;
+/**
  * @author: code-fusheng
  * @Date: 2020/9/5 20:01
  */
@@ -75,4 +76,5 @@ public class LoginLog implements Serializable {
      * 登录时间
      */
     private String loginTime;
+
 }

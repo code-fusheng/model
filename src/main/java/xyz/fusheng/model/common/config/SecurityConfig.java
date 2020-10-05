@@ -20,15 +20,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
-import xyz.fusheng.model.common.utils.HttpUtils;
-import xyz.fusheng.model.common.utils.ServletUtils;
 import xyz.fusheng.model.security.core.UserAuthenticationProvider;
 import xyz.fusheng.model.security.core.UserPermissionEvaluator;
 import xyz.fusheng.model.security.handler.*;
 import xyz.fusheng.model.security.jwt.JwtAuthenticationTokenFilter;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -114,7 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()
                 .antMatchers("/**/login", "/push/websocket", "/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
-                        "/swagger-ui.html", "/doc.html", "/webjars/**", "/user/register", "druid/login.html", "druid/**",
+                        "/swagger-ui.html", "/doc.html", "/webjars/**", "/user/register", "/druid/login.html", "/druid/**",
                         "/category/getList", "/article/getByPage", "/article/read/**", "/comment/getByPage").permitAll()
                 // 其他的需要登陆后才能访问
                 .anyRequest().authenticated()

@@ -127,7 +127,7 @@ fdfs:
   tracker-list:
     - 175.24.45.179:22122
 upload:
-  base-url: http://175.24.45.179/
+  base-url: http://175.24.45.179:8888/
   allow-types:
     - image/jpeg
     - image/png

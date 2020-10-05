@@ -88,7 +88,6 @@ public enum StateEnums {
     ARTICLE_COMMENT(0, "文章的评论"),
     COMMENT_COMMENT(1, "文章的评论的评论");
 
-
     /**
      * code 状态码
      * msg 状态信息

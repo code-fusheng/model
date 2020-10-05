@@ -18,6 +18,7 @@ import java.io.IOException;
 
 @Component
 public class UserAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
+
     /**
      * 用户未登录返回结果
      */
