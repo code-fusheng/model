@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.fusheng.model.core.mapper.OperaLogMapper">
+  <resultMap id="BaseResultMap" type="xyz.fusheng.model.core.entity.OperaLog">
+    <!--@mbg.generated-->
+    <!--@Table sys_opera_log-->
+    <id column="opera_log_id" jdbcType="BIGINT" property="operaLogId" />
+    <result column="opera_title" jdbcType="VARCHAR" property="operaTitle" />
+    <result column="business_type" jdbcType="CHAR" property="businessType" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="request_method" jdbcType="VARCHAR" property="requestMethod" />
+    <result column="operator_type" jdbcType="INTEGER" property="operatorType" />
+    <result column="opera_name" jdbcType="VARCHAR" property="operaName" />
+    <result column="opera_url" jdbcType="VARCHAR" property="operaUrl" />
+    <result column="opera_id" jdbcType="VARCHAR" property="operaIp" />
+    <result column="opera_location" jdbcType="VARCHAR" property="operaLocation" />
+    <result column="opera_param" jdbcType="LONGVARCHAR" property="operaParam" />
+    <result column="json_result" jdbcType="LONGVARCHAR" property="jsonResult" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="error_msg" jdbcType="LONGVARCHAR" property="errorMsg" />
+    <result column="opera_time" jdbcType="TIMESTAMP" property="operaTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    opera_log_id, opera_title, business_type, `method`, request_method, operator_type,
+    opera_name, opera_url, opera_ip, opera_location, opera_param, json_result, `status`,
+    error_msg, opera_time
+  </sql>
+
+  <select id="getByPage" resultType="xyz.fusheng.model.core.entity.OperaLog">
+        select * from sys_opera_log
+        <where>
+            <if test="params.operaTitle != null and params.operaTitle != ''">
+                and opera_title like concat('%', #{params.operaTitle}, '%')
+            </if>
+            <if test="params.operaName != null and params.operaName != ''">
+                and opera_name like concat('%', #{params.operaName}, '%')
+            </if>
+            <if test="params.businessType!=null">
+                and business_type = #{params.businessType}
+            </if>
+            <if test="params.method != null and params.method != ''">
+                and method = #{params.method}
+            </if>
+            <if test="params.operatorType!=null">
+                and operator_type = #{params.operatorType}
+            </if>
+            <if test="params.status!=null">
+                and status = #{params.status}
+            </if>
+            <if test="params.operaTime!=null">
+                and opera_time between #{params.operaTime[0],jdbcType=TIMESTAMP} and #{params.operaTime[1],jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        <if test="sortColumn!=null and sortColumn!=''">
+            order by ${sortColumn} ${sortMethod}
+        </if>
+        limit #{index}, #{pageSize}
+  </select>
+
+  <select id="getCountByPage" resultType="java.lang.Integer">
+        select count(*)
+        from sys_opera_log
+        <where>
+            <if test="params.operaTitle != null and params.operaTitle != ''">
+                and opera_title like concat('%', #{params.operaTitle}, '%')
+            </if>
+            <if test="params.operaName != null and params.operaName != ''">
+                and opera_name like concat('%', #{params.operaName}, '%')
+            </if>
+            <if test="params.businessType!=null">
+                and business_type = #{params.businessType}
+            </if>
+            <if test="params.method != null and params.method != ''">
+                and method = #{params.method}
+            </if>
+            <if test="params.operatorType!=null">
+                and operator_type = #{params.operatorType}
+            </if>
+            <if test="params.status!=null">
+                and status = #{params.status}
+            </if>
+            <if test="params.operaTime!=null">
+                and opera_time between #{params.operaTime[0],jdbcType=TIMESTAMP} and #{params.operaTime[1],jdbcType=TIMESTAMP}
+            </if>
+        </where>
+  </select>
+</mapper>

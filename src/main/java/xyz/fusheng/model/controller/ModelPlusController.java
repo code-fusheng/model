@@ -7,17 +7,15 @@
 package xyz.fusheng.model.controller;
 
 import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
-import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.entity.ModelPlus;
-import xyz.fusheng.model.core.mapper.ModelPlusMapper;
 import xyz.fusheng.model.core.service.ModelPlusService;
 
 import javax.annotation.Resource;
@@ -40,6 +38,7 @@ public class ModelPlusController {
     @ApiOperation(value = "添加高级模版", notes = "添加高级模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/save','modelplus:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加高级模版", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody ModelPlus modelPlus){
         modelPlusService.save(modelPlus);
         return new Result<>("操作成功: 添加模型！");
@@ -54,6 +53,7 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/deleteById','modelplus:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     @ApiOperation(value = "逻辑删除单个高级模版", notes = "根据id逻辑删除高级模版")
+    @Log(title = "删除高级模版", businessType = BusinessType.DELETE)
     public Result<Object> deleteById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.deleteById(id);
         return new Result<>("操作成功: 删除模型！");
@@ -67,6 +67,7 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/update','modelplus:list:update')")
     @PutMapping("/update")
     @ApiOperation(value = "修改高级模版", notes = "修改高级模版")
+    @Log(title = "修改高级模版", businessType = BusinessType.UPDATE)
     public Result<Object> update(@RequestBody ModelPlus modelPlus){
         modelPlus.setVersion(modelPlusService.getById(modelPlus.getModelPlusId()).getVersion());
         modelPlusService.updateById(modelPlus);
@@ -81,7 +82,8 @@ public class ModelPlusController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/getById','modelplus:list:info')")
     @GetMapping("getById/{id}")
-    @ApiOperation(value = "查询高级模版", notes = "根据id查询高级模版")
+    @ApiOperation(value = "查询单个高级模版", notes = "根据id查询高级模版")
+    @Log(title = "查询单个高级模版", businessType = BusinessType.SELECT)
     public Result<ModelPlus> getById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         ModelPlus modelPlus = modelPlusService.getById(id);
         return new Result<>("操作成功: 查询模型！", modelPlus);
@@ -93,7 +95,7 @@ public class ModelPlusController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/list','modelplus:list')")
     @GetMapping("/list")
-    @ApiOperation(value = "查询高级模版列表", notes = "查询高级模版列表")
+    @Log(title = "查询高级模版列表", businessType = BusinessType.SELECT)
     public Result<List<ModelPlus>> list(){
         List<ModelPlus> modelPluses = modelPlusService.list();
         return new Result<>("操作成功: 模型列表！", modelPluses);
@@ -135,6 +137,7 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/enable','modelplus:list:enable')")
     @PutMapping("/enable/{id}")
     @ApiOperation(value = "启用高级模版", notes = "根据id启用查询高级模版")
+    @Log(title = "启用高级模版", businessType = BusinessType.ENABLE)
     public Result<Object> enable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.enableById(id);
         return new Result<>("操作成功: 启用模版！");
@@ -149,6 +152,7 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/disable','modelplus:list:disable')")
     @PutMapping("/disable/{id}")
     @ApiOperation(value = "弃用高级模版", notes = "根据id弃用查询高级模版")
+    @Log(title = "弃用高级模版", businessType = BusinessType.DISABLE)
     public Result<Object> disable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.disableById(id);
         return new Result<>("操作成功: 弃用模版！");

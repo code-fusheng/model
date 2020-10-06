@@ -4,7 +4,7 @@
  * @Date: 2020/4/14 20:53
  * Description: 切面
  */
-package xyz.fusheng.model.common.aspect;
+package xyz.fusheng.model.common.aspect.aop;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
