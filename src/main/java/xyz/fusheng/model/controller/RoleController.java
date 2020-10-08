@@ -3,6 +3,8 @@ package xyz.fusheng.model.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.core.entity.Menu;
 import xyz.fusheng.model.core.entity.Role;
@@ -38,6 +40,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/save', 'role:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加角色", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody Role role) {
         roleService.save(role);
         return new Result<>("操作成功: 添加角色！");
@@ -51,6 +54,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/deleteById', 'role:list:delete')")
     @DeleteMapping("/deleteById/{roleId}")
+    @Log(title = "删除角色", businessType = BusinessType.DELETE)
     public Result<Object> deleteById(@PathVariable("roleId") Long roleId) {
         // 删除角色的同时需要删除用户角色中间表中的数据
         roleService.deleteById(roleId);
@@ -65,6 +69,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/update', 'role:list:update')")
     @PutMapping("/update")
+    @Log(title = "修改角色", businessType = BusinessType.UPDATE)
     public Result<Object> update(@RequestBody Role role) {
         role.setVersion(roleService.getById(role.getRoleId()).getVersion());
         roleService.updateById(role);
@@ -79,6 +84,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/getById', 'role:list:info')")
     @GetMapping("/getById/{roleId}")
+    @Log(title = "查询角色详情", businessType = BusinessType.SELECT)
     public Result<Role> getById(@PathVariable("roleId") Long roleId) {
         Role role = roleService.getById(roleId);
         return new Result<>("操作成功: 查询角色！", role);
@@ -164,6 +170,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/saveRoleMenu', 'role:list:menu')")
     @PostMapping("/saveRoleMenu/{roleId}/{menuIds}")
+    @Log(title = "更新角色权限", businessType = BusinessType.GRANT)
     public Result<Object> saveRoleMenu(@PathVariable Long roleId, @PathVariable Long[] menuIds) {
         /**
          * 因为我们用的路径参数，前端可能传过来的menuIds是一个空的，但是为空的话无法匹配上面的路径
@@ -184,6 +191,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/saveUserRole', 'user:list:role')")
     @PostMapping("/saveUserRole/{userId}/{roleIds}")
+    @Log(title = "更新用户角色", businessType = BusinessType.GRANT)
     public Result<Object> saveUserRole(@PathVariable Long userId, @PathVariable Long[] roleIds) {
         /**
          * 因为我们用的路径参数，前端可能传过来的roleIds是一个空的，但是为空的话无法匹配上面的路径
@@ -204,6 +212,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/enable', 'role:list:enable')")
     @PutMapping("/enable/{roleId}")
+    @Log(title = "启用角色", businessType = BusinessType.ENABLE)
     public Result<Object> enable(@PathVariable("roleId") Long roleId) {
         roleService.enableById(roleId);
         return new Result<>("操作成功: 启用角色！");
@@ -217,6 +226,7 @@ public class RoleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/role/disable', 'role:list:disable')")
     @PutMapping("/disable/{roleId}")
+    @Log(title = "弃用角色", businessType = BusinessType.DISABLE)
     public Result<Object> disable(@PathVariable("roleId") Long roleId) {
         roleService.disableById(roleId);
         return new Result<>("操作成功: 弃用角色！");

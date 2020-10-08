@@ -52,7 +52,7 @@ public class JwtAuthenticationTokenFilter extends BasicAuthenticationFilter {
                         .getBody();
                 // 获取用户名
                 String username = claims.getSubject();
-                String userId=claims.getId();
+                String userId = claims.getId();
                 if(!StringUtils.isEmpty(username)&&!StringUtils.isEmpty(userId)) {
                     // 获取角色
                     List<GrantedAuthority> authorities = new ArrayList<>();

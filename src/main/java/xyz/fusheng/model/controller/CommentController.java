@@ -3,6 +3,8 @@ package xyz.fusheng.model.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.*;
 import xyz.fusheng.model.core.entity.Comment;
@@ -34,6 +36,7 @@ public class CommentController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/save','comment:list:add')")
     @PostMapping("/save")
+    @Log(title = "发表评论", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody Comment comment) {
         // 获取评论人的用户id
         comment.setCommentUserId(SecurityUtil.getUserId());
@@ -48,6 +51,7 @@ public class CommentController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/deleteById','comment:list:delete')")
     @DeleteMapping("/deleteById/{id}")
+    @Log(title = "删除评论", businessType = BusinessType.DELETE)
     public Result<Object> deleteById(@PathVariable("id") Long id) {
         commentService.deleteById(id);
         return new Result<>("操作成功: 删除评论！");
@@ -60,6 +64,7 @@ public class CommentController {
      * @return
      */
     @GetMapping("/getById/{commentId}")
+    @Log(title = "查询评论详情", businessType = BusinessType.SELECT)
     public Result<CommentVo> getById(@PathVariable("commentId") Long commentId) {
         CommentVo commentVo = commentService.getCommentVoById(commentId);
         return new Result<>("操作成功: 查询评论！", commentVo);

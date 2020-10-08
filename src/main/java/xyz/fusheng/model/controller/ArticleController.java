@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.*;
 import xyz.fusheng.model.core.entity.Article;
@@ -60,6 +62,7 @@ public class ArticleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/save','article:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加文章", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody Article article) throws IOException {
         article.setAuthorId(SecurityUtil.getUserId());
         articleService.saveArticleAndUpdateCategory(article);
@@ -74,6 +77,7 @@ public class ArticleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/deleteById','article:list:delete')")
     @DeleteMapping("/deleteById/{id}")
+    @Log(title = "删除文章", businessType = BusinessType.DELETE)
     public Result<Object> deleteById(@PathVariable("id") Long id) throws IOException {
         articleService.deleteById(id);
         return new Result<>("操作成功: 删除文章！");
@@ -87,6 +91,7 @@ public class ArticleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/update','article:list:update')")
     @PutMapping("/update")
+    @Log(title = "修改文章", businessType = BusinessType.UPDATE)
     public Result<Object> update(@RequestBody Article article) throws IOException {
         // 修改时先查询数据 获取 version 字段
         article.setVersion(articleService.getById(article.getArticleId()).getVersion());
@@ -146,6 +151,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/get/{id}")
+    @Log(title = "查询文章详情", businessType = BusinessType.SELECT)
     public Result<ArticleVo> getById(@PathVariable("id") Long id){
         ArticleVo articleVo = articleService.getById(id);
         return new Result<>("操作成功: 查询文章！", articleVo);
@@ -160,6 +166,7 @@ public class ArticleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/enable','article:list:enable')")
     @PutMapping("/enable/{id}")
+    @Log(title = "启用文章", businessType = BusinessType.ENABLE)
     public Result<Object> enable(@PathVariable("id") Long id) throws IOException {
         articleService.enableById(id);
         return new Result<>("操作成功: 启用文章!");
@@ -173,6 +180,7 @@ public class ArticleController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/disable','article:list:disable')")
     @PutMapping("/disable/{id}")
+    @Log(title = "弃用文章", businessType = BusinessType.DISABLE)
     public Result<Object> disable(@PathVariable("id") Long id) throws IOException {
         articleService.disableById(id);
         return new Result<>("操作成功: 弃用文章！");
@@ -184,6 +192,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/read/{id}")
+    @Log(title = "阅读文章", businessType = BusinessType.READ)
     public Result<ArticleVo> read(@PathVariable("id") Long id){
         ArticleVo articleVo = articleService.readById(id);
         return new Result<>("操作成功: 阅读文章！", articleVo);

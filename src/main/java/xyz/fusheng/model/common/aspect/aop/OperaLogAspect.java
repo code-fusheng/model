@@ -12,15 +12,21 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessStatus;
+import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.AddressUtils;
 import xyz.fusheng.model.common.utils.IpUtils;
 import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.ServletUtils;
+import xyz.fusheng.model.core.entity.Collection;
+import xyz.fusheng.model.core.entity.Good;
 import xyz.fusheng.model.core.entity.OperaLog;
 import xyz.fusheng.model.core.service.OperaLogService;
 import xyz.fusheng.model.security.entity.SelfUser;
@@ -29,6 +35,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,9 +94,15 @@ public class OperaLogAspect {
                 return;
             }
 
-            // 获取当前的用户
-            SelfUser loginUser = SecurityUtil.getUserInfo();
-
+            // 判断当前用户是否登录
+            SelfUser loginUser = new SelfUser();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                // 获取当前的用户
+                loginUser = SecurityUtil.getUserInfo();
+            } else {
+                loginUser.setUsername("游客");
+            }
             // *========数据库日志=========*//
             OperaLog operaLog = new OperaLog();
             operaLog.setStatus(BusinessStatus.SUCCESS.getCode());
@@ -105,7 +118,6 @@ public class OperaLogAspect {
             if (loginUser != null) {
                 operaLog.setOperaName(loginUser.getUsername());
             }
-
             if (e != null) {
                 operaLog.setStatus(BusinessStatus.FAIL.getCode());
                 operaLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
@@ -177,10 +189,10 @@ public class OperaLogAspect {
         String requestMethod = operaLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());
-            operaLog.setOperaParam(StringUtils.substring(params, 0, 2000));
+            operaLog.setOperaParam(StringUtils.substring(params, 0, 1000));
         } else {
             Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-            operaLog.setOperaParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
+            operaLog.setOperaParam(StringUtils.substring(paramsMap.toString(), 0, 1000));
         }
     }
 

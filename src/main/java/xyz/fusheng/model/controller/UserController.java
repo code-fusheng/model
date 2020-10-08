@@ -5,6 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -38,6 +40,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
+    @Log(title = "用户注册", businessType = BusinessType.REGISTER)
     public Result<Object> register(@RequestBody User user) {
         if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
             return new Result<>(400, "操作错误: 缺少必须表单字段！");
@@ -68,6 +71,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/save', 'user:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加用户", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody User user){
         if(StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())){
             return new Result<>(400, "操作错误: 缺少必须表单字段！");
@@ -94,6 +98,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/deleteById', 'user:list:delete')")
     @DeleteMapping("/deleteById/{id}")
+    @Log(title = "删除用户", businessType = BusinessType.DELETE)
     public Result<Object> deleteById(@PathVariable("id") Long id){
         userService.removeById(id);
         return new Result<>("操作成功: 删除用户！");
@@ -106,6 +111,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/update', 'user:list:update')")
     @PutMapping("/update")
+    @Log(title = "修改用户", businessType = BusinessType.UPDATE)
     public Result<Object> update(@RequestBody User user){
         userService.updateById(user);
         return new Result<>("操作成功: 修改用户!");
@@ -118,6 +124,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/getById', 'user:list:info')")
     @GetMapping("getById/{id}")
+    @Log(title = "查询用户详情", businessType = BusinessType.SELECT)
     public Result<User> getById(@PathVariable("id") Long id){
         User user = userService.getById(id);
         return new Result<>("操作成功: 查询用户！", user);
@@ -172,6 +179,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/enable', 'user:list:enable')")
     @PutMapping("/enable/{id}")
+    @Log(title = "启用角色", businessType = BusinessType.ENABLE)
     public Result<Object> enable(@PathVariable("id") Long id) {
         userService.enableById(id);
         return new Result<>("操作成功: 启用用户！");
@@ -185,6 +193,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/user/disable', 'user:list:disable')")
     @PutMapping("/disable/{id}")
+    @Log(title = "弃用用户", businessType = BusinessType.DISABLE)
     public Result<Object> disable(@PathVariable("id") Long id) {
         userService.disableById(id);
         return new Result<>("操作成功: 弃用用户！");

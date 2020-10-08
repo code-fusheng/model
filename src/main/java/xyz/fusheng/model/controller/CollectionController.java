@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -44,6 +46,7 @@ public class CollectionController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('collection/save','collection:list:save')")
     @PostMapping("/save")
     @Transactional(rollbackFor = Exception.class)
+    @Log(title = "添加收藏", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody Collection collection) {
         // 收藏操作执行者的用户id
         long userId = SecurityUtil.getUserId();

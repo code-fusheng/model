@@ -14,6 +14,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -44,6 +46,7 @@ public class ModelController {
     @ApiOperation(value = "添加常规模版", notes = "添加常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/save','model:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加常规模版", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody Model model){
         modelService.save(model);
         return new Result<>("操作成功: 添加模版！");
@@ -70,6 +73,7 @@ public class ModelController {
     @ApiOperation(value = "批量删除常规模版", notes = "根据ids批量删除常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/deleteByIds','model:list:delete')")
     @PutMapping("/deleteByIds")
+    @Log(title = "删除常规模版", businessType = BusinessType.DELETE)
     public Result<Object> deleteByIds(@RequestBody List<Integer> ids){
         modelService.deleteByIds(ids);
         return new Result<>("操作成功: 批量删除模版！");
@@ -83,6 +87,7 @@ public class ModelController {
     @ApiOperation(value = "修改常规模版", notes = "根据id修改常规模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/update','model:list:update')")
     @PutMapping("/update")
+    @Log(title = "修改常规模版", businessType = BusinessType.UPDATE)
     public Result<Object> update(@RequestBody Model model){
         modelService.update(model);
         return new Result<>("操作成功: 修改模版!");
@@ -152,6 +157,7 @@ public class ModelController {
     @ApiOperation(value = "启用模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/enable','model:list:enable')")
     @PutMapping("/enable/{id}")
+    @Log(title = "启用常规模版", businessType = BusinessType.ENABLE)
     public Result<Object> enable(@PathVariable("id") Integer id) {
         modelService.enableById(id);
         return new Result<>("操作成功: 启用模版！");
@@ -165,6 +171,7 @@ public class ModelController {
     @ApiOperation("弃用模版")
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/model/disable','model:list:disable')")
     @PutMapping("/disable/{id}")
+    @Log(title = "弃用常规模版", businessType = BusinessType.DISABLE)
     public Result<Object> disable(@PathVariable("id") Integer id) {
         modelService.disableById(id);
         return new Result<>("操作成功: 弃用模版！");

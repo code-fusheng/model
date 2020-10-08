@@ -7,6 +7,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -40,6 +42,7 @@ public class MenuController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/save', 'menu:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加权限", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody Menu menu){
         menuService.save(menu);
         return new Result<>("操作成功: 添加权限！");
@@ -52,6 +55,7 @@ public class MenuController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/deleteById', 'menu:list:delete')")
     @DeleteMapping("/deleteById/{id}")
+    @Log(title = "删除权限", businessType = BusinessType.DELETE)
     public Result<Object> deleteById(@PathVariable("id") Long id){
         menuService.deleteById(id);
         return new Result<>("操作成功: 删除权限！");
@@ -64,6 +68,7 @@ public class MenuController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/update', 'menu:list:update')")
     @PutMapping("/update")
+    @Log(title = "修改权限", businessType = BusinessType.UPDATE)
     public Result<Object> update(@RequestBody Menu menu){
         menuService.updateById(menu);
         return new Result<>("操作成功: 修改权限!");
@@ -76,6 +81,7 @@ public class MenuController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/getById', 'menu:list:info')")
     @GetMapping("getById/{id}")
+    @Log(title = "查询权限详情", businessType = BusinessType.SELECT)
     public Result<Menu> getById(@PathVariable("id") Long id){
         Menu menu = menuService.getById(id);
         return new Result<>("操作成功: 查询权限！", menu);

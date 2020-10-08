@@ -28,9 +28,10 @@ public enum BusinessType {
     EXPORT(6, "导出"),
     IMPORT(7, "导入"),
     FORCE(8, "强退"),
-    CLEAN(9, "清空数据"),
     ENABLE(10, "启用"),
-    DISABLE(11, "弃用");
+    DISABLE(11, "弃用"),
+    READ(12, "阅读"),
+    REGISTER(13, "注册");
 
     /**
      * code 枚举码

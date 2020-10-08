@@ -4,6 +4,8 @@ package xyz.fusheng.model.controller; /**
  */
 
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -58,6 +60,7 @@ public class LoginLogController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
+    @Log(title = "删除登录日志", businessType = BusinessType.DELETE)
     public Result<Object> delete(@PathVariable("id") Integer id) {
         loginLogService.deleteById(id);
         return new Result<>("删除成功: 删除日志！");
@@ -69,10 +72,10 @@ public class LoginLogController {
      * @return
      */
     @PutMapping("/deleteByIds")
+    @Log(title = "批量删除登录日志", businessType = BusinessType.DELETE)
     public Result<Object> deleteByIds(@RequestBody List<Integer> ids) {
         loginLogService.deleteByIds(ids);
         return new Result<>("操作成功: 批量删除日志！");
     }
-
 
 }

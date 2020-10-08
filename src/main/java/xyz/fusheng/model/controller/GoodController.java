@@ -3,6 +3,8 @@ package xyz.fusheng.model.controller;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -39,6 +41,7 @@ public class GoodController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/good/save','good:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加点赞", businessType = BusinessType.INSERT)
     @Transactional(rollbackFor = Exception.class)
     public Result<Object> save(@RequestBody Good good) {
         // 点赞操作执行者的用户id
@@ -59,6 +62,7 @@ public class GoodController {
      * @return
      */
     @GetMapping("/getById/{goodId}")
+    @Log(title = "查询点赞详情", businessType = BusinessType.SELECT)
     public Result<GoodVo> getById(@PathVariable("goodId") Long goodId) {
         GoodVo goodVo = goodService.getGoodVoById(goodId);
         return new Result<>("操作成功: 查询点赞！");

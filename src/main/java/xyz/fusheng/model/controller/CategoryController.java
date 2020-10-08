@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.model.common.aspect.annotation.Log;
+import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
@@ -37,6 +39,7 @@ public class CategoryController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/save', 'category:list:add')")
     @PostMapping("/save")
+    @Log(title = "添加分类", businessType = BusinessType.INSERT)
     public Result<Object> save(@RequestBody Category category){
         QueryWrapper<Category> wrapper = new QueryWrapper();
         wrapper.lambda().eq(Category::getCategoryName, category.getCategoryName());
@@ -54,6 +57,7 @@ public class CategoryController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/deleteById', 'category:list:delete')")
     @DeleteMapping("/deleteById/{id}")
+    @Log(title = "删除分类", businessType = BusinessType.DELETE)
     public Result<Object> deleteById(@PathVariable("id") Long id){
         categoryService.deleteById(id);
         return new Result<>("操作成功: 删除分类！");
@@ -66,6 +70,7 @@ public class CategoryController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/update', 'category:list:update')")
     @PutMapping("/update")
+    @Log(title = "修改分类", businessType = BusinessType.UPDATE)
     public Result<Object> update(@RequestBody Category category){
         category.setVersion(categoryService.getById(category.getCategoryId()).getVersion());
         categoryService.updateById(category);
@@ -79,6 +84,7 @@ public class CategoryController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/getById', 'category:list:info')")
     @GetMapping("getById/{id}")
+    @Log(title = "查询分类详情", businessType = BusinessType.SELECT)
     public Result<Category> getById(@PathVariable("id") Long id){
         Category category = categoryService.getById(id);
         return new Result<>("操作成功: 查询分类！", category);
@@ -136,6 +142,7 @@ public class CategoryController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/enable', 'category:list:enable')")
     @PutMapping("/enable/{id}")
+    @Log(title = "启用分类", businessType = BusinessType.ENABLE)
     public Result<Object> enable(@PathVariable("id") Long id) {
         categoryService.enableById(id);
         return new Result<>("操作成功: 启用分类！");
@@ -148,6 +155,7 @@ public class CategoryController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/category/disable', 'category:list:disable')")
     @PutMapping("/disable/{id}")
+    @Log(title = "弃用分类", businessType = BusinessType.DISABLE)
     public Result<Object> disable(@PathVariable("id") Long id) {
         categoryService.disableById(id);
         return new Result<>("操作成功: 弃用分类！");
