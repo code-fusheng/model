@@ -1,12 +1,5 @@
-/**
- * @FileName: UserAuthenticationProvider
- * @Author: code-fusheng
- * @Date: 2020/4/26 23:03
- * Description: 自定义登录验证
- */
 package xyz.fusheng.model.security.core;
 
-import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,6 +21,13 @@ import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+/**
+ * @FileName: UserAuthenticationProvider
+ * @Author: code-fusheng
+ * @Date: 2020/4/26 23:03
+ * Description: 自定义登录验证
+ */
 
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {

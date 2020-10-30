@@ -1,9 +1,3 @@
-/**
- * @FileName: UserPermissionEvaluator
- * @Author: code-fusheng
- * @Date: 2020/4/26 23:14
- * Description: 自定义权限注解验证
- */
 package xyz.fusheng.model.security.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +12,13 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+/**
+ * @FileName: UserPermissionEvaluator
+ * @Author: code-fusheng
+ * @Date: 2020/4/26 23:14
+ * Description: 自定义权限注解验证
+ */
 
 @Component
 public class UserPermissionEvaluator implements PermissionEvaluator {

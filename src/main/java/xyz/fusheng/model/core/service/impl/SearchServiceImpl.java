@@ -77,7 +77,7 @@ public class SearchServiceImpl implements SearchService {
         // MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(searchPage.getKeyFields()[0], searchPage.getKeyword());
         // 多匹配查询构建器
         MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(searchPage.getKeyword(), searchPage.getKeyFields());
-        // multiMatchQueryBuilder.analyzer("standard");
+        multiMatchQueryBuilder.analyzer("standard");
         // sourceBuilder.query(matchQueryBuilder);
         sourceBuilder.query(multiMatchQueryBuilder);
         sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));

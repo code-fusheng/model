@@ -1,12 +1,18 @@
 package xyz.fusheng.model.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
+import xyz.fusheng.model.common.utils.RedisUtils;
 import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.model.security.sms.SendSms;
+import xyz.fusheng.model.security.sms.SmsCode;
+import xyz.fusheng.model.security.sms.SmsCodeGenerator;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @FileName: LoginController
@@ -20,6 +26,26 @@ import xyz.fusheng.model.common.utils.Result;
 public class LoginController {
 
     /**
+     * 注册标识
+     */
+    private static final String registerSign = "re";
+
+    private static final int MAX_SMS_COUNT = 10;
+
+    private static final String smsCountSign = "ip:count";
+
+    /**
+     * redis 中存储的过期时间 180s
+     */
+    private static int ExpireTime = 180;
+
+    @Autowired
+    private SmsCodeGenerator smsCodeGenerator;
+
+    @Resource
+    private RedisUtils redisUtils;
+
+    /**
      * 处理未登录
      *
      * @return
@@ -30,4 +56,28 @@ public class LoginController {
         return new ResponseEntity<>(new Result<>(ResultEnums.NOT_LOGIN), HttpStatus.FORBIDDEN);
     }
 
+    @GetMapping("/sms/login")
+    public Result<Object> createSmsCode(@RequestParam String mobile, HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (redisUtils.get(ip) == null) {
+            redisUtils.set(ip, 1, 58);
+            SmsCode smsCode = smsCodeGenerator.generate();
+            if (redisUtils.set(mobile, smsCode, ExpireTime)) {
+                if (registerSign.equals(mobile.substring(0, 2))) {
+                    SendSms.send(mobile.substring(2), smsCode.getCode(), "SMS_190266443");
+                } else {
+                    SendSms.send(mobile, smsCode.getCode(), "SMS_190266443");
+                }
+            } else {
+                return new Result<>(401, "验证码未发送，请稍后再试！");
+            }
+        } else {
+            redisUtils.set(ip, (Integer) redisUtils.get(ip) + 1, 58);
+            if ((Integer) redisUtils.get(ip) > MAX_SMS_COUNT) {
+                redisUtils.set(smsCountSign + ip, 1, 60 * 60 * 24);
+            }
+            return new Result<>(401, "请勿频繁操作");
+        }
+        return new Result<>();
+    }
 }

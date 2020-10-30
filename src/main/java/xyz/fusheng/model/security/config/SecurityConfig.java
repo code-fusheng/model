@@ -4,7 +4,7 @@
  * @Date: 2020/4/26 23:22
  * Description: springSecurity核心配置文件
  */
-package xyz.fusheng.model.common.config;
+package xyz.fusheng.model.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +18,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
+import xyz.fusheng.model.common.utils.RedisUtils;
 import xyz.fusheng.model.security.core.UserAuthenticationProvider;
 import xyz.fusheng.model.security.core.UserPermissionEvaluator;
+import xyz.fusheng.model.security.filter.IpFilter;
 import xyz.fusheng.model.security.handler.*;
 import xyz.fusheng.model.security.jwt.JwtAuthenticationTokenFilter;
+import xyz.fusheng.model.security.sms.SmsCodeAuthenticationFilter;
+import xyz.fusheng.model.security.sms.SmsCodeAuthenticationSecurityConfig;
+import xyz.fusheng.model.security.sms.ValidateCodeFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -61,8 +69,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserAuthenticationProvider userAuthenticationProvider;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
+
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    /**
+     * 注入IpFilter
+     *
+     * @return
+     */
+    @Bean
+    public IpFilter ipFilter() {
+        return new IpFilter();
+    }
+
     /**
      * 配置地址栏不能识别 // 的情况  good nice 666
+     *
      * @return
      */
     @Bean
@@ -103,10 +129,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setAuthenticationFailureHandler(userLoginFailureHandler);
+        validateCodeFilter.setRedisUtils(redisUtils);
+
         http.authorizeRequests()
                 // 不进行权限验证的请求或资源(从配置文件中读取)
                 // .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()
-                .antMatchers("/**/login", "/push/websocket", "/v2/api-docs", "/swagger-resources/configuration/ui",
+                .antMatchers("/sms/login", "/**/login", "/push/websocket", "/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
                         "/swagger-ui.html", "/doc.html", "/webjars/**", "/user/register", "/druid/login.html", "/druid/**",
                         "/category/getList", "/article/getByPage", "/article/read/**", "/comment/getByPage").permitAll()
@@ -125,6 +156,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(userLoginSuccessHandler)
                 // 配置登录失败自定义处理类
                 .failureHandler(userLoginFailureHandler)
+                .and()
+                .addFilterAfter(ipFilter(), CsrfFilter.class)
+                .addFilterAfter(validateCodeFilter, LogoutFilter.class)
+                .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 // 配置登出地址
                 .logout()
