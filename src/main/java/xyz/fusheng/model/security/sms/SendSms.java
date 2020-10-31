@@ -22,8 +22,8 @@ public class SendSms {
 
     public static void send(String mobile, String code, String templateCode) {
         // 创建DefaultAcsClient实例并初始化  地域ID   RAM账号的AccessKey ID  RAM账号AccessKey Secret
-        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4G6pyEy5dzvC4X2WnFnD",
-                "rx3iPHs9iWogLH04cY8Dc5makLmhly");
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4GC4X3ovGr3fHhdY9QAg",
+                "A1jQdtPjuwiTdwRJ6lohsNx8wjncJa");
         IAcsClient client = new DefaultAcsClient(profile);
         // 创建API请求并设置参数
         CommonRequest request = new CommonRequest();
@@ -35,7 +35,7 @@ public class SendSms {
         //接收短信的手机号码。
         request.putQueryParameter("PhoneNumbers", mobile);
         //短信签名名称
-        request.putQueryParameter("SignName", "clms");
+        request.putQueryParameter("SignName", "model模版");
         //短信模板ID
         request.putQueryParameter("TemplateCode", templateCode);
         //短信模板变量对应的实际值，JSON格式

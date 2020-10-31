@@ -58,6 +58,7 @@ spring:
       max-request-size: 100MB
   #以下为redis的配置
   redis:
+    database: 6  # Redis 数据库索引（默认为 0）
     host: 175.24.45.179
     port: 6390
     password: 123456

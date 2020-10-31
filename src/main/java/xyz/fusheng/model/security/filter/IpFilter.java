@@ -32,7 +32,7 @@ public class IpFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String ip = request.getHeader("x-forwarded-for");
-        String ipKey = "user:ip";
+        String ipKey = "rf";
         // 判断该ip是否被封禁
         if (redisUtils.get(ipKey + ip) != null) {
             response.setContentType("application/json;charset=utf-8");

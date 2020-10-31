@@ -137,7 +137,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // 不进行权限验证的请求或资源(从配置文件中读取)
                 // .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()
-                .antMatchers("/sms/login", "/**/login", "/push/websocket", "/v2/api-docs", "/swagger-resources/configuration/ui",
+                .antMatchers("/code/sms", "/**/login", "/push/websocket", "/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
                         "/swagger-ui.html", "/doc.html", "/webjars/**", "/user/register", "/druid/login.html", "/druid/**",
                         "/category/getList", "/article/getByPage", "/article/read/**", "/comment/getByPage").permitAll()

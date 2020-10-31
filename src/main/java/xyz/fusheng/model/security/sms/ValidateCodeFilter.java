@@ -28,7 +28,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        boolean isSms = StringUtils.equals("/sms/login", request.getRequestURI()) || StringUtils.equals("/register", request.getRequestURI());
+        boolean isSms = StringUtils.equals("/authentication/mobile", request.getRequestURI()) || StringUtils.equals("/register", request.getRequestURI());
         if (isSms && StringUtils.equalsIgnoreCase(request.getMethod(), TypeEnums.POST.getLabel())) {
             validateSmsCode(request);
             redisUtils.del(request.getParameter("mobile"));

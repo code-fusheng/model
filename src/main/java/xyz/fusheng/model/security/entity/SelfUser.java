@@ -32,6 +32,11 @@ public class SelfUser implements Serializable, UserDetails {
     private String password;
 
     /**
+     * 手机号码
+     */
+    private String phone;
+
+    /**
      * 头像
      */
     private String header;

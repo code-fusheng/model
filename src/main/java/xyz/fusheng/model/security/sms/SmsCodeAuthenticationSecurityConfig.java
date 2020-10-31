@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 import xyz.fusheng.model.security.handler.UserLoginFailureHandler;
 import xyz.fusheng.model.security.handler.UserLoginSuccessHandler;
+import xyz.fusheng.model.security.service.SelfUserDetailsService;
 
 /**
  * @FileName: SmsCodeAuthenticationConfig
@@ -23,7 +24,7 @@ import xyz.fusheng.model.security.handler.UserLoginSuccessHandler;
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private SelfUserDetailsService selfUserDetailsService;
 
     @Autowired
     private UserLoginSuccessHandler userLoginSuccessHandler;
@@ -42,7 +43,7 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
         // 配置 SmsCodeAuthenticationProvider 的 UserDetailService
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
-        smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
+        smsCodeAuthenticationProvider.setSelfUserDetailsService(selfUserDetailsService);
 
         // 把 smsCodeAuthenticationFilter 过滤器添加在 UsernamePasswordAuthenticationFilter 之前
         builder.authenticationProvider(smsCodeAuthenticationProvider);

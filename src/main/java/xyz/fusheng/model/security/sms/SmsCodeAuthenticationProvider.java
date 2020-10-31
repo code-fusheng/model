@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import xyz.fusheng.model.security.service.SelfUserDetailsService;
 
 /**
  * @FileName: SmsCodeAuthenticationProvider
@@ -20,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
-    private UserDetailsService userDetailsService;
+    private SelfUserDetailsService selfUserDetailsService;
 
     /**
      * 处理验证逻辑
@@ -34,7 +35,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         // 强转 authentication 为 smsCodeAuthenticationToken
         SmsCodeAuthenticationToken smsCodeAuthenticationToken = (SmsCodeAuthenticationToken) authentication;
 
-        UserDetails user = userDetailsService.loadUserByUsername((String) smsCodeAuthenticationToken.getPrincipal());
+        UserDetails user = selfUserDetailsService.loadUserByPhone((String) smsCodeAuthenticationToken.getPrincipal());
 
         if (user == null) {
             throw new InternalAuthenticationServiceException("用户不存在");
@@ -51,11 +52,11 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         return SmsCodeAuthenticationToken.class.isAssignableFrom(authenticationClass);
     }
 
-    public UserDetailsService getUserDetailsService() {
-        return userDetailsService;
+    public SelfUserDetailsService getSelfUserDetailsService() {
+        return selfUserDetailsService;
     }
 
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public void setSelfUserDetailsService(SelfUserDetailsService selfUserDetailsService) {
+        this.selfUserDetailsService = selfUserDetailsService;
     }
 }

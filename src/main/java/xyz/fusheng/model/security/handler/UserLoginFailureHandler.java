@@ -1,9 +1,3 @@
-/**
- * @FileName: UserLoginFailureHandler
- * @Author: code-fusheng
- * @Date: 2020/4/26 22:21
- * Description: 登录失败处理类
- */
 package xyz.fusheng.model.security.handler;
 
 import com.alibaba.fastjson.JSON;
@@ -19,11 +13,19 @@ import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.core.entity.LoginLog;
 import xyz.fusheng.model.core.service.LoginLogService;
+import xyz.fusheng.model.security.sms.ValidateCodeException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * @FileName: UserLoginFailureHandler
+ * @Author: code-fusheng
+ * @Date: 2020/4/26 22:21
+ * Description: 登录失败处理类
+ */
 
 @Slf4j
 @Component
@@ -53,12 +55,17 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
             response.getWriter().write(JSON.toJSONString(new Result<>(500, "登录失败: 用户被冻结！")));
             loginLog.setMsg("登录失败: 用户被冻结！");
         }
-        if (exception instanceof BadCredentialsException){
-            log.info("【登录失败】"+exception.getMessage());
+        if (exception instanceof BadCredentialsException) {
+            log.info("【登录失败】" + exception.getMessage());
             response.setContentType("application/json;charset=utf-8");
             response.getWriter().write(JSON.toJSONString(new Result<>(500, "登录失败: 用户名密码不正确！")));
             loginLog.setMsg("登录失败: 用户名密码不正确！");
         }
+        if (exception instanceof ValidateCodeException) {
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write(JSON.toJSONString(new Result<>(500, "登录失败: 验证码异常！")));
+        }
+
         loginLogService.save(loginLog);
     }
 }
