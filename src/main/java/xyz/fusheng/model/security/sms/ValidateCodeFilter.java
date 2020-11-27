@@ -67,7 +67,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
-    public void setRedisUtils(RedisUtils redisUtil) {
-        this.redisUtils = redisUtil;
+    public void setRedisUtils(RedisUtils redisUtils) {
+        this.redisUtils = redisUtils;
     }
 }

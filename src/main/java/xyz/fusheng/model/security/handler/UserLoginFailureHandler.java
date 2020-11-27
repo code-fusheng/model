@@ -62,10 +62,11 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
             loginLog.setMsg("登录失败: 用户名密码不正确！");
         }
         if (exception instanceof ValidateCodeException) {
+            log.info("【登录失败】" + exception.getMessage());
             response.setContentType("application/json;charset=utf-8");
             response.getWriter().write(JSON.toJSONString(new Result<>(500, "登录失败: 验证码异常！")));
+            loginLog.setMsg("登录失败: 验证码异常！");
         }
-
         loginLogService.save(loginLog);
     }
 }

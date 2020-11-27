@@ -3,6 +3,10 @@
 server:
   port: 9999
 spring:
+  # 以下为kafka的配置
+  #  kafka:
+  #    producer:
+  #      bootstrap-servers: 47.93.19.102:9092
   datasource:
     # 基础属性
     # 腾讯云 mysql 数据库连接
@@ -56,6 +60,7 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 100MB
+
   #以下为redis的配置
   redis:
     database: 6  # Redis 数据库索引（默认为 0）

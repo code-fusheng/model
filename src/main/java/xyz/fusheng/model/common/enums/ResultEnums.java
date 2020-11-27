@@ -2,7 +2,7 @@
  * @FileName: ResultEnums
  * @Author: code-fusheng
  * @Date: 2020/4/15 13:48
- * Description: 返回结果枚举
+ * Description: HTTP 返回结果状态码枚举
  */
 package xyz.fusheng.model.common.enums;
 
