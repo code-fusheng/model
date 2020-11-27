@@ -1,9 +1,3 @@
-/**
- * @FileName: SecurityConfig
- * @Author: code-fusheng
- * @Date: 2020/4/26 23:22
- * Description: springSecurity核心配置文件
- */
 package xyz.fusheng.model.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +27,20 @@ import xyz.fusheng.model.security.sms.SmsCodeAuthenticationFilter;
 import xyz.fusheng.model.security.sms.SmsCodeAuthenticationSecurityConfig;
 import xyz.fusheng.model.security.sms.ValidateCodeFilter;
 
+/**
+ * @FileName: SecurityConfig
+ * @Author: code-fusheng
+ * @Date: 2020/4/26 23:22
+ * Description: springSecurity核心配置文件
+ * @EnableGlobalMethodSecurity 开启权限注解控制，默认是关闭的
+ * --> @PreAuthorize : 方法执行前进行权限检查
+ * @PostAuthorize : 方法执行后进行权限检查
+ * @Secured : 类似于 @PreAuthorize
+ */
+
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)  // 开启权限注解，默认是关闭的
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
@@ -103,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
     /**
      * 注入自定义PermissionEvaluator
      */
@@ -121,6 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //这里可启用我们自己的登陆验证逻辑
         auth.authenticationProvider(userAuthenticationProvider);
     }
+
     /**
      * 配置security的控制逻辑
      * @Author Sans

@@ -52,6 +52,5 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         loginLog.setMsg("登录成功！");
         loginLog.setLoginStatus(StateEnums.LOGIN_SUCCESS.getCode());
         loginLogService.save(loginLog);
-
     }
 }

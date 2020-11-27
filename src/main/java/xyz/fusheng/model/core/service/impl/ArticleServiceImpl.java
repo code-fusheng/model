@@ -96,7 +96,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            assert indexResponse != null;
+            assert indexResponse == null;
             log.info("Elasticsearch状态：{}", indexResponse.status());
         }
         // 添加成功时，更新对应分类文章数

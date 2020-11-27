@@ -3,6 +3,7 @@
  * @Author: code-fusheng
  * @Date: 2020/4/26 21:48
  * Description: 暂无权限处理类
+ * AccessDeniedHandler 授权异常处理
  */
 package xyz.fusheng.model.security.handler;
 

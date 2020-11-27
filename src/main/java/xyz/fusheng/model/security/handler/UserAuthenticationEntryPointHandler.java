@@ -3,6 +3,7 @@
  * @Author: code-fusheng
  * @Date: 2020/4/26 22:18
  * Description: 用户未登录处理类
+ * AuthenticationEntryPoint 认证异常处理
  */
 package xyz.fusheng.model.security.handler;
 

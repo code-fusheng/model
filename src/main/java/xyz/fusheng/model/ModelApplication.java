@@ -32,6 +32,7 @@
  */
 package xyz.fusheng.model;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -89,10 +90,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("xyz.fusheng.model.core.mapper")
 @EnableCaching
 @EnableScheduling
+@Slf4j
 public class ModelApplication {
 
+    /**
+     * TODO version 1.2.0
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(ModelApplication.class, args);
+        log.info(">>>>>>>>>>>>>>>>系统已经启动>>>>>>>>>>>>>>>");
     }
 
 }
