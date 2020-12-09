@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Data
 public class Page<T> implements Serializable {
+
     private static final long serialVersionUID = 8759874641772522011L;
 
     /**

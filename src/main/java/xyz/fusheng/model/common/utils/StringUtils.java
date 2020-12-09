@@ -8,10 +8,10 @@ package xyz.fusheng.model.common.utils;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.util.Assert;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -423,5 +423,40 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         return temp;
     }
+
+    /**
+     * 将图片文件转换成base64字符串,参数为图片路径
+     *
+     * @param imageFile
+     * @return
+     */
+    public String ImageToBase64(String imageFile) {
+        InputStream in = null;
+        byte[] data = null;
+
+        try {
+            in = new FileInputStream(imageFile);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 对字节数组Base64编码
+        BASE64Encoder encoder = new BASE64Encoder();
+
+        if (data != null) {
+            // 返回Base64编码过的字节数组字符串
+            return "data:image/jpeg;base64" + encoder.encode(data);
+        }
+        return null;
+    }
+
+    public boolean Base64ToImage(String base64, String imgFilePath) {
+        return false;
+    }
+
 
 }
