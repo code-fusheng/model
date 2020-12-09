@@ -140,3 +140,13 @@ upload:
     - image/bmp
     - image/gif
     - audio/mpeg
+
+aliyun:
+  oss:
+    accessKeyId: LTAI4GE6g186CuWjoarrq4nH
+    accessKeySecred: ioL3ZwSVd5OLbj5L7I2pmzHsg6GXLY
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucketName: aliyun-oss-model
+    policyExpire: 300
+    maxSize: 20
+

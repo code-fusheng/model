@@ -6,24 +6,28 @@
  */
 package xyz.fusheng.model.common.utils;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSSClientBuilder;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.slf4j.ILoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.fusheng.model.common.config.AliyunOssConfig;
 import xyz.fusheng.model.common.config.UploadConfig;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Date;
 
 @Component
 @EnableConfigurationProperties(UploadConfig.class)
+
 public class UploadService {
 
     private Log log = LogFactory.getLog(UploadConfig.class);
@@ -33,6 +37,9 @@ public class UploadService {
 
     @Autowired
     private UploadConfig uploadConfig;
+
+    @Autowired
+    private AliyunOssConfig aliyunOssConfig;
 
     public String uploadImage(MultipartFile file) {
         // 1.校验文件类型
@@ -52,6 +59,19 @@ public class UploadService {
             log.error("【文件上传】上传文件失败！....{}", e);
             throw new RuntimeException("【文件上传】上传文件失败！" + e.getMessage());
         }
+    }
+
+    public String uploadImageToAliyunOss(MultipartFile file) throws IOException {
+        String endpoint = "http://oss-cn-beijing.aliyuncs.com";
+        String accessKeyId = "LTAI4GE6g186CuWjoarrq4nH";
+        String accessKeySecret = "ioL3ZwSVd5OLbj5L7I2pmzHsg6GXLY";
+        String bucketName = "aliyun-oss-model";
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        ossClient.putObject(bucketName, file.getOriginalFilename(), new ByteArrayInputStream(file.getBytes()));
+        ossClient.shutdown();
+        Date expiration = new Date(System.currentTimeMillis() + 36001 * 1000 * 24 * 365 * 10);
+        String url = ossClient.generatePresignedUrl(bucketName, file.getOriginalFilename(), expiration).toString();
+        return url;
     }
 
 }

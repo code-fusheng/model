@@ -1,0 +1,60 @@
+2020-12-09 00:12:46.177 WARN  [restartedMain]com.baomidou.mybatisplus.core.injector.AbstractMethod.addMappedStatement:323 -[xyz.fusheng.model.core.mapper.LoginLogMapper.deleteById] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.DeleteById]
+2020-12-09 09:15:28.673 WARN  [restartedMain]com.baomidou.mybatisplus.core.injector.AbstractMethod.addMappedStatement:323 -[xyz.fusheng.model.core.mapper.LoginLogMapper.deleteById] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.DeleteById]
+2020-12-09 09:15:30.978 WARN  [restartedMain]o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext.refresh:558 -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.boot.context.properties.ConfigurationPropertiesBindException: Error creating bean with name 'aliyunOssConfig': Could not bind properties to 'AliyunOssConfig' : prefix=aliyun.oss, ignoreInvalidFields=false, ignoreUnknownFields=true; nested exception is org.springframework.boot.context.properties.bind.BindException: Failed to bind properties under 'aliyun.oss.policy-expire' to java.lang.Long
+2020-12-09 09:15:31.159 WARN  [restartedMain]org.apache.catalina.loader.WebappClassLoaderBase.log:173 -The web application [ROOT] appears to have started a thread named [ForkJoinPool.commonPool-worker-2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.ForkJoinPool.awaitWork(ForkJoinPool.java:1824)
+ java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1693)
+ java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+2020-12-09 09:15:31.161 WARN  [restartedMain]org.apache.catalina.loader.WebappClassLoaderBase.log:173 -The web application [ROOT] appears to have started a thread named [ForkJoinPool.commonPool-worker-3] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.ForkJoinPool.awaitWork(ForkJoinPool.java:1824)
+ java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1693)
+ java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+2020-12-09 09:16:27.101 WARN  [restartedMain]com.baomidou.mybatisplus.core.injector.AbstractMethod.addMappedStatement:323 -[xyz.fusheng.model.core.mapper.LoginLogMapper.deleteById] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.DeleteById]
+2020-12-09 09:23:37.160 WARN  [http-nio-9999-exec-2]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:24:12.697 WARN  [http-nio-9999-exec-4]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:25:01.884 WARN  [http-nio-9999-exec-2]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:25:37.322 WARN  [http-nio-9999-exec-4]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:26:13.056 WARN  [http-nio-9999-exec-3]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:26:27.107 WARN  [http-nio-9999-exec-2]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:27:02.541 WARN  [http-nio-9999-exec-4]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:27:37.852 WARN  [http-nio-9999-exec-3]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:27:53.524 WARN  [http-nio-9999-exec-2]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:28:28.979 WARN  [http-nio-9999-exec-4]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:29:03.157 WARN  [http-nio-9999-exec-3]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:30:11.090 WARN  [restartedMain]com.baomidou.mybatisplus.core.injector.AbstractMethod.addMappedStatement:323 -[xyz.fusheng.model.core.mapper.LoginLogMapper.deleteById] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.DeleteById]
+2020-12-09 09:32:29.185 WARN  [http-nio-9999-exec-1]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:33:53.982 WARN  [http-nio-9999-exec-1]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:35:19.367 WARN  [http-nio-9999-exec-1]com.aliyun.oss.logException:70 -[Client]Unable to execute HTTP request: Connect to aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com:80 [aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.8, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.6, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.7, aliyun-oss-model.oss-cn-beijing-internal.aliyuncs.com/100.118.58.9] failed: Connection timed out: connect
+[ErrorCode]: SocketException
+[RequestId]: Unknown
+2020-12-09 09:36:02.825 WARN  [restartedMain]com.baomidou.mybatisplus.core.injector.AbstractMethod.addMappedStatement:323 -[xyz.fusheng.model.core.mapper.LoginLogMapper.deleteById] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.DeleteById]
+2020-12-09 09:36:49.413 WARN  [restartedMain]com.baomidou.mybatisplus.core.injector.AbstractMethod.addMappedStatement:323 -[xyz.fusheng.model.core.mapper.LoginLogMapper.deleteById] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.DeleteById]
+2020-12-09 09:54:50.993 WARN  [restartedMain]com.baomidou.mybatisplus.core.injector.AbstractMethod.addMappedStatement:323 -[xyz.fusheng.model.core.mapper.LoginLogMapper.deleteById] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.DeleteById]
