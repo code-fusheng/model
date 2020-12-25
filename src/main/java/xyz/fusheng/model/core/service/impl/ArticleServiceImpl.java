@@ -82,22 +82,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @param article
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    //@Transactional(rollbackFor = Exception.class)
     public void saveArticleAndUpdateCategory(Article article) {
         articleMapper.insert(article);
         ArticleVo articleDoc = articleMapper.getById(article.getArticleId());
-        IndexRequest request = new IndexRequest("model_article_index");
-        request.id(article.getArticleId().toString());
-        request.timeout("5s");
-        request.source(JSON.toJSONString(articleDoc), XContentType.JSON);
         IndexResponse indexResponse = null;
         try {
+            IndexRequest request = new IndexRequest("model_article_index");
+            request.id(article.getArticleId().toString());
+            request.timeout("5s");
+            request.source(JSON.toJSONString(articleDoc), XContentType.JSON);
             indexResponse = client.index(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            log.info("同步新增文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
         } finally {
-            assert indexResponse == null;
-            log.info("Elasticsearch状态：{}", indexResponse.status());
+            log.info("同步新增文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), indexResponse.status());
         }
         // 添加成功时，更新对应分类文章数
         long categoryId = article.getArticleCategory();
@@ -110,7 +110,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    //@Transactional(rollbackFor = Exception.class)
     public void updateArticleAndCategory(Article article) {
         // 获取article的旧/新分类
         long oldCategoryId = articleMapper.getById(article.getArticleId()).getArticleCategory();
@@ -128,16 +128,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         articleMapper.updateById(article);
         ArticleVo articleDoc = articleMapper.getById(article.getArticleId());
-        UpdateRequest request = new UpdateRequest("model_article_index", articleDoc.getArticleId().toString());
-        request.timeout("5s");
-        request.doc(JSON.toJSONString(articleDoc), XContentType.JSON);
         UpdateResponse updateResponse = null;
         try {
+            UpdateRequest request = new UpdateRequest("model_article_index", articleDoc.getArticleId().toString());
+            request.timeout("5s");
+            request.doc(JSON.toJSONString(articleDoc), XContentType.JSON);
             updateResponse = client.update(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            log.info("同步更新文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
         } finally {
-            log.info("Elasticsearch 同步状态：{}", updateResponse.status());
+            log.info("同步更新文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), updateResponse.status());
         }
     }
 
@@ -185,16 +186,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void deleteById(Long id) {
+        Article article = articleMapper.selectById(id);
         articleMapper.deleteById(id);
-        DeleteRequest request = new DeleteRequest("model_article_index", id.toString());
-        request.timeout("5s");
         DeleteResponse deleteResponse = null;
         try {
+            DeleteRequest request = new DeleteRequest("model_article_index", id.toString());
+            request.timeout("5s");
             deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            log.info("同步删除文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
         } finally {
-            log.info("Elasticsearch 同步状态：{}", deleteResponse.status());
+            log.info("同步删除文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), deleteResponse.status());
         }
     }
 
@@ -205,22 +208,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         updateWrapper.lambda().set(Article::getIsEnabled, StateEnums.ENABLED.getCode());
         articleMapper.update(null, updateWrapper);
         ArticleVo articleDoc = articleMapper.getById(id);
-        IndexRequest request = new IndexRequest("model_article_index");
-        request.id(articleDoc.getArticleId().toString());
-        request.timeout("5s");
-        request.source(JSON.toJSONString(articleDoc), XContentType.JSON);
         IndexResponse indexResponse = null;
         try {
+            IndexRequest request = new IndexRequest("model_article_index");
+            request.id(articleDoc.getArticleId().toString());
+            request.timeout("5s");
+            request.source(JSON.toJSONString(articleDoc), XContentType.JSON);
             indexResponse = client.index(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            log.info("同步启用文章:{}失败,异常信息:{}", articleDoc.getArticleTitle(), e);
         } finally {
-            log.info("Elasticsearch 同步状态：{}", indexResponse.status());
+            log.info("同步启用文章:{}时Elasticsearch状态：{}", articleDoc.getArticleTitle(), indexResponse.status());
         }
     }
 
     @Override
     public void disableById(Long id) {
+        Article article = articleMapper.selectById(id);
         UpdateWrapper<Article> updateWrapper = new UpdateWrapper<>();
         updateWrapper.lambda().eq(Article::getArticleId, id);
         updateWrapper.lambda().set(Article::getIsEnabled, StateEnums.NOT_ENABLE.getCode());
@@ -230,10 +235,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         DeleteResponse deleteResponse = null;
         try {
             deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            log.info("同步删除文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
         } finally {
-            log.info("Elasticsearch 同步状态：{}", deleteResponse.status());
+            log.info("同步删除文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), deleteResponse.status());
         }
     }
 

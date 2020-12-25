@@ -27,7 +27,6 @@ import java.util.Date;
 
 @Component
 @EnableConfigurationProperties(UploadConfig.class)
-
 public class UploadService {
 
     private Log log = LogFactory.getLog(UploadConfig.class);
@@ -40,6 +39,9 @@ public class UploadService {
 
     @Autowired
     private AliyunOssConfig aliyunOssConfig;
+
+    public UploadService() {
+    }
 
     public String uploadImage(MultipartFile file) {
         // 1.校验文件类型
