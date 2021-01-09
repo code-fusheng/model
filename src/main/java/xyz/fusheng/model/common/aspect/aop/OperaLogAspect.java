@@ -109,7 +109,7 @@ public class OperaLogAspect {
             // 请求的地址
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
             operaLog.setOperaIp(ip);
-            String address = AddressUtils.getRealAddressByIP(ip);
+            String address = AddressUtils.getIpAddressInfo(ip);
             operaLog.setOperaLocation(address);
             // 返回参数
             operaLog.setJsonResult(JSON.toJSONString(jsonResult));

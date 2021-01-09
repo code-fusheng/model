@@ -64,15 +64,14 @@ public class UploadService {
     }
 
     public String uploadImageToAliyunOss(MultipartFile file) throws IOException {
-        String endpoint = "http://oss-cn-beijing.aliyuncs.com";
+        String endpoint = "oss-cn-beijing.aliyuncs.com";
         String accessKeyId = "LTAI4GE6g186CuWjoarrq4nH";
         String accessKeySecret = "ioL3ZwSVd5OLbj5L7I2pmzHsg6GXLY";
         String bucketName = "aliyun-oss-model";
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         ossClient.putObject(bucketName, file.getOriginalFilename(), new ByteArrayInputStream(file.getBytes()));
         ossClient.shutdown();
-        Date expiration = new Date(System.currentTimeMillis() + 36001 * 1000 * 24 * 365 * 10);
-        String url = ossClient.generatePresignedUrl(bucketName, file.getOriginalFilename(), expiration).toString();
+        String url = "https://" + bucketName +"."+ endpoint +"/"+ file.getOriginalFilename();
         return url;
     }
 
