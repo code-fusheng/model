@@ -7,12 +7,14 @@
 package xyz.fusheng.model.common.utils;
 
 import eu.bitwalker.useragentutils.UserAgent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import xyz.fusheng.model.core.entity.LoginLog;
 import xyz.fusheng.model.security.entity.SelfUser;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Slf4j
 public class SecurityUtil {
 
     /**
@@ -56,6 +58,7 @@ public class SecurityUtil {
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
         // 获取IP地址
         String ipAddress = IpUtils.getIpAddr(request);
+        log.info("用户登陆获取IP地址信息:{}", ipAddress);
         loginLog.setIpAddress(ipAddress);
         // 获取操作系统
         String osType = userAgent.getOperatingSystem().getName();
@@ -64,9 +67,9 @@ public class SecurityUtil {
         String browserType = userAgent.getBrowser().getName();
         loginLog.setBrowserType(browserType);
         // 获取登录地址
-        String loginLocation = AddressUtils.getRealAddressByIP(ipAddress);
+        String loginLocation = AddressUtils.getIpAddressInfo(ipAddress);
+        log.info("用户登陆获取真实地址信息:{}", loginLocation);
         loginLog.setLoginLocation(loginLocation);
-
         loginLog.setLoginType(0);
 
         return loginLog;

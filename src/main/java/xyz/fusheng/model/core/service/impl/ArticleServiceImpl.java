@@ -96,8 +96,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         } catch (Exception e) {
             e.printStackTrace();
             log.info("同步新增文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
-        } finally {
-            log.info("同步新增文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), indexResponse.status());
         }
         // 添加成功时，更新对应分类文章数
         long categoryId = article.getArticleCategory();
@@ -137,8 +135,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         } catch (Exception e) {
             e.printStackTrace();
             log.info("同步更新文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
-        } finally {
-            log.info("同步更新文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), updateResponse.status());
         }
     }
 
@@ -196,8 +192,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         } catch (Exception e) {
             e.printStackTrace();
             log.info("同步删除文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
-        } finally {
-            log.info("同步删除文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), deleteResponse.status());
         }
     }
 
@@ -218,8 +212,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         } catch (Exception e) {
             e.printStackTrace();
             log.info("同步启用文章:{}失败,异常信息:{}", articleDoc.getArticleTitle(), e);
-        } finally {
-            log.info("同步启用文章:{}时Elasticsearch状态：{}", articleDoc.getArticleTitle(), indexResponse.status());
         }
     }
 
@@ -238,8 +230,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         } catch (Exception e) {
             e.printStackTrace();
             log.info("同步删除文章:{}失败,异常信息:{}", article.getArticleTitle(), e);
-        } finally {
-            log.info("同步删除文章:{}时Elasticsearch状态：{}", article.getArticleTitle(), deleteResponse.status());
         }
     }
 

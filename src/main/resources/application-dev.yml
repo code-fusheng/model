@@ -82,11 +82,10 @@ spring:
   #      database: model
   # RabbitMQ
   rabbitmq:
-    host: 175.24.45.179
+    host: 127.0.0.1
     port: 5672
-    virtual-host: /model
-    username: admin
-    password: 111111
+    username: code-fusheng
+    password: 123456
     publisher-confirm-type: correlated #必须配置这个才会确认回调
     publisher-returns: true
 #以下为Mybatis-plus的配置
