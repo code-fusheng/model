@@ -17,6 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @FileName: AddressUtils
@@ -58,43 +61,50 @@ public class AddressUtils {
         return address;
     }
 
-
-
     /**
      * 腾讯IP定位 API
      */
-    public static String getIpAddressInfo(String ip) {
+    public static Map<String, Object> getIpAddressInfo(String ip) {
+        Map<String, Object> addressMap = new HashMap<>();
         String address = "XX XX";
         if (ip.equals("127.0.0.1")) {
-            return address;
+            addressMap.put("address", address);
+            return addressMap;
         }
         String responseStr = "";
         try {
             responseStr = HttpUtils.sendGet(TENCENT_IP_LOCATION_API, "ip=" + ip + "&" + "key=" + TENCENT_KEY);
         } catch (Exception e) {
             log.info("IP:{}地址解析异常:{}", ip, e);
-            return address;
+            addressMap.put("address", address);
+            return addressMap;
         }
         if (StringUtils.isNotBlank(responseStr)) {
             JSONObject responseObject = JSON.parseObject(responseStr);
             String status = responseObject.getString("status");
+            addressMap.put("status", status);
             // 获取结果对象
             JSONObject result = responseObject.getObject("result", JSONObject.class);
             // 地理位置信息
             JSONObject location = result.getObject("location", JSONObject.class);
             // 经度
             String lng = location.getString("lng");
+            addressMap.put("lng", lng);
             // 纬度
             String lat = location.getString("lat");
+            addressMap.put("lat", lat);
             // 地址信息
             JSONObject adInfo = result.getObject("ad_info", JSONObject.class);
             address = adInfo.getString("nation") + " " + adInfo.getString("province")
                     + " " + adInfo.getString("city") + " " + adInfo.getString("district");
+            addressMap.put("address", address);
         }
         log.info("IP:{}地址返回结果:{},解析结果:{}", ip, address, responseStr);
-        return address;
+        return addressMap;
 
     }
+
+
 
     /**
      * 阿里云获取 IP 地址信息

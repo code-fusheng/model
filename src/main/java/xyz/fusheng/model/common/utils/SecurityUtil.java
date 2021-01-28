@@ -67,10 +67,12 @@ public class SecurityUtil {
         String browserType = userAgent.getBrowser().getName();
         loginLog.setBrowserType(browserType);
         // 获取登录地址
-        String loginLocation = AddressUtils.getIpAddressInfo(ipAddress);
+        String loginLocation = AddressUtils.getIpAddressInfo(ipAddress).get("address").toString();
         log.info("用户登陆获取真实地址信息:{}", loginLocation);
         loginLog.setLoginLocation(loginLocation);
         loginLog.setLoginType(0);
+
+
 
         return loginLog;
     }

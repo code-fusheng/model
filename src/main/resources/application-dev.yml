@@ -1,5 +1,6 @@
 # 开发环境
 # 配置端口
+env: dev
 server:
   port: 9999
 spring:
@@ -82,12 +83,17 @@ spring:
   #      database: model
   # RabbitMQ
   rabbitmq:
-    host: 127.0.0.1
+    host: 175.24.45.179
     port: 5672
     username: code-fusheng
     password: 123456
-    publisher-confirm-type: correlated #必须配置这个才会确认回调
-    publisher-returns: true
+    virtual-host: /model
+    listener:
+      simple:
+        concurrency: 10       # 并发消费者的初始值
+        max-concurrency: 20   # 并发消费者的最大值
+        prefetch: 5           # 并发消费者每次监听时可拉取的消息数量
+    # 环境配置
 #以下为Mybatis-plus的配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
