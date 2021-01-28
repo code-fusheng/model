@@ -10,6 +10,7 @@ import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.service.RoleService;
@@ -142,6 +143,17 @@ public class UserController {
     }
 
     /**
+     * 根据用户经纬度排序
+     * @return
+     */
+    @GetMapping("/getUserListOrderByDistance")
+    public Result<List<User>> getUserListOrderByDistance() {
+        User user = userService.getById(SecurityUtil.getUserId());
+        List<User> userList = userService.getUserListOrderDistance(user.getLat(), user.getLng());
+        return new Result<>("操作成功: 根据用户经纬度排序", userList);
+    }
+
+    /**
      * 分页查询
      * @param page
      * @return
@@ -198,4 +210,6 @@ public class UserController {
         userService.disableById(id);
         return new Result<>("操作成功: 弃用用户！");
     }
+
+
 }

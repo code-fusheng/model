@@ -1,17 +1,25 @@
 # 生产环境
 # 配置端口
+env: pro
 server:
   port: 9999
 spring:
+  # 以下为kafka的配置
+  #  kafka:
+  #    producer:
+  #      bootstrap-servers: 47.93.19.102:9092
   datasource:
     # 基础属性
     # 腾讯云 mysql 数据库连接
     url: jdbc:mysql://cdb-csnz8qhs.cd.tencentcdb.com:10087/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     username: root
     password: code-fusheng
+    #      url: jdbc:mysql://127.0.0.1:3306/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    #      username: root
+    #      password: sa123
     # 可以不配置，根据url自动识别，建议配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    ###################以下为druid增加的配置###########################
+    #以下为druid的配置
     type: com.alibaba.druid.pool.DruidDataSource
     # 初始化连接池个数
     initialSize: 5
@@ -49,13 +57,53 @@ spring:
     useGlobalDataSourceStat: true
   jackson:
     default-property-inclusion: non_null    # 实体类与json互转的时候 属性值为null的不参与序列化
-# Mybatis-plus相关配置
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+
+  #以下为redis的配置
+  redis:
+    database: 6  # Redis 数据库索引（默认为 0）
+    host: 175.24.45.179
+    port: 6390
+    password: 123456
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 8
+        min-idle: 0
+        max-wait: 200
+  cache:
+    type: redis
+  # 以下为 MongoDB 配置
+  #  data:
+  #    mongodb:
+  #      host: 175.24.45.179
+  #      database: model
+  # RabbitMQ
+  rabbitmq:
+    host: 175.24.45.179
+    port: 5672
+    username: code-fusheng
+    password: 123456
+    virtual-host: /model
+    listener:
+      simple:
+        concurrency: 10       # 并发消费者的初始值
+        max-concurrency: 20   # 并发消费者的最大值
+        prefetch: 5           # 并发消费者每次监听时可拉取的消息数量
+
+#以下为Mybatis-plus的配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
   mapper-locations: classpath:mapper/*.xml
   # 以下配置均有默认值,可以不设置
   global-config:
     db-config:
+      #逻辑删除
+      logic-not-delete-value: 0
+      logic-delete-value: 1
       #主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
       id-type: AUTO
       #字段策略 IGNORED:"忽略判断"  NOT_NULL:"非 NULL 判断")  NOT_EMPTY:"非空判断"
@@ -64,11 +112,11 @@ mybatis-plus:
       db-type: MYSQL
   configuration:
     # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
-    map-underscore-to-camel-case: true
+    #    map-underscore-to-camel-case: true
     # 返回map时true:当查询数据为空时字段返回为null,false:不加这个查询数据为空时，字段将被隐藏
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
-# JWT配置
+#以下为JWT的配置
 jwt:
   # 密匙KEY
   secret: JWTSecret
@@ -80,3 +128,29 @@ jwt:
   expiration: 86400
   # 配置不需要认证的接口
   antMatchers: /index/**,/login/**,/favicon.ico
+#以下为fastdfs的配置
+fdfs:
+  so-timeout: 2500
+  connect-timeout: 600
+  thumb-image:
+    width: 100
+    height: 100
+  tracker-list:
+    - 175.24.45.179:22122
+upload:
+  base-url: http://175.24.45.179:8888/
+  allow-types:
+    - image/jpeg
+    - image/png
+    - image/bmp
+    - image/gif
+    - audio/mpeg
+
+aliyun:
+  oss:
+    accessKeyId: LTAI4GE6g186CuWjoarrq4nH
+    accessKeySecred: ioL3ZwSVd5OLbj5L7I2pmzHsg6GXLY
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucketName: aliyun-oss-model
+    policyExpire: 300
+    maxSize: 20

@@ -15,6 +15,7 @@ import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.service.impl.UserServiceImpl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserService extends IService<User> {
@@ -72,5 +73,13 @@ public interface UserService extends IService<User> {
      * @return
      */
     User getUserInfoById(Long userId);
+
+    /**
+     *
+     * @param lat
+     * @param lng
+     * @return
+     */
+    List<User> getUserListOrderDistance(BigDecimal lat, BigDecimal lng);
 }
 

@@ -21,6 +21,9 @@ import xyz.fusheng.model.core.mapper.UserMapper;
 import xyz.fusheng.model.core.service.UserService;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("userService")
@@ -97,5 +100,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User getUserInfoById(Long userId) {
         User userInfo = userMapper.getUserInfoById(userId);
         return userInfo;
+    }
+
+    @Override
+    public List<User> getUserListOrderDistance(BigDecimal lat, BigDecimal lng) {
+        List<User> userList = userMapper.getUserListOrderDistance(lat, lng);
+        return userList;
     }
 }

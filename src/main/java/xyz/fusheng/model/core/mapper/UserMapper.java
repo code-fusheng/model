@@ -14,6 +14,7 @@ import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.entity.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -56,4 +57,12 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     User getUserInfoById(Long userId);
+
+    /**
+     * 地址排序
+     * @param lat
+     * @param lng
+     * @return
+     */
+    List<User> getUserListOrderDistance(BigDecimal lat, BigDecimal lng);
 }

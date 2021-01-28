@@ -1,20 +1,101 @@
-2021-01-08 15:30:38.371 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
-2021-01-08 15:30:46.847 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
-2021-01-08 15:40:36.514 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
-2021-01-08 15:40:41.768 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
-2021-01-08 16:20:50.417 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
-2021-01-08 16:20:57.503 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
-2021-01-08 16:46:01.062 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
-2021-01-08 18:28:48.475 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
-2021-01-08 18:28:57.880 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
-2021-01-08 18:29:14.372 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
-2021-01-08 18:29:14.645 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
-2021-01-08 18:29:14.729 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
-2021-01-08 18:29:14.846 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
-2021-01-08 18:29:14.854 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
-2021-01-08 18:29:14.888 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
-2021-01-08 18:31:46.768 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==>  Preparing: INSERT INTO sys_login_log ( user_name, ip_address, login_location, browser_type, os_type, login_status, login_type, msg ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) 
-2021-01-08 18:31:46.831 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==> Parameters: code-fusheng(String), 127.0.0.1(String), 内网IP(String), Chrome 8(String), Mac OS X(String), 0(Integer), 0(Integer), 登录成功！(String)
-2021-01-08 18:31:46.899 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -<==    Updates: 1
-2021-01-08 18:33:00.107 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
-2021-01-08 18:33:07.174 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 09:19:08.094 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 09:19:14.293 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 09:20:26.277 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 09:20:26.432 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 09:20:26.507 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 09:20:26.630 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 09:20:26.636 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 09:20:26.669 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 09:22:41.097 DEBUG [http-nio-9999-exec-5]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 09:22:41.098 DEBUG [http-nio-9999-exec-5]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 09:22:41.131 DEBUG [http-nio-9999-exec-5]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 09:22:41.239 DEBUG [http-nio-9999-exec-5]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 09:22:41.240 DEBUG [http-nio-9999-exec-5]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 09:22:41.273 DEBUG [http-nio-9999-exec-5]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 09:22:41.376 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==>  Preparing: INSERT INTO sys_login_log ( user_id, user_name, ip_address, login_location, browser_type, os_type, login_status, login_type, msg ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) 
+2021-01-28 09:22:41.387 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==> Parameters: 1(Long), code-fusheng(String), 127.0.0.1(String), XX XX(String), Unknown(String), Unknown(String), 0(Integer), 0(Integer), 登录成功！(String)
+2021-01-28 09:22:41.453 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -<==    Updates: 1
+2021-01-28 09:22:41.462 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE user_id=? 
+2021-01-28 09:22:41.464 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -==> Parameters: 1(Long)
+2021-01-28 09:22:41.501 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -<==      Total: 1
+2021-01-28 09:22:41.522 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -==>  Preparing: UPDATE sys_user SET address=?,lng=?,lat=? WHERE (user_id = ?) 
+2021-01-28 09:22:41.532 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -==> Parameters: XX XX(String), null, null, 1(Long)
+2021-01-28 09:22:41.597 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -<==    Updates: 1
+2021-01-28 09:43:54.765 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 09:43:59.491 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 09:58:01.157 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 09:58:05.476 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 09:59:52.898 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 09:59:53.007 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 09:59:53.071 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 09:59:53.194 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 09:59:53.201 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 09:59:53.236 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 10:06:18.937 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 10:06:23.698 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 10:11:34.616 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 10:11:39.287 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 10:11:50.676 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 10:11:50.783 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 10:11:50.851 DEBUG [http-nio-9999-exec-1]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 10:11:50.973 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 10:11:50.978 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:11:51.016 DEBUG [http-nio-9999-exec-1]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 10:14:59.636 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 10:15:03.917 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 10:15:20.889 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 10:15:21.005 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 10:15:21.079 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 10:15:21.202 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 10:15:21.207 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:15:21.245 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 10:15:59.854 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 10:16:04.313 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 10:16:13.460 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 10:16:13.576 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 10:16:13.641 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 10:16:13.763 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 10:16:13.768 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:16:13.807 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 10:16:21.633 DEBUG [http-nio-9999-exec-3]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 10:16:21.634 DEBUG [http-nio-9999-exec-3]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 10:16:21.674 DEBUG [http-nio-9999-exec-3]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 10:16:21.780 DEBUG [http-nio-9999-exec-3]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 10:16:21.780 DEBUG [http-nio-9999-exec-3]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:16:21.820 DEBUG [http-nio-9999-exec-3]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 10:16:21.908 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==>  Preparing: INSERT INTO sys_login_log ( user_id, user_name, ip_address, login_location, browser_type, os_type, login_status, login_type, msg ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) 
+2021-01-28 10:16:21.915 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==> Parameters: 1(Long), code-fusheng(String), 127.0.0.1(String), XX XX(String), Unknown(String), Unknown(String), 0(Integer), 0(Integer), 登录成功！(String)
+2021-01-28 10:16:21.999 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -<==    Updates: 1
+2021-01-28 10:16:22.010 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE user_id=? 
+2021-01-28 10:16:22.012 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:16:22.053 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -<==      Total: 1
+2021-01-28 10:16:22.068 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -==>  Preparing: UPDATE sys_user SET address=?,lng=?,lat=? WHERE (user_id = ?) 
+2021-01-28 10:16:22.075 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -==> Parameters: XX XX(String), null, null, 1(Long)
+2021-01-28 10:16:22.149 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -<==    Updates: 1
+2021-01-28 10:17:58.857 DEBUG [http-nio-9999-exec-6]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 10:17:58.858 DEBUG [http-nio-9999-exec-6]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 10:17:58.896 DEBUG [http-nio-9999-exec-6]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 10:17:59.001 DEBUG [http-nio-9999-exec-6]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 10:17:59.002 DEBUG [http-nio-9999-exec-6]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:17:59.039 DEBUG [http-nio-9999-exec-6]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 10:24:10.735 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 10:24:15.160 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 10:24:40.281 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE (username = ?) 
+2021-01-28 10:24:40.402 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -==> Parameters: code-fusheng(String)
+2021-01-28 10:24:40.469 DEBUG [http-nio-9999-exec-2]xyz.fusheng.model.core.mapper.UserMapper.selectOne.debug:143 -<==      Total: 1
+2021-01-28 10:24:40.591 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==>  Preparing: select r.* from sys_role r left join sys_user_role ur on ur.role_id = r.role_id where ur.user_id = ? 
+2021-01-28 10:24:40.595 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:24:40.633 DEBUG [http-nio-9999-exec-2]x.f.model.core.mapper.UserMapper.selectRoleByUserId.debug:143 -<==      Total: 1
+2021-01-28 10:24:40.961 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==>  Preparing: INSERT INTO sys_login_log ( user_id, user_name, ip_address, login_location, browser_type, os_type, login_status, login_type, msg ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) 
+2021-01-28 10:24:40.968 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -==> Parameters: 1(Long), code-fusheng(String), 127.0.0.1(String), XX XX(String), Unknown(String), Unknown(String), 0(Integer), 0(Integer), 登录成功！(String)
+2021-01-28 10:24:41.057 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.LoginLogMapper.insert.debug:143 -<==    Updates: 1
+2021-01-28 10:24:41.063 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -==>  Preparing: SELECT user_id,username,password,phone,mail,header,signature,description,realname,sex,address,lng,lat,created_time,update_time,version,is_enabled,is_deleted FROM sys_user WHERE user_id=? 
+2021-01-28 10:24:41.064 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -==> Parameters: 1(Long)
+2021-01-28 10:24:41.105 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.selectById.debug:143 -<==      Total: 1
+2021-01-28 10:24:41.124 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -==>  Preparing: UPDATE sys_user SET address=?,lng=?,lat=? WHERE (user_id = ?) 
+2021-01-28 10:24:41.130 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -==> Parameters: XX XX(String), null, null, 1(Long)
+2021-01-28 10:24:41.203 DEBUG [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1]xyz.fusheng.model.core.mapper.UserMapper.update.debug:143 -<==    Updates: 1
+2021-01-28 10:32:35.482 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 10:32:39.736 DEBUG [restartedMain]xyz.fusheng.model.security.filter.IpFilter.init:242 -Filter 'ipFilter' configured for use
+2021-01-28 10:33:39.862 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2021-01-28 10:33:47.482 DEBUG [restartedMain]xyz.fusheng.model.ModelApplication.logStarting:56 -Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE

@@ -55,4 +55,10 @@
 	    where su.user_id = #{userId}
     </select>
 
+    <select id="getUserListOrderDistance" resultType="xyz.fusheng.model.core.entity.User" parameterType="java.math.BigDecimal">
+        select u.username, u.address, u.lat, u.lng,
+        round(6371258.29 * acos(cos( radians(u.lat) ) * cos( radians(#{lat})) * cos( radians(#{lng})- radians(u.lng)) + sin( radians(u.lat) ) * sin( radians(#{lat})))) as distance
+        from sys_user u order by 5 asc limit 10
+    </select>
+
 </mapper>

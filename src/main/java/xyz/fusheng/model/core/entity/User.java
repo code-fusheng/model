@@ -13,6 +13,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,6 +77,19 @@ public class User implements Serializable {
      * address 地址
      */
     private String address;
+
+    /**
+     * 经度
+     */
+    private BigDecimal lng = new BigDecimal("0.000000");
+
+    /**
+     * 纬度
+     */
+    private BigDecimal lat = new BigDecimal("0.000000");
+
+    @TableField(exist = false)
+    private Long distance;
 
     /**
      * 创建时间

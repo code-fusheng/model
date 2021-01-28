@@ -6,7 +6,9 @@ package xyz.fusheng.model.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JacksonInject;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -29,6 +31,11 @@ public class LoginLog implements Serializable {
      */
     @TableId
     private Long loginLogId;
+
+    /**
+     * 用户编号
+     */
+    private Long userId;
 
     /**
      * 用户名 登录账号
@@ -77,4 +84,35 @@ public class LoginLog implements Serializable {
      */
     private String loginTime;
 
+    public LoginLog() {
+    }
+
+    public LoginLog(Long loginLogId, String userName, String ipAddress, String loginLocation, String browserType, String osType, Integer loginStatus, Integer loginType, String msg, String loginTime) {
+        this.loginLogId = loginLogId;
+        this.userName = userName;
+        this.ipAddress = ipAddress;
+        this.loginLocation = loginLocation;
+        this.browserType = browserType;
+        this.osType = osType;
+        this.loginStatus = loginStatus;
+        this.loginType = loginType;
+        this.msg = msg;
+        this.loginTime = loginTime;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginLog{" +
+                "loginLogId=" + loginLogId +
+                ", userName='" + userName + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", loginLocation='" + loginLocation + '\'' +
+                ", browserType='" + browserType + '\'' +
+                ", osType='" + osType + '\'' +
+                ", loginStatus=" + loginStatus +
+                ", loginType=" + loginType +
+                ", msg='" + msg + '\'' +
+                ", loginTime='" + loginTime + '\'' +
+                '}';
+    }
 }
