@@ -54,8 +54,12 @@ public class RabbitMQUtils {
      */
     public static void closeChannelAndConnection(Channel channel, Connection connection) {
         try {
-            if (null!=channel) channel.close();
-            if (null!=connection) connection.close();
+            if (null!=channel) {
+                channel.close();
+            }
+            if (null!=connection) {
+                connection.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
