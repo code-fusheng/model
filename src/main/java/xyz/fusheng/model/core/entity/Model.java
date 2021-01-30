@@ -23,7 +23,8 @@ import java.util.Date;
 public class Model implements Serializable {
     /**
      * 1. File -> setting -> plugins  安装 GenerateSerialVersionUID 插件
-     * 2. 光标 Serializable Ait+Insert 生成序列化唯一标识
+     * 2. Win 光标 Serializable Alt+Insert 生成序列化唯一标识
+     * 3. Mac Serializable command + N
      */
     private static final long serialVersionUID = 8400330887851994225L;
 

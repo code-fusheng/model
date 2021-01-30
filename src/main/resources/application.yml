@@ -3,7 +3,7 @@ server:
   port: 9999
 spring:
   profiles:
-    active: dev
+    active: pro
   datasource:
     # 基础属性
     # 腾讯云 mysql 数据库连接

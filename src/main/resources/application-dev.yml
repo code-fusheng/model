@@ -148,8 +148,8 @@ upload:
 
 aliyun:
   oss:
-    accessKeyId: LTAI4GE6g186CuWjoarrq4nH
-    accessKeySecred: ioL3ZwSVd5OLbj5L7I2pmzHsg6GXLY
+    accessKeyId: LTAI4GBfAZSSf7c8JhEPbK3r
+    accessKeySecred: VpMu3ShYf30IpaMNlhEDe8dzBclVGT
     endpoint: oss-cn-beijing.aliyuncs.com
     bucketName: aliyun-oss-model
     policyExpire: 300

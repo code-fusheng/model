@@ -65,8 +65,8 @@ public class UploadService {
 
     public String uploadImageToAliyunOss(MultipartFile file) throws IOException {
         String endpoint = "oss-cn-beijing.aliyuncs.com";
-        String accessKeyId = "LTAI4GE6g186CuWjoarrq4nH";
-        String accessKeySecret = "ioL3ZwSVd5OLbj5L7I2pmzHsg6GXLY";
+        String accessKeyId = "LTAI4GBfAZSSf7c8JhEPbK3r";
+        String accessKeySecret = "VpMu3ShYf30IpaMNlhEDe8dzBclVGT";
         String bucketName = "aliyun-oss-model";
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         ossClient.putObject(bucketName, file.getOriginalFilename(), new ByteArrayInputStream(file.getBytes()));
