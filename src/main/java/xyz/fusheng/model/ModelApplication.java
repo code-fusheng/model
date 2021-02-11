@@ -34,6 +34,8 @@ package xyz.fusheng.model;
 
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -90,8 +92,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("xyz.fusheng.model.core.mapper")
 @EnableCaching
 @EnableScheduling
-@Slf4j
 public class ModelApplication {
+
+    public static final Logger logger = LoggerFactory.getLogger(ModelApplication.class);
 
     /**
      * TODO version 1.2.0
@@ -100,7 +103,7 @@ public class ModelApplication {
      */
     public static void main(String[] args) {
         SpringApplication.run(ModelApplication.class, args);
-        log.info(">>>>>>>>>>>>>>>>系统已经启动>>>>>>>>>>>>>>>");
+        logger.info(">>>>>>>>>>>>>>>>系统已经启动>>>>>>>>>>>>>>>");
     }
 
 }
