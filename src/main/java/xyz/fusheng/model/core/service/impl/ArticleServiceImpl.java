@@ -1,6 +1,7 @@
 package xyz.fusheng.model.core.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,7 @@ import xyz.fusheng.model.core.vo.ArticleVo;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -268,5 +270,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
         }
         return articleVo;
+    }
+
+    @Override
+    public List<ArticleVo> getLastAndNextArticleVoList(Long id) {
+        ArticleVo centerArticle = articleMapper.getById(id);
+        List<ArticleVo> articleVoList = new ArrayList<>();
+        ArticleVo lastArticleVo = articleMapper.getLastArticle(id, centerArticle.getArticleCategory());
+        ArticleVo nextArticleVo = articleMapper.getNextArticle(id, centerArticle.getArticleCategory());
+        articleVoList.add(lastArticleVo);
+        articleVoList.add(nextArticleVo);
+        return articleVoList;
     }
 }

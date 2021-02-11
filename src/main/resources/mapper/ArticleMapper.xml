@@ -4,7 +4,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        article_id, article_title, article_author, article_image, article_desc, article_content, edit_content,
+        article_id, article_title, article_id, article_image, article_desc, article_content, edit_content,
         edit_model, article_category, good_count, read_count, collection_count, comment_count,
         article_source, created_time, update_time, is_enabled, version
     </sql>
@@ -82,6 +82,24 @@
     <!--  根据文章id获取文章标题  -->
     <select id="getArticleTitleById" parameterType="java.lang.Long" resultType="string">
         select article_title from m_article where article_id = #{articleId}
+    </select>
+
+    <select id="getLastArticle" resultType="xyz.fusheng.model.core.vo.ArticleVo">
+        select article_id, article_title, article_image, article_desc,
+        edit_model, article_category, good_count, read_count, collection_count, comment_count,
+        article_source, created_time, update_time
+        from m_article
+        where article_category = #{articleCategory} and article_id &lt; #{id}
+        order by article_id desc limit 1
+    </select>
+
+    <select id="getNextArticle" resultType="xyz.fusheng.model.core.vo.ArticleVo">
+        select article_id, article_title, article_image, article_desc,
+        edit_model, article_category, good_count, read_count, collection_count, comment_count,
+        article_source, created_time, update_time
+        from m_article
+        where article_category = #{articleCategory} and article_id &gt; #{id}
+        order by article_id asc limit 1
     </select>
 
 

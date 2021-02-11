@@ -197,4 +197,16 @@ public class ArticleController {
         ArticleVo articleVo = articleService.readById(id);
         return new Result<>("操作成功: 阅读文章！", articleVo);
     }
+
+    /**
+     * 查询上一篇与下一篇文章信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/getLastAndNextArticleVo/{id}")
+    public Result<List<ArticleVo>> getLastAndNextArticleVo (@PathVariable("id") Long id) {
+        List<ArticleVo> articleVoList = articleService.getLastAndNextArticleVoList(id);
+        return new Result<>("操作成功: 查询上一篇与下一篇文章信息", articleVoList);
+    }
+
 }

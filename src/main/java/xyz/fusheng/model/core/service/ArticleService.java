@@ -77,4 +77,10 @@ public interface ArticleService extends IService<Article> {
      */
     ArticleVo readById(Long id);
 
+    /**
+     * 查询上一篇与下一篇文章信息
+     * @param id
+     * @return
+     */
+    List<ArticleVo> getLastAndNextArticleVoList(Long id);
 }

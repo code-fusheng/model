@@ -54,4 +54,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return
      */
     String getArticleTitleById(Long articleId);
+
+    ArticleVo getLastArticle(Long id, Long articleCategory);
+
+    ArticleVo getNextArticle(Long id, Long articleCategory);
 }
