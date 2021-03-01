@@ -155,3 +155,6 @@ aliyun:
     policyExpire: 300
     maxSize: 20
 
+nacos:
+  config:
+    server-addr: 127.0.0.1:8848

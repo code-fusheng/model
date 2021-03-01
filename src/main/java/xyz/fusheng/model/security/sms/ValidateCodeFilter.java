@@ -31,7 +31,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         boolean isSms = StringUtils.equals("/authentication/mobile", request.getRequestURI()) || StringUtils.equals("/register", request.getRequestURI());
         if (isSms && StringUtils.equalsIgnoreCase(request.getMethod(), TypeEnums.POST.getLabel())) {
             validateSmsCode(request);
-            redisUtils.del(request.getParameter("mobile"));
+            // 测试阶段不删除
+            // redisUtils.del(request.getParameter("mobile"));
         }
         filterChain.doFilter(request, response);
     }

@@ -55,22 +55,23 @@ public class JwtAuthenticationTokenFilter extends BasicAuthenticationFilter {
                 String userId = claims.getId();
                 if(!StringUtils.isEmpty(username)&&!StringUtils.isEmpty(userId)) {
                     // 获取角色
-                    List<GrantedAuthority> authorities = new ArrayList<>();
-                    String authority = claims.get("authorities").toString();
-                    if(!StringUtils.isEmpty(authority)){
-                        List<Map<String,String>> authorityMap = JSONObject.parseObject(authority, List.class);
-                        for(Map<String,String> role : authorityMap){
-                            if(!StringUtils.isEmpty(role)) {
-                                authorities.add(new SimpleGrantedAuthority(role.get("authority")));
-                            }
-                        }
-                    }
+                    //List<GrantedAuthority> authorities = new ArrayList<>();
+                    //String authority = claims.get("authorities").toString();
+                    //if(!StringUtils.isEmpty(authority)){
+                    //    List<Map<String,String>> authorityMap = JSONObject.parseObject(authority, List.class);
+                    //    for(Map<String,String> role : authorityMap){
+                    //        if(!StringUtils.isEmpty(role)) {
+                    //            authorities.add(new SimpleGrantedAuthority(role.get("authority")));
+                    //        }
+                    //    }
+                    //}
                     //组装参数
                     SelfUser selfUser = new SelfUser();
                     selfUser.setUsername(claims.getSubject());
                     selfUser.setUserId(Long.parseLong(claims.getId()));
-                    selfUser.setAuthorities(authorities);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(selfUser, userId, authorities);
+                    // selfUser.setAuthorities(authorities);
+                    selfUser.setAuthorities(null);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(selfUser, userId, null);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (ExpiredJwtException e){

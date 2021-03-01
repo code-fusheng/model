@@ -1,6 +1,6 @@
 # 生产环境
 # 配置端口
-env: pro
+env: dev
 server:
   port: 9999
 spring:
