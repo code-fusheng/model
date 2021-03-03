@@ -17,6 +17,7 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -63,6 +64,9 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 组装 Jwt
         SelfUser selfUser = (SelfUser) authentication.getPrincipal();
+        if (selfUser == null) {
+            BeanUtils.copyProperties(authentication.getPrincipal(), selfUser);
+        }
         String token = JwtTokenUtil.createAccessToken(selfUser);
         token = JwtConfig.tokenPrefix + token;
         // 封装返回参数
