@@ -49,6 +49,11 @@ public class User implements Serializable {
     private String mail;
 
     /**
+     * 第三方 Github 唯一标识
+     */
+    private Long githubId;
+
+    /**
      * 头像
      */
     private String header;

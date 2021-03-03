@@ -158,3 +158,15 @@ aliyun:
 nacos:
   config:
     server-addr: 127.0.0.1:8848
+
+security:
+  oauth2:
+    client:
+      clientId: a2b0213889d7e9b6c234
+      clientSecret: 5c44c2e3deb7e1af789a96ffc02ddf2d1e4680da
+      accessTokenUri: https://github.com/login/oauth/access_token
+      userAuthorizationUri: https://github.com/login/oauth/authorize
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://api.github.com/user
+      preferTokenInfo: false

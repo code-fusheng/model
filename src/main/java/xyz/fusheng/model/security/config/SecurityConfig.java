@@ -3,6 +3,7 @@ package xyz.fusheng.model.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +24,8 @@ import xyz.fusheng.model.security.core.UserPermissionEvaluator;
 import xyz.fusheng.model.security.filter.IpFilter;
 import xyz.fusheng.model.security.handler.*;
 import xyz.fusheng.model.security.jwt.JwtAuthenticationTokenFilter;
+import xyz.fusheng.model.security.oauth2.GithubAuthenticationFilter;
+import xyz.fusheng.model.security.service.SelfUserDetailsService;
 import xyz.fusheng.model.security.sms.SmsCodeAuthenticationFilter;
 import xyz.fusheng.model.security.sms.SmsCodeAuthenticationSecurityConfig;
 import xyz.fusheng.model.security.sms.ValidateCodeFilter;
@@ -77,6 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Autowired
+    private SelfUserDetailsService selfUserDetailsService;
 
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
@@ -89,6 +94,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public IpFilter ipFilter() {
         return new IpFilter();
+    }
+
+    @Bean
+    public GithubAuthenticationFilter authenticationGithubFilter() {
+        GithubAuthenticationFilter validateCodeFilter = new GithubAuthenticationFilter();
+        validateCodeFilter.setUserLoginFailureHandler(userLoginFailureHandler);
+        validateCodeFilter.setUserLoginSuccessHandler(userLoginSuccessHandler);
+        validateCodeFilter.setSelfUserDetailsService(selfUserDetailsService);
+        return validateCodeFilter;
     }
 
     /**
@@ -144,7 +158,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // 不进行权限验证的请求或资源(从配置文件中读取)
                 // .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()
-                .antMatchers("/code/sms", "/**/login","/authentication/mobile", "/push/websocket", "/v2/api-docs", "/swagger-resources/configuration/ui",
+                .antMatchers("/code/sms", "/**/login", "/github/login", "/login/github","/authentication/mobile", "/push/websocket", "/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
                         "/swagger-ui.html", "/doc.html", "/webjars/**", "/user/register", "/druid/login.html", "/druid/**",
                         "/category/getList", "/article/getByPage", "/article/read/**", "article/getLastAndNextArticleVo/**", "/comment/getByPage").permitAll()
@@ -165,6 +179,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(userLoginFailureHandler)
                 .and()
                 .addFilterAfter(ipFilter(), CsrfFilter.class)
+                .addFilterBefore(authenticationGithubFilter(), LogoutFilter.class)
                 .addFilterAfter(validateCodeFilter, LogoutFilter.class)
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()

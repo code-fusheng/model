@@ -1,5 +1,7 @@
 package xyz.fusheng.model.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.RedisUtils;
 import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.model.security.oauth2.GithubDetail;
 import xyz.fusheng.model.security.sms.SendSms;
 import xyz.fusheng.model.security.sms.SmsCode;
 import xyz.fusheng.model.security.sms.SmsCodeGenerator;
@@ -24,6 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class LoginController {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+    private final GithubDetail githubDetail;
 
     /**
      * 注册标识
@@ -44,6 +51,10 @@ public class LoginController {
 
     @Resource
     private RedisUtils redisUtils;
+
+    public LoginController(GithubDetail githubDetail) {
+        this.githubDetail = githubDetail;
+    }
 
     /**
      * 处理未登录
@@ -80,4 +91,21 @@ public class LoginController {
         }
         return new Result<>();
     }
+
+    /**
+     * 让用户跳转到 GitHub
+     * 这里不能加@ResponseBody，因为这里是要跳转而不是返回响应
+     * 另外LoginController也不能用@RestController修饰
+     * @return 跳转url
+     */
+    @GetMapping("/github/login")
+    public Result<String> authorizeGithub() {
+        String url = githubDetail.getAuthorizeUrl() +
+                "?client_id=" + githubDetail.getClientId() +
+                "&redirect_uri=" + githubDetail.getRedirectUrl();
+        logger.info("授权URL:{}", url);
+        return new Result<>(url);
+    }
+
+
 }
