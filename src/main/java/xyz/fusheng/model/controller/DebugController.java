@@ -1,11 +1,18 @@
 package xyz.fusheng.model.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.model.core.dto.OrganizationDto;
 import xyz.fusheng.model.security.oauth2.GithubDetail;
+
+import java.util.List;
 
 /**
  * @FileName: DebugController
@@ -15,7 +22,8 @@ import xyz.fusheng.model.security.oauth2.GithubDetail;
  * @Description:
  */
 
-//@Controller
+@Controller
+@RequestMapping("/debug")
 public class DebugController {
 
     private static final Logger logger = LoggerFactory.getLogger(DebugController.class);
@@ -41,5 +49,15 @@ public class DebugController {
         return new Result<>(url);
     }
 
+    @PostMapping("/debugSyncUsers")
+    public Result<Object> debugSyncUsers(@RequestBody List<OrganizationDto> organizationDtoList) {
+//        organizationDtoList.forEach(System.out::println);
+        organizationDtoList.forEach(organizationDto -> {
+            System.out.println(organizationDto.getId() + " - " +  organizationDto.getCompanyName());
+            organizationDto.getUsers().forEach(System.out::println);
+        });
+
+        return new Result<>("成功");
+    }
 }
 
