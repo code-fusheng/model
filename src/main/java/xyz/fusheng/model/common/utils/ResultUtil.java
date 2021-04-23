@@ -26,7 +26,7 @@ public class ResultUtil {
      * 使用 response 输出 JSON
      * @param resultMap 数据
      */
-    public static void responseJson(ServletResponse response, Map<String, Object> resultMap){
+    public static void json(ServletResponse response, Map<String, Object> resultMap){
         PrintWriter out = null;
         try {
             response.setCharacterEncoding("UTF-8");
@@ -47,7 +47,7 @@ public class ResultUtil {
      * @Param  resultMap  返回数据MAP
      * @Return Map<String,Object> 返回数据MAP
      */
-    public static Map<String, Object> resultSuccess(Map<String, Object> resultMap){
+    public static Map<String, Object> success(Map<String, Object> resultMap){
         resultMap.put("message","操作成功");
         resultMap.put("code", 200);
         return resultMap;
@@ -57,7 +57,7 @@ public class ResultUtil {
      * @Param  resultMap  返回数据MAP
      * @Return Map<String,Object> 返回数据MAP
      */
-    public static Map<String, Object> resultError(Map<String, Object> resultMap){
+    public static Map<String, Object> error(Map<String, Object> resultMap){
         resultMap.put("message","操作失败");
         resultMap.put("code",500);
         return resultMap;
@@ -68,7 +68,7 @@ public class ResultUtil {
      * @Param  msg  信息
      * @Return Map<String,Object> 返回数据MAP
      */
-    public static Map<String, Object> resultCode(Integer code,String msg){
+    public static Map<String, Object> result(Integer code,String msg){
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("message",msg);
         resultMap.put("code",code);

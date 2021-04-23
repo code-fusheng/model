@@ -39,6 +39,19 @@ public class Result<T> implements Serializable {
         this.code = ResultEnums.SUCCESS.getCode();
         this.msg = ResultEnums.SUCCESS.getMsg();
     }
+
+    /**
+     * 默认失败
+     * @param code
+     * @param msg
+     * @param data
+     */
+    public Result(Integer code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
     public Result(String msg) {
         this.code = ResultEnums.SUCCESS.getCode();
         this.msg = msg;
@@ -62,16 +75,6 @@ public class Result<T> implements Serializable {
         this.msg = resultEnums.getMsg();
     }
 
-    /**
-     * 默认失败
-     * @param code
-     * @param msg
-     * @param data
-     */
-    public Result(Integer code, String msg, T data) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
+
 
 }
