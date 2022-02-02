@@ -11,9 +11,9 @@ spring:
   datasource:
     # 基础属性
     # 腾讯云 mysql 数据库连接
-    url: jdbc:mysql://cdb-csnz8qhs.cd.tencentcdb.com:10087/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://rm-bp15mj67u7y8p5761lo.mysql.rds.aliyuncs.com:3306/code-model-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     username: root
-    password: code-fusheng
+    password: zH1314520
     #      url: jdbc:mysql://127.0.0.1:3306/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     #      username: root
     #      password: sa123
@@ -67,7 +67,7 @@ spring:
     database: 6  # Redis 数据库索引（默认为 0）
     host: 42.192.222.62
     port: 6390
-    password: Tx-docker-redis
+    password: Xcode-redis?
     jedis:
       pool:
         max-active: 20

@@ -65,9 +65,9 @@ spring:
   #以下为redis的配置
   redis:
     database: 6  # Redis 数据库索引（默认为 0）
-    host: 47.111.158.6
+    host: 42.192.222.62
     port: 6390
-    password: 123456
+    password: Tx-docker-redis
     jedis:
       pool:
         max-active: 20
