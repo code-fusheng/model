@@ -4,6 +4,8 @@ env: prod
 server:
   port: 9999
 spring:
+  profiles:
+    active: @profiles.active@
   # 以下为kafka的配置
   #  kafka:
   #    producer:
