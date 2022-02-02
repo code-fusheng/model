@@ -45,7 +45,7 @@ public class CommonMqListener {
     @Resource
     private UserService userService;
 
-    @RabbitListener(queues = "${env}.log.login.queue", containerFactory = "singleListenerContainer")
+    @RabbitListener(queues = "${spring.profiles.active}.log.login.queue", containerFactory = "singleListenerContainer")
     public void consumeLogLoginQueue(@Payload byte[] message) {
         try {
             LoginLog loginLog = objectMapper.readValue(message, LoginLog.class);

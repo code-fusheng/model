@@ -87,9 +87,9 @@ spring:
   rabbitmq:
     host: 42.192.222.62
     port: 5672
-    username: guest
-    password: guest
-    virtual-host: /
+    username: code-fusheng
+    password: code-fusheng
+    virtual-host: /model
     listener:
       simple:
         concurrency: 10       # 并发消费者的初始值
