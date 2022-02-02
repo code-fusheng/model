@@ -49,7 +49,7 @@ public class DebugController {
         return new Result<>(url);
     }
 
-    @PostMapping("/debugSyncUsers")
+//    @PostMapping("/debugSyncUsers")
     public Result<Object> debugSyncUsers(@RequestBody List<OrganizationDto> organizationDtoList) {
 //        organizationDtoList.forEach(System.out::println);
         organizationDtoList.forEach(organizationDto -> {
