@@ -321,6 +321,32 @@
 <!--            <version>0.2.7</version>-->
 <!--        </dependency>-->
 
+        <!-- 谷歌翻译 -->
+        <!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-translate -->
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-translate</artifactId>
+            <version>2.1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <profiles>

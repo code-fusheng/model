@@ -103,7 +103,6 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
         if (pos >= 0) {
             ip = ip.substring(0, pos);
         }
-
         return ip;
     }
 
