@@ -1,6 +1,6 @@
 package xyz.fusheng.model;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +21,8 @@ import redis.clients.jedis.JedisPoolConfig;
 public class RedisTests {
 
     @Test
-    public void test1(){
-        JedisPool pool =new JedisPool(this.getJedisPoolConfig(),"175.24.45.179",6390,3000,"123456");
+    public void testJedis() {
+        JedisPool pool =new JedisPool(this.getJedisPoolConfig(),"42.192.222.62",6390,3000,"Xcode-redis?");
         Jedis redis = pool.getResource();
         redis.set("name","1234");
         redis.close();
