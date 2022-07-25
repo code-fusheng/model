@@ -32,9 +32,11 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import xyz.fusheng.model.common.utils.SearchPage;
 import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.service.ArticleService;
@@ -48,6 +50,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
 class ElasticsearchTests {
 
     @Autowired
