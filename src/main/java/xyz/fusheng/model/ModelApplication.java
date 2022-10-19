@@ -32,7 +32,6 @@
  */
 package xyz.fusheng.model;
 
-import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +97,6 @@ public class ModelApplication {
 
     /**
      * TODO version 1.2.0
-     *
      * @param args
      */
     public static void main(String[] args) {
