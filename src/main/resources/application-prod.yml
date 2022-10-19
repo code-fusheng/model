@@ -67,7 +67,7 @@ spring:
   #以下为redis的配置
   redis:
     database: 6  # Redis 数据库索引（默认为 0）
-    host: 42.192.222.62
+    host: 124.222.104.111
     port: 6390
     password: Xcode-redis?
     jedis:
@@ -85,7 +85,7 @@ spring:
   #      database: model
   # RabbitMQ
   rabbitmq:
-    host: 42.192.222.62
+    host: 124.222.104.111
     port: 5672
     username: code-fusheng
     password: code-fusheng
