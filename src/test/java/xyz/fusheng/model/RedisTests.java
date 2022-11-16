@@ -1,10 +1,7 @@
 package xyz.fusheng.model;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -22,9 +19,11 @@ public class RedisTests {
 
     @Test
     public void testJedis() {
-        JedisPool pool =new JedisPool(this.getJedisPoolConfig(),"42.192.222.62",6390,3000,"Xcode-redis?");
+        JedisPool pool = new JedisPool(this.getJedisPoolConfig(), "42.192.222.62", 36380, 3000, "Xcode-redis?");
         Jedis redis = pool.getResource();
-        redis.set("name","1234");
+        redis.set("name", "1234");
+        String s = redis.get("name");
+        System.out.println(s);
         redis.close();
         System.out.println("ok");
     }

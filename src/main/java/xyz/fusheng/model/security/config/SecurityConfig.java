@@ -3,7 +3,6 @@ package xyz.fusheng.model.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
@@ -26,7 +24,6 @@ import xyz.fusheng.model.security.handler.*;
 import xyz.fusheng.model.security.jwt.JwtAuthenticationTokenFilter;
 import xyz.fusheng.model.security.oauth2.GithubAuthenticationFilter;
 import xyz.fusheng.model.security.service.SelfUserDetailsService;
-import xyz.fusheng.model.security.sms.SmsCodeAuthenticationFilter;
 import xyz.fusheng.model.security.sms.SmsCodeAuthenticationSecurityConfig;
 import xyz.fusheng.model.security.sms.ValidateCodeFilter;
 
@@ -158,7 +155,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // 不进行权限验证的请求或资源(从配置文件中读取)
                 // .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()
-                .antMatchers("/code/sms", "/**/login", "/github/login", "/login/github","/authentication/mobile", "/push/websocket",
+                .antMatchers("/debug/**", "/code/sms", "/**/login", "/github/login", "/login/github", "/authentication/mobile", "/push/websocket",
                         "/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/doc.html",
                         "/webjars/**", "/user/register", "/druid/login.html", "/druid/**",
