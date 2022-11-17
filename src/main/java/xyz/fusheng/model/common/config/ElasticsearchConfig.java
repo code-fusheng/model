@@ -1,10 +1,6 @@
 package xyz.fusheng.model.common.config;
 
 import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +21,7 @@ public class ElasticsearchConfig {
 
         RestHighLevelClient client = new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost("42.192.222.62", 9200, "http")
+                        new HttpHost("42.192.222.62", 39200, "http")
                 )
         );
         return client;
