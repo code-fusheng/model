@@ -1,25 +1,15 @@
-# 生产环境
-# 配置端口
 env: prod
 server:
   port: 9812
 spring:
   profiles:
     active: @profiles.active@
-  # 以下为kafka的配置
-  #  kafka:
-  #    producer:
-  #      bootstrap-servers: 47.93.19.102:9092
   datasource:
     # 基础属性
     # 腾讯云 mysql 数据库连接
     url: jdbc:mysql://rm-bp15mj67u7y8p5761lo.mysql.rds.aliyuncs.com:3306/code-model-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     username: root
     password: zH1314520
-    #      url: jdbc:mysql://127.0.0.1:3306/model-code-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-    #      username: root
-    #      password: sa123
-    # 可以不配置，根据url自动识别，建议配置
     driver-class-name: com.mysql.cj.jdbc.Driver
     #以下为druid的配置
     type: com.alibaba.druid.pool.DruidDataSource
@@ -66,7 +56,7 @@ spring:
 
   #以下为redis的配置
   redis:
-    database: 0  # Redis 数据库索引（默认为 0）
+    database: 10  # Redis 数据库索引（默认为 0）
     host: 42.192.222.62
     port: 36380
     password: Xcode-redis?
@@ -78,24 +68,17 @@ spring:
         max-wait: 200
   cache:
     type: redis
-  # 以下为 MongoDB 配置
-  #  data:
-  #    mongodb:
-  #      host: 175.24.45.179
-  #      database: model
-  # RabbitMQ
   rabbitmq:
     host: 42.192.222.62
     port: 5673
-    username: code-fusheng
-    password: code-fusheng
-    virtual-host: /
+    username: model
+    password: model
+    virtual-host: /model-prod
     listener:
       simple:
         concurrency: 10       # 并发消费者的初始值
         max-concurrency: 20   # 并发消费者的最大值
         prefetch: 5           # 并发消费者每次监听时可拉取的消息数量
-
 #以下为Mybatis-plus的配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -130,24 +113,6 @@ jwt:
   expiration: 86400
   # 配置不需要认证的接口
   antMatchers: /index/**,/login/**,/favicon.ico
-#以下为fastdfs的配置
-fdfs:
-  so-timeout: 2500
-  connect-timeout: 600
-  thumb-image:
-    width: 100
-    height: 100
-  tracker-list:
-    - 42.192.222.62:22122
-upload:
-  base-url: http://175.24.45.179:8888/
-  allow-types:
-    - image/jpeg
-    - image/png
-    - image/bmp
-    - image/gif
-    - audio/mpeg
-
 aliyun:
   oss:
     accessKeyId: LTAI4GBfAZSSf7c8JhEPbK3r
