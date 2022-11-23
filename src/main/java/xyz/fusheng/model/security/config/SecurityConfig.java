@@ -159,7 +159,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/doc.html",
                         "/webjars/**", "/user/register", "/druid/login.html", "/druid/**",
-                        "/category/getList", "/article/getByPage", "/article/read/**", "article/getLastAndNextArticleVo/**", "/comment/getByPage").permitAll()
+                        "/category/getList", "/article/getByPage", "/article/read/**", "article/getLastAndNextArticleVo/**", "/comment/getByPage", "/conf/**").permitAll()
                 // 其他的需要登陆后才能访问
                 .anyRequest().authenticated()
                 .and()

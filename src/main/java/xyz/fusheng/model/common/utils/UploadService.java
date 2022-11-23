@@ -7,7 +7,6 @@
 package xyz.fusheng.model.common.utils;
 
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
@@ -23,7 +22,6 @@ import xyz.fusheng.model.common.config.UploadConfig;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Date;
 
 @Component
 @EnableConfigurationProperties(UploadConfig.class)
@@ -64,14 +62,14 @@ public class UploadService {
     }
 
     public String uploadImageToAliyunOss(MultipartFile file) throws IOException {
-        String endpoint = "oss-cn-beijing.aliyuncs.com";
-        String accessKeyId = "LTAI4GBfAZSSf7c8JhEPbK3r";
-        String accessKeySecret = "VpMu3ShYf30IpaMNlhEDe8dzBclVGT";
-        String bucketName = "aliyun-oss-model";
+        String endpoint = aliyunOssConfig.getEndpoint();
+        String accessKeyId = aliyunOssConfig.getAccessKeyId();
+        String accessKeySecret = aliyunOssConfig.getAccessKeySecret();
+        String bucketName = aliyunOssConfig.getBucketName();
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         ossClient.putObject(bucketName, file.getOriginalFilename(), new ByteArrayInputStream(file.getBytes()));
         ossClient.shutdown();
-        String url = "https://" + bucketName +"."+ endpoint +"/"+ file.getOriginalFilename();
+        String url = "https://" + bucketName + "." + endpoint + "/" + file.getOriginalFilename();
         return url;
     }
 
