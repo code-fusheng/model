@@ -13,7 +13,6 @@ import com.aliyuncs.geoip.model.v20200101.DescribeIpv4LocationResponse;
 import com.aliyuncs.profile.DefaultProfile;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +83,9 @@ public class AddressUtils {
             String status = responseObject.getString("status");
             addressMap.put("status", status);
             // 获取结果对象
+            if (!responseObject.containsKey("result")) {
+                return addressMap;
+            }
             JSONObject result = responseObject.getObject("result", JSONObject.class);
             // 地理位置信息
             JSONObject location = result.getObject("location", JSONObject.class);

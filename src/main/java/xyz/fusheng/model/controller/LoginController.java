@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.RedisUtils;
 import xyz.fusheng.model.common.utils.Result;
@@ -50,6 +53,9 @@ public class LoginController {
     private SmsCodeGenerator smsCodeGenerator;
 
     @Resource
+    private SendSms sendSms;
+
+    @Resource
     private RedisUtils redisUtils;
 
     public LoginController(GithubDetail githubDetail) {
@@ -75,9 +81,9 @@ public class LoginController {
             SmsCode smsCode = smsCodeGenerator.generate();
             if (redisUtils.set(mobile, smsCode, ExpireTime)) {
                 if (REGISTER_SIGN.equals(mobile.substring(0, 2))) {
-                    SendSms.send(mobile.substring(2), smsCode.getCode(), "SMS_204111151");
+                    sendSms.send(mobile.substring(2), smsCode.getCode(), "SMS_204111151");
                 } else {
-                    SendSms.send(mobile, smsCode.getCode(), "SMS_204111151");
+                    sendSms.send(mobile, smsCode.getCode(), "SMS_204111151");
                 }
             } else {
                 return new Result<>(401, "验证码未发送，请稍后再试！");
