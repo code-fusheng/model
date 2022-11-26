@@ -33,7 +33,7 @@ public class UploadController {
     @RequestMapping("/uploadImage")
     @Log(title = "文件上传", businessType = BusinessType.OTHER)
     public Result<String> uploadImage(MultipartFile file) throws IOException {
-        String url = uploadService.uploadImageToAliyunOss(file);
+        String url = uploadService.uploadFileToAliyunOss(file);
         return new Result<>("操作成功: 文件上传！", url);
     }
 }

@@ -7,5 +7,7 @@ docker push 42.192.222.62:9191/model/model:latest
 
 cd /root/Document/k8s/app/model
 
-kubectl delete -f yaml.d/model-prod.yaml
-kubectl apply -f yaml.d/model-prod.yaml
+#kubectl delete -f yaml.d/model-prod.yaml
+#kubectl apply -f yaml.d/model-prod.yaml
+
+kubectl rollout restart -n prod deployment model-prod

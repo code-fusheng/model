@@ -8,11 +8,13 @@ package xyz.fusheng.model.common.utils;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.CannedAccessControlList;
+import com.aliyun.oss.model.CreateBucketRequest;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -27,7 +29,7 @@ import java.io.IOException;
 @EnableConfigurationProperties(UploadConfig.class)
 public class UploadService {
 
-    private Log log = LogFactory.getLog(UploadConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(UploadService.class);
 
     @Autowired
     private FastFileStorageClient storageClient;
@@ -56,7 +58,7 @@ public class UploadService {
             // 返回路径
             return uploadConfig.getBaseUrl() + storePath.getFullPath();
         } catch (IOException e) {
-            log.error("【文件上传】上传文件失败！....{}", e);
+            logger.error("【文件上传】上传文件失败！....{}", e.getMessage(), e);
             throw new RuntimeException("【文件上传】上传文件失败！" + e.getMessage());
         }
     }
@@ -70,6 +72,27 @@ public class UploadService {
         ossClient.putObject(bucketName, file.getOriginalFilename(), new ByteArrayInputStream(file.getBytes()));
         ossClient.shutdown();
         String url = "https://" + bucketName + "." + endpoint + "/" + file.getOriginalFilename();
+        return url;
+    }
+
+    public String uploadFileToAliyunOss(MultipartFile file) {
+        OSS ossClient = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
+        try {
+            ossClient.putObject(aliyunOssConfig.getBucketName(), file.getOriginalFilename(), new ByteArrayInputStream(file.getBytes()));
+            // 判断容器是否存在,不存在就创建
+            if (!ossClient.doesBucketExist(aliyunOssConfig.getBucketName())) {
+                ossClient.createBucket(aliyunOssConfig.getBucketName());
+                CreateBucketRequest createBucketRequest = new CreateBucketRequest(aliyunOssConfig.getBucketName());
+                createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);
+                ossClient.createBucket(createBucketRequest);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            ossClient.shutdown();
+        }
+        String url = "https://" + aliyunOssConfig.getBucketName() + "." + aliyunOssConfig.getEndpoint() + "/" + file.getOriginalFilename();
+        logger.info("文件上传返回结果预览:{}", url);
         return url;
     }
 

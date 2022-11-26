@@ -84,6 +84,7 @@ public class AddressUtils {
             addressMap.put("status", status);
             // 获取结果对象
             if (!responseObject.containsKey("result")) {
+                addressMap.put("address", responseObject.getString("message"));
                 return addressMap;
             }
             JSONObject result = responseObject.getObject("result", JSONObject.class);

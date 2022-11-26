@@ -33,6 +33,6 @@ spec:
       containers: #docker容器的配置
         - name: model-prod
           image: 42.192.222.62:9191/model/model:latest # pull镜像的地址 ip:prot/dir/images:tag
-          imagePullPolicy: IfNotPresent #pull镜像时机，
+          imagePullPolicy: Always #pull镜像时机，
           ports:
             - containerPort: 9812 #容器对外开放端口,需与springboot配置文件一致
