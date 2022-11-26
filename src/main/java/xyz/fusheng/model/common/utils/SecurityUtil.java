@@ -71,9 +71,6 @@ public class SecurityUtil {
         log.info("用户登陆获取真实地址信息:{}", loginLocation);
         loginLog.setLoginLocation(loginLocation);
         loginLog.setLoginType(0);
-
-
-
         return loginLog;
     }
 

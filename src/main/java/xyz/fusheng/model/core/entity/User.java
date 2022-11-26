@@ -10,12 +10,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -132,6 +129,5 @@ public class User implements Serializable {
      */
     @TableField(exist = false)
     private List<Menu> menuList;
-
 
 }

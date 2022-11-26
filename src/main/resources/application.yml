@@ -5,12 +5,9 @@ spring:
   profiles:
     active: @profiles.active@
   datasource:
-    # 基础属性
-    # 腾讯云 mysql 数据库连接
     url: jdbc:mysql://rm-bp15mj67u7y8p5761lo.mysql.rds.aliyuncs.com:3306/code-model-fusheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     username: root
     password: zH1314520
-    # 可以不配置，根据url自动识别，建议配置
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
