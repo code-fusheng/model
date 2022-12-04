@@ -1,6 +1,5 @@
 package xyz.fusheng.model.core.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import xyz.fusheng.model.core.entity.Article;
 

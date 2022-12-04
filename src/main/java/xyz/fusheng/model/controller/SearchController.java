@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.utils.SearchPage;
 import xyz.fusheng.model.core.service.SearchService;
 
@@ -40,7 +40,7 @@ public class SearchController {
      * @throws IOException
      */
     @PostMapping("/baseSearch")
-    public Result<SearchPage<Object>> baseSearch(@RequestBody SearchPage searchPage) throws IOException {
+    public ResultVo<SearchPage<Object>> baseSearch(@RequestBody SearchPage searchPage) throws IOException {
         SearchResponse searchResponse = searchService.searchPageHighlight(searchPage);
         //解析结果
         ArrayList<Map<String,Object>> list = new ArrayList<>();
@@ -62,7 +62,7 @@ public class SearchController {
             list.add(sourceAsMap);
         }
         searchPage.setList(list);
-        return new Result<>(searchPage);
+        return new ResultVo<>(searchPage);
     }
 
     /**
@@ -72,7 +72,7 @@ public class SearchController {
      * @return
      */
     @PostMapping("/searchHighlightWithFields")
-    public Result<SearchPage<Object>> searchHighlightWithFields(@RequestBody SearchPage searchPage) throws IOException {
+    public ResultVo<SearchPage<Object>> searchHighlightWithFields(@RequestBody SearchPage searchPage) throws IOException {
         SearchResponse searchResponse = searchService.searchPageHighlightWithFields(searchPage);
         // 解析结果
         ArrayList<Map<String, Object>> list = new ArrayList<>();
@@ -100,7 +100,7 @@ public class SearchController {
         // List 数组去重， 多字段查询高亮解析的时候存在数组重复的情况（优化方法未知！）
         List newList = list.stream().distinct().collect(Collectors.toList());
         searchPage.setList(newList);
-        return new Result<>(searchPage);
+        return new ResultVo<>(searchPage);
     }
 
 }

@@ -3,10 +3,13 @@ package xyz.fusheng.model.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
-import xyz.fusheng.model.common.utils.*;
+import xyz.fusheng.model.common.utils.Page;
+import xyz.fusheng.model.common.utils.SecurityUtil;
+import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Comment;
 import xyz.fusheng.model.core.service.CommentService;
 import xyz.fusheng.model.core.vo.CommentVo;
@@ -37,11 +40,11 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/save','comment:list:add')")
     @PostMapping("/save")
     @Log(title = "发表评论", businessType = BusinessType.INSERT)
-    public Result<Object> save(@RequestBody Comment comment) {
+    public ResultVo<Object> save(@RequestBody Comment comment) {
         // 获取评论人的用户id
         comment.setCommentUserId(SecurityUtil.getUserId());
         commentService.saveComment(comment);
-        return new Result<>("操作成功: 发表评论！");
+        return new ResultVo<>("操作成功: 发表评论！");
     }
 
     /**
@@ -52,9 +55,9 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/deleteById','comment:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     @Log(title = "删除评论", businessType = BusinessType.DELETE)
-    public Result<Object> deleteById(@PathVariable("id") Long id) {
+    public ResultVo<Object> deleteById(@PathVariable("id") Long id) {
         commentService.deleteById(id);
-        return new Result<>("操作成功: 删除评论！");
+        return new ResultVo<>("操作成功: 删除评论！");
     }
 
     /**
@@ -65,9 +68,9 @@ public class CommentController {
      */
     @GetMapping("/getById/{commentId}")
     @Log(title = "查询评论详情", businessType = BusinessType.SELECT)
-    public Result<CommentVo> getById(@PathVariable("commentId") Long commentId) {
+    public ResultVo<CommentVo> getById(@PathVariable("commentId") Long commentId) {
         CommentVo commentVo = commentService.getCommentVoById(commentId);
-        return new Result<>("操作成功: 查询评论！", commentVo);
+        return new ResultVo<>("操作成功: 查询评论！", commentVo);
     }
 
     /**
@@ -78,7 +81,7 @@ public class CommentController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/comment/getByPage','comment:list')")
     @PostMapping("/getByPage")
-    public Result<Page<CommentVo>> getByPage(@RequestBody Page<CommentVo> page) {
+    public ResultVo<Page<CommentVo>> getByPage(@RequestBody Page<CommentVo> page) {
         String sortColumn = page.getSortColumn();
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);
@@ -87,10 +90,10 @@ public class CommentController {
             String[] sortColumns = {"comment_time", "comment_count", "good_count"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = commentService.getByPage(page);
-        return new Result<>("操作成功: 分页查询文章评论列表！", page);
+        return new ResultVo<>("操作成功: 分页查询文章评论列表！", page);
     }
 }

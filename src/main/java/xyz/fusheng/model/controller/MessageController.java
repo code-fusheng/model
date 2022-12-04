@@ -4,9 +4,9 @@ package xyz.fusheng.model.controller; /**
  */
 
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Message;
@@ -38,10 +38,10 @@ public class MessageController {
      * @return
      */
     @PostMapping("/save")
-    public Result<Object> save(@RequestBody Message message) {
+    public ResultVo<Object> save(@RequestBody Message message) {
         message.setSendUserId(SecurityUtil.getUserId());
         messageService.save(message);
-        return new Result<>("操作成功: 添加消息！");
+        return new ResultVo<>("操作成功: 添加消息！");
     }
 
     /**
@@ -51,9 +51,9 @@ public class MessageController {
      * @return
      */
     @DeleteMapping("/deleteByIds")
-    public Result<Object> deleteByIds(@RequestBody List<Long> messageIds) {
+    public ResultVo<Object> deleteByIds(@RequestBody List<Long> messageIds) {
         messageService.deleteByIds(messageIds);
-        return new Result<>("操作成功: 删除消息！");
+        return new ResultVo<>("操作成功: 删除消息！");
     }
 
     /**
@@ -63,9 +63,9 @@ public class MessageController {
      * @return
      */
     @PutMapping("/update")
-    public Result<Object> update(@RequestBody Message message) {
+    public ResultVo<Object> update(@RequestBody Message message) {
         messageService.update(message);
-        return new Result<>("操作成功: 更新消息！");
+        return new ResultVo<>("操作成功: 更新消息！");
     }
 
     /**
@@ -75,9 +75,9 @@ public class MessageController {
      * @return
      */
     @PutMapping("confirmMessageByIds")
-    public Result<Object> confirmMessageByIds(@RequestBody List<Long> messageIds) {
+    public ResultVo<Object> confirmMessageByIds(@RequestBody List<Long> messageIds) {
         messageService.confirmMessageByIds(messageIds);
-        return new Result<>("操作成功: 确认消息！");
+        return new ResultVo<>("操作成功: 确认消息！");
     }
 
     /**
@@ -87,9 +87,9 @@ public class MessageController {
      * @return
      */
     @GetMapping("/getById/{messageId}")
-    public Result<MessageVo> getById(@PathVariable("messageId") Long messageId) {
+    public ResultVo<MessageVo> getById(@PathVariable("messageId") Long messageId) {
         MessageVo messageVo = messageService.getById(messageId);
-        return new Result<>("操作成功: 查询消息！", messageVo);
+        return new ResultVo<>("操作成功: 查询消息！", messageVo);
     }
 
     /**
@@ -98,9 +98,9 @@ public class MessageController {
      * @return
      */
     @GetMapping("/getList")
-    public Result<List<Message>> getList() {
+    public ResultVo<List<Message>> getList() {
         List<Message> messageList = messageService.getList();
-        return new Result<>(messageList);
+        return new ResultVo<>(messageList);
     }
 
     /**
@@ -109,9 +109,9 @@ public class MessageController {
      * @return
      */
     @GetMapping("/getAll")
-    public Result<List<Message>> getAll() {
+    public ResultVo<List<Message>> getAll() {
         List<Message> messageList = messageService.getAll();
-        return new Result<>(messageList);
+        return new ResultVo<>(messageList);
     }
 
     /**
@@ -121,7 +121,7 @@ public class MessageController {
      * @return
      */
     @PostMapping("/getByPage")
-    public Result<Page<MessageVo>> getByPage(@RequestBody Page<MessageVo> page) {
+    public ResultVo<Page<MessageVo>> getByPage(@RequestBody Page<MessageVo> page) {
         String sortColumn = page.getSortColumn();
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);
@@ -130,11 +130,11 @@ public class MessageController {
             String[] sortColumns = {"send_user_id", "receive_user_id", "message_target_id", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = messageService.getByPage(page);
-        return new Result<>("操作成功: 分页查询消息！", page);
+        return new ResultVo<>("操作成功: 分页查询消息！", page);
     }
 
 

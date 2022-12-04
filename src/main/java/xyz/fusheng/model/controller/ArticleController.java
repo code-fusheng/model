@@ -1,38 +1,24 @@
 package xyz.fusheng.model.controller;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.poi.ss.formula.functions.T;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.text.Text;
-import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
-import xyz.fusheng.model.common.utils.*;
+import xyz.fusheng.model.common.utils.Page;
+import xyz.fusheng.model.common.utils.SecurityUtil;
+import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Article;
 import xyz.fusheng.model.core.service.ArticleService;
 import xyz.fusheng.model.core.vo.ArticleVo;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @FileName: ArticleController
@@ -63,10 +49,10 @@ public class ArticleController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/save','article:list:add')")
     @PostMapping("/save")
     @Log(title = "添加文章", businessType = BusinessType.INSERT)
-    public Result<Object> save(@RequestBody Article article) throws IOException {
+    public ResultVo<Object> save(@RequestBody Article article) throws IOException {
         article.setAuthorId(SecurityUtil.getUserId());
         articleService.saveArticleAndUpdateCategory(article);
-        return new Result<>("操作成功: 添加文章！");
+        return new ResultVo<>("操作成功: 添加文章！");
     }
 
     /**
@@ -78,9 +64,9 @@ public class ArticleController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/deleteById','article:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     @Log(title = "删除文章", businessType = BusinessType.DELETE)
-    public Result<Object> deleteById(@PathVariable("id") Long id) throws IOException {
+    public ResultVo<Object> deleteById(@PathVariable("id") Long id) throws IOException {
         articleService.deleteById(id);
-        return new Result<>("操作成功: 删除文章！");
+        return new ResultVo<>("操作成功: 删除文章！");
     }
 
     /**
@@ -92,11 +78,11 @@ public class ArticleController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/update','article:list:update')")
     @PutMapping("/update")
     @Log(title = "修改文章", businessType = BusinessType.UPDATE)
-    public Result<Object> update(@RequestBody Article article) throws IOException {
+    public ResultVo<Object> update(@RequestBody Article article) throws IOException {
         // 修改时先查询数据 获取 version 字段
         article.setVersion(articleService.getById(article.getArticleId()).getVersion());
         articleService.updateArticleAndCategory(article);
-        return new Result<>("操作成功: 更新文章!");
+        return new ResultVo<>("操作成功: 更新文章!");
     }
 
     /**
@@ -105,7 +91,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/getByPage")
-    public Result<Page<ArticleVo>> getByPage(@RequestBody Page<ArticleVo> page){
+    public ResultVo<Page<ArticleVo>> getByPage(@RequestBody Page<ArticleVo> page){
         String sortColumn = page.getSortColumn();
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);
@@ -114,11 +100,11 @@ public class ArticleController {
             String[] sortColumns = {"article_title", "author_name", "good_count", "read_count", "collection_count", "comment_count", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = articleService.getByPage(page);
-        return new Result<>("操作成功: 分页查询文章！", page);
+        return new ResultVo<>("操作成功: 分页查询文章！", page);
     }
 
     /**
@@ -128,9 +114,9 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/getAll")
-    public Result<List<ArticleVo>> getAll() {
+    public ResultVo<List<ArticleVo>> getAll() {
         List<ArticleVo> articleVoList = articleService.getList();
-        return new Result<>("操作成功: 分页查询文章！", articleVoList);
+        return new ResultVo<>("操作成功: 分页查询文章！", articleVoList);
     }
 
     /**
@@ -140,9 +126,9 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/getList")
-    public Result<List<ArticleVo>> getList() {
+    public ResultVo<List<ArticleVo>> getList() {
         List<ArticleVo> articleVoList = articleService.getList();
-        return new Result<>("操作成功: 分页查询文章！", articleVoList);
+        return new ResultVo<>("操作成功: 分页查询文章！", articleVoList);
     }
 
     /**
@@ -152,9 +138,9 @@ public class ArticleController {
      */
     @GetMapping("/get/{id}")
     @Log(title = "查询文章详情", businessType = BusinessType.SELECT)
-    public Result<ArticleVo> getById(@PathVariable("id") Long id){
+    public ResultVo<ArticleVo> getById(@PathVariable("id") Long id){
         ArticleVo articleVo = articleService.getById(id);
-        return new Result<>("操作成功: 查询文章！", articleVo);
+        return new ResultVo<>("操作成功: 查询文章！", articleVo);
     }
 
 
@@ -167,9 +153,9 @@ public class ArticleController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/enable','article:list:enable')")
     @PutMapping("/enable/{id}")
     @Log(title = "启用文章", businessType = BusinessType.ENABLE)
-    public Result<Object> enable(@PathVariable("id") Long id) throws IOException {
+    public ResultVo<Object> enable(@PathVariable("id") Long id) throws IOException {
         articleService.enableById(id);
-        return new Result<>("操作成功: 启用文章!");
+        return new ResultVo<>("操作成功: 启用文章!");
     }
 
     /**
@@ -181,9 +167,9 @@ public class ArticleController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/article/disable','article:list:disable')")
     @PutMapping("/disable/{id}")
     @Log(title = "弃用文章", businessType = BusinessType.DISABLE)
-    public Result<Object> disable(@PathVariable("id") Long id) throws IOException {
+    public ResultVo<Object> disable(@PathVariable("id") Long id) throws IOException {
         articleService.disableById(id);
-        return new Result<>("操作成功: 弃用文章！");
+        return new ResultVo<>("操作成功: 弃用文章！");
     }
 
     /**
@@ -193,9 +179,9 @@ public class ArticleController {
      */
     @GetMapping("/read/{id}")
     @Log(title = "阅读文章", businessType = BusinessType.READ)
-    public Result<ArticleVo> read(@PathVariable("id") Long id){
+    public ResultVo<ArticleVo> read(@PathVariable("id") Long id){
         ArticleVo articleVo = articleService.readById(id);
-        return new Result<>("操作成功: 阅读文章！", articleVo);
+        return new ResultVo<>("操作成功: 阅读文章！", articleVo);
     }
 
     /**
@@ -204,9 +190,9 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/getLastAndNextArticleVo/{id}")
-    public Result<List<ArticleVo>> getLastAndNextArticleVo (@PathVariable("id") Long id) {
+    public ResultVo<List<ArticleVo>> getLastAndNextArticleVo (@PathVariable("id") Long id) {
         List<ArticleVo> articleVoList = articleService.getLastAndNextArticleVoList(id);
-        return new Result<>("操作成功: 查询上一篇与下一篇文章信息", articleVoList);
+        return new ResultVo<>("操作成功: 查询上一篇与下一篇文章信息", articleVoList);
     }
 
 }

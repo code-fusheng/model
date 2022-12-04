@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.UploadService;
 
 import java.io.IOException;
@@ -32,8 +32,8 @@ public class UploadController {
      */
     @RequestMapping("/uploadImage")
     @Log(title = "文件上传", businessType = BusinessType.OTHER)
-    public Result<String> uploadImage(MultipartFile file) throws IOException {
+    public ResultVo<String> uploadImage(MultipartFile file) throws IOException {
         String url = uploadService.uploadFileToAliyunOss(file);
-        return new Result<>("操作成功: 文件上传！", url);
+        return new ResultVo<>("操作成功: 文件上传！", url);
     }
 }

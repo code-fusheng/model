@@ -8,9 +8,7 @@ package xyz.fusheng.model.core.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.core.entity.Model;
 import xyz.fusheng.model.core.entity.ModelPlus;
 
 import java.util.List;

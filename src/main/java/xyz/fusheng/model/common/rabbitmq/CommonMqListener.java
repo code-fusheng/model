@@ -2,26 +2,20 @@ package xyz.fusheng.model.common.rabbitmq;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rabbitmq.client.Channel;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.core.env.Environment;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Component;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
 import xyz.fusheng.model.common.utils.AddressUtils;
 import xyz.fusheng.model.core.entity.LoginLog;
 import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.mapper.LoginLogMapper;
-import xyz.fusheng.model.core.mapper.UserMapper;
 import xyz.fusheng.model.core.service.UserService;
 
 import javax.annotation.Resource;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * @FileName: CommonMQListener

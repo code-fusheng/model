@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.fusheng.model.common.aspect.annotation.Log;
-import xyz.fusheng.model.common.aspect.enums.BusinessType;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.OperaLog;
 import xyz.fusheng.model.core.service.OperaLogService;
@@ -46,7 +44,7 @@ public class OperaLogController {
      */
     @ApiOperation(value = "分页查询操作日志", notes = "分页查询操作日志")
     @PostMapping("/getByPage")
-    public Result<Page<OperaLog>> getByPage(@RequestBody Page<OperaLog> page) {
+    public ResultVo<Page<OperaLog>> getByPage(@RequestBody Page<OperaLog> page) {
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
         String sortColumn = page.getSortColumn();
         // 驼峰转下划线
@@ -58,11 +56,11 @@ public class OperaLogController {
             String[] sortColumns = {"opera_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = operaLogService.getByPage(page);
-        return new Result<>("操作成功: 分页查询操作日志!", page);
+        return new ResultVo<>("操作成功: 分页查询操作日志!", page);
     }
 
 }

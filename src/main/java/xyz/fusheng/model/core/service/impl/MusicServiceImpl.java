@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.entity.Music;
 import xyz.fusheng.model.core.mapper.MusicMapper;
 import xyz.fusheng.model.core.service.MusicService;

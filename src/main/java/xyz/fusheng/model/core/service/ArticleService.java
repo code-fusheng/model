@@ -1,13 +1,10 @@
 package xyz.fusheng.model.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.elasticsearch.action.search.SearchResponse;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Article;
-import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.vo.ArticleVo;
 
-import java.io.IOException;
 import java.util.List;
 
 /**

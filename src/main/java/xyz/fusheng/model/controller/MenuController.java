@@ -2,20 +2,16 @@ package xyz.fusheng.model.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Menu;
 import xyz.fusheng.model.core.service.MenuService;
-
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,9 +39,9 @@ public class MenuController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/save', 'menu:list:add')")
     @PostMapping("/save")
     @Log(title = "添加权限", businessType = BusinessType.INSERT)
-    public Result<Object> save(@RequestBody Menu menu){
+    public ResultVo<Object> save(@RequestBody Menu menu){
         menuService.save(menu);
-        return new Result<>("操作成功: 添加权限！");
+        return new ResultVo<>("操作成功: 添加权限！");
     }
 
     /**
@@ -56,9 +52,9 @@ public class MenuController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/deleteById', 'menu:list:delete')")
     @DeleteMapping("/deleteById/{id}")
     @Log(title = "删除权限", businessType = BusinessType.DELETE)
-    public Result<Object> deleteById(@PathVariable("id") Long id){
+    public ResultVo<Object> deleteById(@PathVariable("id") Long id){
         menuService.deleteById(id);
-        return new Result<>("操作成功: 删除权限！");
+        return new ResultVo<>("操作成功: 删除权限！");
     }
 
     /**
@@ -69,9 +65,9 @@ public class MenuController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/update', 'menu:list:update')")
     @PutMapping("/update")
     @Log(title = "修改权限", businessType = BusinessType.UPDATE)
-    public Result<Object> update(@RequestBody Menu menu){
+    public ResultVo<Object> update(@RequestBody Menu menu){
         menuService.updateById(menu);
-        return new Result<>("操作成功: 修改权限!");
+        return new ResultVo<>("操作成功: 修改权限!");
     }
 
     /**
@@ -82,9 +78,9 @@ public class MenuController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/getById', 'menu:list:info')")
     @GetMapping("getById/{id}")
     @Log(title = "查询权限详情", businessType = BusinessType.SELECT)
-    public Result<Menu> getById(@PathVariable("id") Long id){
+    public ResultVo<Menu> getById(@PathVariable("id") Long id){
         Menu menu = menuService.getById(id);
-        return new Result<>("操作成功: 查询权限！", menu);
+        return new ResultVo<>("操作成功: 查询权限！", menu);
     }
 
     /**
@@ -94,9 +90,9 @@ public class MenuController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/list', 'menu:list')")
     @GetMapping("/list")
-    public Result<List<Menu>> list() {
+    public ResultVo<List<Menu>> list() {
         List<Menu> menus = menuService.list();
-        return new Result<>("操作成功: 权限列表！", menus);
+        return new ResultVo<>("操作成功: 权限列表！", menus);
     }
 
     /**
@@ -105,9 +101,9 @@ public class MenuController {
      * @return
      */
     @GetMapping("/getMenuTree")
-    public Result<List<Menu>> getMenuTree() {
+    public ResultVo<List<Menu>> getMenuTree() {
         List<Menu> menuList = menuService.getMenuTree();
-        return new Result<>("操作成功: 可用权限列表！", menuList);
+        return new ResultVo<>("操作成功: 可用权限列表！", menuList);
     }
 
     /**
@@ -118,7 +114,7 @@ public class MenuController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/menu/getByPage', 'menu:list')")
     @PostMapping("/getByPage")
-    public Result<Page<Menu>> getByPage(@RequestBody Page<Menu> page) {
+    public ResultVo<Page<Menu>> getByPage(@RequestBody Page<Menu> page) {
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
         String sortColumn = page.getSortColumn();
         // 驼峰转下划线
@@ -130,11 +126,11 @@ public class MenuController {
             String[] sortColumns = {"name", "menu_id", "level", "pid", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if(!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
             }
         }
         page = menuService.getByPage(page);
-        return new Result<>("操作成功: 分页查询权限！", page);
+        return new ResultVo<>("操作成功: 分页查询权限！", page);
     }
 
 

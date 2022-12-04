@@ -15,7 +15,6 @@ import xyz.fusheng.model.core.service.MessageService;
 import xyz.fusheng.model.core.vo.MessageVo;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 /**

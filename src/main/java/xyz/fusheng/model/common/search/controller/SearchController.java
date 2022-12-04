@@ -42,7 +42,7 @@
 //      * @param keyword
 //      * @param pageNo
 //      * @param pageSize
-//      * @return Result<List<Article>>
+//      * @return ResultVo<List<Article>>
 //      */
 //     @PostMapping("/article")
 //     public void searchHighlightBuilder(@RequestParam String keyword, @RequestParam int pageNo, @RequestParam int pageSize) throws IOException {

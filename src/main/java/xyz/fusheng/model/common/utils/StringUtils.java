@@ -6,11 +6,11 @@
  */
 package xyz.fusheng.model.common.utils;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -194,21 +194,6 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
             }
         }
         return result.toString();
-    }
-
-    /**
-     * 去除空白字符
-     *
-     * @return String 去除\u00A0和空格后的字符串
-     */
-    public static String trim(String str) {
-        // unicode 化
-        if (isEmpty(str)) {
-            return null;
-        }
-        String u00A0 = StringEscapeUtils.unescapeJava("\u00A0");
-        str = str.replaceAll(u00A0, "");
-        return str.trim();
     }
 
     /**

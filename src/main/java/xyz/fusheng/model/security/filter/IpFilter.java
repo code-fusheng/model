@@ -6,8 +6,8 @@ package xyz.fusheng.model.security.filter; /**
 import com.alibaba.fastjson.JSON;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.utils.RedisUtils;
-import xyz.fusheng.model.common.utils.Result;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -36,7 +36,7 @@ public class IpFilter extends OncePerRequestFilter {
         // 判断该ip是否被封禁
         if (redisUtils.get(ipKey + ip) != null) {
             response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(JSON.toJSONString(new Result<>(401, "由于您近期存在异常操作，系统已禁止您访问。")));
+            response.getWriter().write(JSON.toJSONString(new ResultVo<>(401, "由于您近期存在异常操作，系统已禁止您访问。")));
         } else {
             filterChain.doFilter(request, response);
         }

@@ -3,11 +3,11 @@ package xyz.fusheng.model.controller;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Good;
@@ -43,16 +43,16 @@ public class GoodController {
     @PostMapping("/save")
     @Log(title = "添加点赞", businessType = BusinessType.INSERT)
     @Transactional(rollbackFor = Exception.class)
-    public Result<Object> save(@RequestBody Good good) {
+    public ResultVo<Object> save(@RequestBody Good good) {
         // 点赞操作执行者的用户id
         long userId = SecurityUtil.getUserId();
         good.setGoodUserId(userId);
         if (goodService.getGoodCountByUserAndTargetAndType(userId, good.getGoodTarget(), good.getGoodType()) != 0) {
-            return new Result<>(400, "操作失败: 重复点赞");
+            return new ResultVo<>(400, "操作失败: 重复点赞");
         }
         goodService.doGood(good);
         // if (good.getGoodType() )
-        return new Result<>("操作提示: 点赞成功！");
+        return new ResultVo<>("操作提示: 点赞成功！");
     }
 
     /**
@@ -63,9 +63,9 @@ public class GoodController {
      */
     @GetMapping("/getById/{goodId}")
     @Log(title = "查询点赞详情", businessType = BusinessType.SELECT)
-    public Result<GoodVo> getById(@PathVariable("goodId") Long goodId) {
+    public ResultVo<GoodVo> getById(@PathVariable("goodId") Long goodId) {
         GoodVo goodVo = goodService.getGoodVoById(goodId);
-        return new Result<>("操作成功: 查询点赞！");
+        return new ResultVo<>("操作成功: 查询点赞！");
     }
 
     /**
@@ -76,7 +76,7 @@ public class GoodController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/good/getByPage','good:list')")
     @PostMapping("/getByPage")
-    public Result<Page<GoodVo>> getByPage(@RequestBody Page<GoodVo> page) {
+    public ResultVo<Page<GoodVo>> getByPage(@RequestBody Page<GoodVo> page) {
         String sortColumn = page.getSortColumn();
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);
@@ -85,11 +85,11 @@ public class GoodController {
             String[] sortColumns = {"good_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = goodService.getByPage(page);
-        return new Result<>("操作成功: 分页查询点赞！", page);
+        return new ResultVo<>("操作成功: 分页查询点赞！", page);
     }
 
 

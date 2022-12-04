@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.LoginLog;
-import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.mapper.LoginLogMapper;
 import xyz.fusheng.model.core.service.LoginLogService;
 

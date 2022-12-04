@@ -5,8 +5,6 @@ import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Comment;
 import xyz.fusheng.model.core.vo.CommentVo;
 
-import java.util.List;
-
 /**
  * @FileName: CommentService
  * @Author: code-fusheng

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.RedisUtils;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.security.oauth2.GithubDetail;
 import xyz.fusheng.model.security.sms.SendSms;
 import xyz.fusheng.model.security.sms.SmsCode;
@@ -70,11 +70,11 @@ public class LoginController {
     @GetMapping("/login")
     @ResponseBody
     public ResponseEntity<Object> callbackLogin() {
-        return new ResponseEntity<>(new Result<>(ResultEnums.NOT_LOGIN), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(new ResultVo<>(ResultEnums.NOT_LOGIN), HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("/code/sms")
-    public Result<Object> createSmsCode(@RequestParam String mobile, HttpServletRequest request) {
+    public ResultVo<Object> createSmsCode(@RequestParam String mobile, HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (redisUtils.get(ip) == null) {
             redisUtils.set(ip, 1, 58);
@@ -86,16 +86,16 @@ public class LoginController {
                     sendSms.send(mobile, smsCode.getCode(), "SMS_204111151");
                 }
             } else {
-                return new Result<>(401, "验证码未发送，请稍后再试！");
+                return new ResultVo<>(401, "验证码未发送，请稍后再试！");
             }
         } else {
             redisUtils.set(ip, (Integer) redisUtils.get(ip) + 1, 58);
             if ((Integer) redisUtils.get(ip) > MAX_SMS_COUNT) {
                 redisUtils.set(SMS_IP_COUNT + ip, 1, 60 * 60 * 24);
             }
-            return new Result<>(401, "请勿频繁操作");
+            return new ResultVo<>(401, "请勿频繁操作");
         }
-        return new Result<>();
+        return new ResultVo<>();
     }
 
     /**
@@ -105,12 +105,12 @@ public class LoginController {
      * @return 跳转url
      */
     @GetMapping("/github/login")
-    public Result<String> authorizeGithub() {
+    public ResultVo<String> authorizeGithub() {
         String url = githubDetail.getAuthorizeUrl() +
                 "?client_id=" + githubDetail.getClientId() +
                 "&redirect_uri=" + githubDetail.getRedirectUrl();
         logger.info("授权URL:{}", url);
-        return new Result<>(url);
+        return new ResultVo<>(url);
     }
 
 

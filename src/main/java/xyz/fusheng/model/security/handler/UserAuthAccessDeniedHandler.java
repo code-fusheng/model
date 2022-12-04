@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
-import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +26,6 @@ public class UserAuthAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException {
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write(JSON.toJSONString(new Result<>(403,"请求失败: 未授权！")));
+        response.getWriter().write(JSON.toJSONString(new ResultVo<>(403,"请求失败: 未授权！")));
     }
 }

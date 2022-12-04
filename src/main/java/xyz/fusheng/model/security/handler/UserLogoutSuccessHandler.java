@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
-import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         SecurityContextHolder.clearContext();
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write(JSON.toJSONString(new Result<>("登出成功！")));
+        response.getWriter().write(JSON.toJSONString(new ResultVo<>("登出成功！")));
 
     }
 }

@@ -8,7 +8,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import org.springframework.stereotype.Component;
-import xyz.fusheng.model.common.config.AliyunOssConfig;
+import xyz.fusheng.code.springboot.core.plugin.oss.AliyunOssConfig;
 
 import javax.annotation.Resource;
 

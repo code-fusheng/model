@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Menu;
-import xyz.fusheng.model.core.entity.User;
 import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.entity.User;
 

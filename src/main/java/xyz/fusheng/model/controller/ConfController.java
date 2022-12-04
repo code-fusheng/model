@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.core.entity.Conf;
 import xyz.fusheng.model.core.service.ConfService;
 
@@ -31,9 +31,9 @@ public class ConfController {
 
     @GetMapping("/getAboutMe")
     @ApiOperation("查询关于我的配置")
-    public Result<JSONObject> getAboutMe() {
+    public ResultVo<JSONObject> getAboutMe() {
         Conf conf = confService.getAboutConf();
         JSONObject json = JSON.parseObject(conf.getConfValue(), JSONObject.class);
-        return new Result<>("操作成功: 查询关于我的配置!", json);
+        return new ResultVo<>("操作成功: 查询关于我的配置!", json);
     }
 }

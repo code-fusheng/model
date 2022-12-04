@@ -7,17 +7,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Collection;
 import xyz.fusheng.model.core.service.CollectionService;
 import xyz.fusheng.model.core.vo.CollectionVo;
-import xyz.fusheng.model.core.vo.GoodVo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,15 +46,15 @@ public class CollectionController {
     @PostMapping("/save")
     @Transactional(rollbackFor = Exception.class)
     @Log(title = "添加收藏", businessType = BusinessType.INSERT)
-    public Result<Object> save(@RequestBody Collection collection) {
+    public ResultVo<Object> save(@RequestBody Collection collection) {
         // 收藏操作执行者的用户id
         long userId = SecurityUtil.getUserId();
         collection.setCollectionUserId(userId);
         if (collectionService.getCollectionCountByUserAndTargetAndType(userId, collection.getCollectionTarget(), collection.getCollectionType()) != 0) {
-            return new Result<>(400, "操作失败: 重复点赞！");
+            return new ResultVo<>(400, "操作失败: 重复点赞！");
         }
         collectionService.doCollection(collection);
-        return new Result<>("操作提示: 收藏成功！");
+        return new ResultVo<>("操作提示: 收藏成功！");
     }
 
     /**
@@ -66,7 +65,7 @@ public class CollectionController {
      */
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('collection/getByPage','collection:list')")
     @PostMapping("/getByPage")
-    public Result<Page<CollectionVo>> getByPage(@RequestBody Page<CollectionVo> page) {
+    public ResultVo<Page<CollectionVo>> getByPage(@RequestBody Page<CollectionVo> page) {
         String sortColumn = page.getSortColumn();
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);
@@ -75,11 +74,11 @@ public class CollectionController {
             String[] sortColumns = {"collection_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = collectionService.getByPage(page);
-        return new Result<>("操作成功: 分页查询收藏！", page);
+        return new ResultVo<>("操作成功: 分页查询收藏！", page);
     }
 
 }

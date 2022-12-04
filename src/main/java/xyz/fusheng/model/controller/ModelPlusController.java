@@ -6,14 +6,16 @@
  */
 package xyz.fusheng.model.controller;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.service.ModelPlusService;
@@ -39,9 +41,9 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/save','modelplus:list:add')")
     @PostMapping("/save")
     @Log(title = "添加高级模版", businessType = BusinessType.INSERT)
-    public Result<Object> save(@RequestBody ModelPlus modelPlus){
+    public ResultVo<Object> save(@RequestBody ModelPlus modelPlus){
         modelPlusService.save(modelPlus);
-        return new Result<>("操作成功: 添加模型！");
+        return new ResultVo<>("操作成功: 添加模型！");
     }
 
     /**
@@ -54,9 +56,9 @@ public class ModelPlusController {
     @DeleteMapping("/deleteById/{id}")
     @ApiOperation(value = "逻辑删除单个高级模版", notes = "根据id逻辑删除高级模版")
     @Log(title = "删除高级模版", businessType = BusinessType.DELETE)
-    public Result<Object> deleteById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
+    public ResultVo<Object> deleteById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.deleteById(id);
-        return new Result<>("操作成功: 删除模型！");
+        return new ResultVo<>("操作成功: 删除模型！");
     }
 
     /**
@@ -68,10 +70,10 @@ public class ModelPlusController {
     @PutMapping("/update")
     @ApiOperation(value = "修改高级模版", notes = "修改高级模版")
     @Log(title = "修改高级模版", businessType = BusinessType.UPDATE)
-    public Result<Object> update(@RequestBody ModelPlus modelPlus){
+    public ResultVo<Object> update(@RequestBody ModelPlus modelPlus){
         modelPlus.setVersion(modelPlusService.getById(modelPlus.getModelPlusId()).getVersion());
         modelPlusService.updateById(modelPlus);
-        return new Result<>("操作成功: 修改模版!");
+        return new ResultVo<>("操作成功: 修改模版!");
     }
 
     /**
@@ -84,9 +86,9 @@ public class ModelPlusController {
     @GetMapping("getById/{id}")
     @ApiOperation(value = "查询单个高级模版", notes = "根据id查询高级模版")
     @Log(title = "查询单个高级模版", businessType = BusinessType.SELECT)
-    public Result<ModelPlus> getById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
+    public ResultVo<ModelPlus> getById(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         ModelPlus modelPlus = modelPlusService.getById(id);
-        return new Result<>("操作成功: 查询模型！", modelPlus);
+        return new ResultVo<>("操作成功: 查询模型！", modelPlus);
     }
 
     /**
@@ -96,9 +98,9 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/list','modelplus:list')")
     @GetMapping("/list")
     @Log(title = "查询高级模版列表", businessType = BusinessType.SELECT)
-    public Result<List<ModelPlus>> list(){
+    public ResultVo<List<ModelPlus>> list(){
         List<ModelPlus> modelPluses = modelPlusService.list();
-        return new Result<>("操作成功: 模型列表！", modelPluses);
+        return new ResultVo<>("操作成功: 模型列表！", modelPluses);
     }
 
     /**
@@ -109,7 +111,7 @@ public class ModelPlusController {
     @PreAuthorize("hasAnyRole('ADMIN') or hasPermission('/modelplus/getByPage','modelplus:list')")
     @ApiOperation(value = "分页查询高级模版", notes = "分页查询高级模版")
     @PostMapping("/getByPage")
-    public Result<Page<ModelPlus>> getByPage(@RequestBody Page<ModelPlus> page){
+    public ResultVo<Page<ModelPlus>> getByPage(@RequestBody Page<ModelPlus> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
         String sortColumn = page.getSortColumn();
         // 驼峰转下划线
@@ -121,11 +123,11 @@ public class ModelPlusController {
             String[] sortColumns = {"model_plus_name", "created_time", "update_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if(!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
             }
         }
         page = modelPlusService.getByPage(page);
-        return new Result<>("操作成功: 分页查询模型！", page);
+        return new ResultVo<>("操作成功: 分页查询模型！", page);
     }
 
     /**
@@ -138,9 +140,9 @@ public class ModelPlusController {
     @PutMapping("/enable/{id}")
     @ApiOperation(value = "启用高级模版", notes = "根据id启用查询高级模版")
     @Log(title = "启用高级模版", businessType = BusinessType.ENABLE)
-    public Result<Object> enable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
+    public ResultVo<Object> enable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.enableById(id);
-        return new Result<>("操作成功: 启用模版！");
+        return new ResultVo<>("操作成功: 启用模版！");
     }
 
     /**
@@ -153,9 +155,9 @@ public class ModelPlusController {
     @PutMapping("/disable/{id}")
     @ApiOperation(value = "弃用高级模版", notes = "根据id弃用查询高级模版")
     @Log(title = "弃用高级模版", businessType = BusinessType.DISABLE)
-    public Result<Object> disable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
+    public ResultVo<Object> disable(@ApiParam(value = "高级模版id", required = true) @PathVariable("id") Long id) {
         modelPlusService.disableById(id);
-        return new Result<>("操作成功: 弃用模版！");
+        return new ResultVo<>("操作成功: 弃用模版！");
     }
 
 }

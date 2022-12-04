@@ -12,9 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.core.entity.Role;
-import xyz.fusheng.model.core.entity.Role;
 import xyz.fusheng.model.core.mapper.RoleMapper;
-import xyz.fusheng.model.core.mapper.UserMapper;
 import xyz.fusheng.model.core.service.RoleService;
 
 import javax.annotation.Resource;

@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import xyz.fusheng.model.common.config.AliyunOssConfig;
+import xyz.fusheng.code.springboot.core.plugin.oss.AliyunOssConfig;
 import xyz.fusheng.model.common.config.UploadConfig;
 
 import java.io.ByteArrayInputStream;

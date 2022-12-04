@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import xyz.fusheng.model.common.utils.Result;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.core.dto.OrganizationDto;
 import xyz.fusheng.model.security.oauth2.GithubDetail;
 
@@ -45,23 +45,23 @@ public class DebugController {
      * @return 跳转url
      */
     @GetMapping("/github/login")
-    public Result<String> authorizeGithub() {
+    public ResultVo<String> authorizeGithub() {
         String url = githubDetail.getAuthorizeUrl() +
                 "?client_id=" + githubDetail.getClientId() +
                 "&redirect_uri=" + githubDetail.getRedirectUrl();
         logger.info("授权URL:{}", url);
-        return new Result<>(url);
+        return new ResultVo<>(url);
     }
 
     //    @PostMapping("/debugSyncUsers")
-    public Result<Object> debugSyncUsers(@RequestBody List<OrganizationDto> organizationDtoList) {
+    public ResultVo<Object> debugSyncUsers(@RequestBody List<OrganizationDto> organizationDtoList) {
 //        organizationDtoList.forEach(System.out::println);
         organizationDtoList.forEach(organizationDto -> {
             System.out.println(organizationDto.getId() + " - " + organizationDto.getCompanyName());
             organizationDto.getUsers().forEach(System.out::println);
         });
 
-        return new Result<>("成功");
+        return new ResultVo<>("成功");
     }
 
     @ResponseBody
@@ -69,7 +69,7 @@ public class DebugController {
     public void testPrintWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter pw = response.getWriter();
         response.setContentType("application/json;charset=utf-8");
-        pw.write(JSON.toJSONString(new Result<>("Test")));
+        pw.write(JSON.toJSONString(new ResultVo<>("Test")));
     }
 
 }

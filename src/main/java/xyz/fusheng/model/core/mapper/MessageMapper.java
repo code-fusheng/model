@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Message;
-import xyz.fusheng.model.core.vo.ArticleVo;
 import xyz.fusheng.model.core.vo.MessageVo;
 
 import java.util.List;

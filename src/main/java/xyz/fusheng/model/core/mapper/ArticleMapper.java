@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.core.entity.Article;
-import xyz.fusheng.model.core.entity.Category;
 import xyz.fusheng.model.core.vo.ArticleVo;
 
 import java.util.List;

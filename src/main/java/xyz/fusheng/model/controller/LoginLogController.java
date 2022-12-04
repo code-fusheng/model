@@ -4,11 +4,11 @@ package xyz.fusheng.model.controller; /**
  */
 
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.aspect.annotation.Log;
 import xyz.fusheng.model.common.aspect.enums.BusinessType;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.LoginLog;
 import xyz.fusheng.model.core.service.LoginLogService;
@@ -38,7 +38,7 @@ public class LoginLogController {
      * @return
      */
     @PostMapping("/getByPage")
-    public Result<Page<LoginLog>> getByPage(@RequestBody Page<LoginLog> page) {
+    public ResultVo<Page<LoginLog>> getByPage(@RequestBody Page<LoginLog> page) {
         String sortColumn = page.getSortColumn();
         String newSortColumn = StringUtils.upperCharToUnderLine(sortColumn);
         page.setSortColumn(newSortColumn);
@@ -47,11 +47,11 @@ public class LoginLogController {
             String[] sortColumns = {"login_time"};
             List<String> sortList = Arrays.asList(sortColumns);
             if (!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(), "操作失败: 参数错误！");
             }
         }
         page = loginLogService.getByPage(page);
-        return new Result<>(page);
+        return new ResultVo<>(page);
     }
 
     /**
@@ -61,9 +61,9 @@ public class LoginLogController {
      */
     @DeleteMapping("/delete/{id}")
     @Log(title = "删除登录日志", businessType = BusinessType.DELETE)
-    public Result<Object> delete(@PathVariable("id") Integer id) {
+    public ResultVo<Object> delete(@PathVariable("id") Integer id) {
         loginLogService.deleteById(id);
-        return new Result<>("删除成功: 删除日志！");
+        return new ResultVo<>("删除成功: 删除日志！");
     }
 
     /**
@@ -73,9 +73,9 @@ public class LoginLogController {
      */
     @PutMapping("/deleteByIds")
     @Log(title = "批量删除登录日志", businessType = BusinessType.DELETE)
-    public Result<Object> deleteByIds(@RequestBody List<Integer> ids) {
+    public ResultVo<Object> deleteByIds(@RequestBody List<Integer> ids) {
         loginLogService.deleteByIds(ids);
-        return new Result<>("操作成功: 批量删除日志！");
+        return new ResultVo<>("操作成功: 批量删除日志！");
     }
 
 }

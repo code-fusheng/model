@@ -8,8 +8,6 @@ import xyz.fusheng.model.common.enums.StateEnums;
 import xyz.fusheng.model.common.utils.Page;
 import xyz.fusheng.model.common.utils.SecurityUtil;
 import xyz.fusheng.model.common.utils.WebSocketServer;
-import xyz.fusheng.model.core.entity.Article;
-import xyz.fusheng.model.core.entity.Comment;
 import xyz.fusheng.model.core.entity.Good;
 import xyz.fusheng.model.core.mapper.ArticleMapper;
 import xyz.fusheng.model.core.mapper.CommentMapper;

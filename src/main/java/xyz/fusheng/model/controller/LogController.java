@@ -9,9 +9,9 @@ package xyz.fusheng.model.controller;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xyz.fusheng.code.springboot.core.entity.ResultVo;
 import xyz.fusheng.model.common.enums.ResultEnums;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.common.utils.Result;
 import xyz.fusheng.model.common.utils.StringUtils;
 import xyz.fusheng.model.core.entity.Log;
 import xyz.fusheng.model.core.service.LogService;
@@ -33,7 +33,7 @@ public class LogController {
      * @return
      */
     @PostMapping("/getByPage")
-    public Result<Page<Log>> getByPage(@RequestBody Page<Log> page){
+    public ResultVo<Page<Log>> getByPage(@RequestBody Page<Log> page){
         // 获取排序方式  page对象中 封装了 sortColumn 排序列
         String sortColumn = page.getSortColumn();
         // 驼峰转下划线
@@ -50,11 +50,11 @@ public class LogController {
             // 3. 不支持add和remove方法
             List<String> sortList = Arrays.asList(sortColumns);
             if(!sortList.contains(newSortColumn.toLowerCase())) {
-                return new Result<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
+                return new ResultVo<>(ResultEnums.ERROR.getCode(),"操作失败: 参数错误！");
             }
         }
         page = logService.getByPage(page);
-        return new Result<>(page);
+        return new ResultVo<>(page);
     }
 
     /**
@@ -63,9 +63,9 @@ public class LogController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public Result<Object> delete(@PathVariable("id") Integer id){
+    public ResultVo<Object> delete(@PathVariable("id") Integer id){
         logService.deleteById(id);
-        return new Result<>("删除成功: 删除日志！");
+        return new ResultVo<>("删除成功: 删除日志！");
     }
 
     /**
@@ -74,9 +74,9 @@ public class LogController {
      * @return
      */
     @PutMapping("/deleteByIds")
-    public Result<Object> deleteByIds(@RequestBody List<Integer> ids) {
+    public ResultVo<Object> deleteByIds(@RequestBody List<Integer> ids) {
         logService.deleteByIds(ids);
-        return new Result<>("操作成功: 批量删除日志！");
+        return new ResultVo<>("操作成功: 批量删除日志！");
     }
 
     /**

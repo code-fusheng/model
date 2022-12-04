@@ -3,7 +3,6 @@ package xyz.fusheng.model.core.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.fusheng.model.common.utils.Page;
-import xyz.fusheng.model.core.entity.ModelPlus;
 import xyz.fusheng.model.core.entity.Music;
 
 import java.util.List;
